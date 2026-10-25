@@ -1,0 +1,264 @@
+\chapter{Sets}
+\label{ch:sets}
+
+We now fix the world that logic talks about. It contains a single kind of object,
+\emph{sets}, and a single basic relation, \emph{membership}: for objects $x$ and
+$A$, $x \in A$ is a proposition (\enquote{$x$ is an element of $A$}). We write $x
+\notin A$ for $\lnot (x \in A)$.
+
+There is nothing else: no numbers, no points, no symbols. Every mathematical
+object in this book, including numbers, pairs, maps and later functions and
+vectors, will be \emph{a set built in a specific way}.
+
+What we may assume about sets is fixed by the axioms of \emph{Zermelo--Fraenkel
+set theory} (ZF). They are introduced one at a time, each where it is first
+needed.
+
+\section{Equality of sets}
+
+\begin{axiom}[Extensionality]
+\label{ax:extensionality}
+Two sets with the same elements are equal:
+\[
+  \forall A\, \forall B\; \bigl( \forall x\, (x \in A \Leftrightarrow x \in B)
+  \Rightarrow A = B \bigr).
+\]
+\end{axiom}
+
+So a set is \emph{nothing more} than its elements. Order and repetition don't
+count: $\set{a, b} = \set{b, a} = \set{a, a, b}$, once these are defined
+(\cref{ax:pairing}).
+
+\begin{definition}[Subset]
+\label{def:subset}
+$A \subseteq B \defiff \forall x\, (x \in A \Rightarrow x \in B)$. We say $A$ is a
+\emph{subset} of $B$. A \emph{proper subset}, $A \subsetneq B$, is one with $A
+\subseteq B$ and $A \neq B$.
+\end{definition}
+
+\begin{theorem}
+\label{thm:subset}
+For all sets $A, B, C$:
+\begin{enumerate}
+  \item $A \subseteq A$;
+  \item if $A \subseteq B$ and $B \subseteq C$, then $A \subseteq C$;
+  \item $A = B$ if and only if $A \subseteq B$ and $B \subseteq A$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) For any $x$, $x \in A \Rightarrow x \in A$ is a tautology.
+
+(2) Let $x \in A$. Then $x \in B$ because $A \subseteq B$, and then $x \in C$
+because $B \subseteq C$ (chaining, \cref{thm:inference}).
+
+(3) If $A = B$, then (1) gives both inclusions by substitution. Conversely, the
+two inclusions together say $\forall x\, (x \in A \Leftrightarrow x \in B)$
+(\cref{thm:logic-laws}), so $A = B$ by \cref{ax:extensionality}.
+\end{proof}
+
+Part (3) is \emph{the} standard way to prove two sets equal: show each is
+contained in the other.
+
+\section{The empty set}
+
+\begin{axiom}[Empty set]
+\label{ax:empty}
+There is a set with no elements: $\exists E\; \forall x\; x \notin E$.
+\end{axiom}
+
+\begin{theorem}
+\label{thm:empty-unique}
+There is exactly one set with no elements.
+\end{theorem}
+
+\begin{proof}
+Existence is \cref{ax:empty}. If $E$ and $E'$ both have no elements, then $x \in
+E \Leftrightarrow x \in E'$ holds for every $x$, since both sides are false. So
+$E = E'$ by \cref{ax:extensionality}.
+\end{proof}
+
+\begin{definition}[Empty set]
+\label{def:emptyset}
+This unique set is the \emph{empty set}, written $\varnothing$.
+\end{definition}
+
+\begin{corollary}
+\label{cor:empty-subset}
+$\varnothing \subseteq A$ for every set $A$.
+\end{corollary}
+
+\begin{proof}
+$x \in \varnothing \Rightarrow x \in A$ is true for every $x$, because its
+hypothesis is always false (\cref{rem:vacuous}).
+\end{proof}
+
+\section{Forming subsets}
+
+\begin{axiom}[Separation]
+\label{ax:separation}
+For every set $A$ and every predicate $P(x)$ there is a set whose elements are
+exactly the elements of $A$ that satisfy $P$:
+\[
+  \exists B\; \forall x\; \bigl( x \in B \Leftrightarrow (x \in A \land P(x))
+  \bigr).
+\]
+By \cref{ax:extensionality}, $B$ is unique. We write it $\setof{x \in A}{P(x)}$.
+\end{axiom}
+
+This is really one axiom for each predicate $P$: an \emph{axiom schema}. The
+predicate may mention other sets as parameters.
+
+Separation only carves subsets out of a set we \emph{already have}. That
+restriction is essential:
+
+\begin{theorem}[Russell]
+\label{thm:russell}
+There is no set that contains every set.
+\end{theorem}
+
+\begin{proof}
+Suppose $V$ were such a set. By \cref{ax:separation}, form $R = \setof{x \in
+V}{x \notin x}$. Since $R$ is a set, $R \in V$. Then
+\[
+  R \in R \;\Leftrightarrow\; (R \in V \land R \notin R) \;\Leftrightarrow\; R
+  \notin R,
+\]
+a proposition equivalent to its own negation. That is a contradiction.
+\end{proof}
+
+So \enquote{the collection of all sets} is not a set. Collections like that are
+sometimes called \emph{classes}. We only use them as a way of speaking, never as
+objects.
+
+\section{Building larger sets}
+
+\begin{axiom}[Pairing]
+\label{ax:pairing}
+For all $a, b$ there is a set whose elements are exactly $a$ and $b$. By
+\cref{ax:extensionality} it is unique, written $\set{a, b}$. We write $\set{a}
+\coloneqq \set{a, a}$, the \emph{singleton} of $a$.
+\end{axiom}
+
+So $x \in \set{a, b} \Leftrightarrow (x = a \lor x = b)$, and $x \in \set{a}
+\Leftrightarrow x = a$.
+
+\begin{axiom}[Union]
+\label{ax:union}
+For every set $\mathcal{F}$ there is a set whose elements are exactly the elements
+of the elements of $\mathcal{F}$. It is unique, written
+\[
+  \bigcup \mathcal{F}, \qquad x \in \bigcup \mathcal{F} \;\Leftrightarrow\;
+  \exists F \in \mathcal{F}\; x \in F.
+\]
+\end{axiom}
+
+\begin{definition}[Union, intersection, difference]
+\label{def:set-operations}
+For sets $A, B$:
+\[
+  A \cup B \coloneqq \bigcup \set{A, B}, \qquad
+  A \cap B \coloneqq \setof{x \in A}{x \in B}, \qquad
+  A \setminus B \coloneqq \setof{x \in A}{x \notin B}.
+\]
+For a \emph{nonempty} set $\mathcal{F}$, pick any $F_0 \in \mathcal{F}$ and let
+\[
+  \bigcap \mathcal{F} \coloneqq \setof{x \in F_0}{\forall F \in \mathcal{F}\; x
+  \in F}.
+\]
+This doesn't depend on the choice of $F_0$: any element of every $F \in
+\mathcal{F}$ is in particular in $F_0$. Sets $A, B$ are \emph{disjoint} if $A
+\cap B = \varnothing$.
+\end{definition}
+
+Unwinding the definitions:
+$x \in A \cup B \Leftrightarrow x \in A \lor x \in B$;
+$x \in A \cap B \Leftrightarrow x \in A \land x \in B$;
+$x \in A \setminus B \Leftrightarrow x \in A \land x \notin B$.
+Sets with more elements can now be written down: $\set{a, b, c} \coloneqq \set{a,
+b} \cup \set{c}$, and so on.
+
+\begin{remark}
+$\bigcap \varnothing$ is left undefined on purpose. \enquote{The set of all $x$ in
+every $F \in \varnothing$} would contain every set, which \cref{thm:russell}
+forbids.
+\end{remark}
+
+\begin{theorem}[Algebra of sets]
+\label{thm:set-algebra}
+For all sets $A, B, C$:
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+  \toprule
+  Law & Statement \\
+  \midrule
+  Commutativity & $A \cup B = B \cup A$, \quad $A \cap B = B \cap A$ \\
+  Associativity & $(A \cup B) \cup C = A \cup (B \cup C)$, \quad same for $\cap$ \\
+  Distributivity & $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ \\
+    & $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$ \\
+  De Morgan & $C \setminus (A \cup B) = (C \setminus A) \cap (C \setminus B)$ \\
+    & $C \setminus (A \cap B) = (C \setminus A) \cup (C \setminus B)$ \\
+  Absorption & $A \cup (A \cap B) = A$, \quad $A \cap (A \cup B) = A$ \\
+  Inclusion & $A \subseteq B \Leftrightarrow A \cup B = B \Leftrightarrow A \cap B = A$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+Each law turns into the matching law of logic (\cref{thm:logic-laws}) once we
+unwind membership. For example, for the first distributive law and any $x$:
+\begin{align*}
+  x \in A \cap (B \cup C)
+  &\Leftrightarrow x \in A \land (x \in B \lor x \in C) \\
+  &\Leftrightarrow (x \in A \land x \in B) \lor (x \in A \land x \in C) \\
+  &\Leftrightarrow x \in (A \cap B) \cup (A \cap C).
+\end{align*}
+So the two sets have the same elements and are equal by
+\cref{ax:extensionality}. For the first De Morgan law: $x \in C \land \lnot(x \in
+A \lor x \in B) \Leftrightarrow (x \in C \land x \notin A) \land (x \in C \land x
+\notin B)$. The remaining laws work the same way.
+\end{proof}
+
+\begin{axiom}[Power set]
+\label{ax:power}
+For every set $A$ there is a set whose elements are exactly the subsets of $A$.
+It is unique, written $\Pow(A)$:
+\[
+  X \in \Pow(A) \;\Leftrightarrow\; X \subseteq A.
+\]
+\end{axiom}
+
+For example, $\Pow(\varnothing) = \set{\varnothing}$ and $\Pow(\set{\varnothing})
+= \set{\varnothing, \set{\varnothing}}$. Note $\varnothing \neq
+\set{\varnothing}$: the first has no elements, the second has one.
+
+So from nothing, the empty set, we already get infinitely many different sets:
+$\varnothing$, $\set{\varnothing}$, $\set{\set{\varnothing}}$, $\set{\varnothing,
+\set{\varnothing}}$, \dots{} In \cref{ch:naturals} some of them become the
+natural numbers.
+
+\section{The remaining axioms}
+
+ZF has four more axioms:
+\begin{itemize}
+  \item \textbf{Infinity} guarantees a set containing all natural numbers. It is
+    introduced in \cref{ch:naturals}, where it is needed.
+  \item \textbf{Replacement} says the image of a set under a definable rule is a
+    set. Nothing in the chapters on numbers needs it. It will be introduced when
+    it is.
+  \item \textbf{Foundation} says every nonempty set $A$ has an element disjoint
+    from $A$. It rules out sets like $x \in x$. We won't need it:
+    \cref{lem:shape} proves $n \notin n$ for natural numbers directly.
+  \item \textbf{Choice} (which turns ZF into ZFC) is not used in the number
+    constructions. Whenever it is used later, that will be stated.
+\end{itemize}
+
+\begin{exercises}
+  \item Prove $A \setminus (A \setminus B) = A \cap B$.
+  \item Prove $A \subseteq B \Rightarrow \Pow(A) \subseteq \Pow(B)$.
+  \item Write out the elements of $\Pow(\set{\varnothing, \set{\varnothing}})$. How
+    many are there?
+  \item Show that for every set $A$ there is a set not in $A$. (Hint: adapt the
+    proof of \cref{thm:russell}.)
+\end{exercises}

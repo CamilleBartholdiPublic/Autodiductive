@@ -1,0 +1,505 @@
+\chapter{Natural numbers}
+\label{ch:naturals}
+
+We now construct the numbers $0, 1, 2, 3, \dots$ out of sets. The idea, due to
+von Neumann, is to let \emph{each number be the set of all numbers before it}:
+\[
+  0 \coloneqq \varnothing, \quad 1 \coloneqq \set{0}, \quad 2 \coloneqq \set{0, 1},
+  \quad 3 \coloneqq \set{0, 1, 2}, \quad \dots
+\]
+Then the number $n$ has exactly $n$ elements, \enquote{$m$ is smaller than $n$}
+can simply mean $m \in n$, and passing to the next number means adding the number
+itself as a new element.
+
+Then we prove that these sets behave the way numbers should. The \emph{Peano
+axioms}, induction included, come out as \emph{theorems}. So do addition,
+multiplication and order, with all the usual laws.
+
+\section{Construction}
+
+\begin{definition}[Successor]
+\label{def:successor}
+The \emph{successor} of a set $x$ is $S(x) \coloneqq x \cup \set{x}$.
+\end{definition}
+
+\begin{definition}[Inductive set]
+\label{def:inductive}
+A set $I$ is \emph{inductive} if $\varnothing \in I$ and $x \in I \Rightarrow S(x)
+\in I$ for every $x$.
+\end{definition}
+
+An inductive set contains $\varnothing$, $S(\varnothing)$, $S(S(\varnothing))$,
+and so on. None of the axioms so far guarantees that such a set exists: every set
+we have built so far is finite. So we need a new axiom.
+
+\begin{axiom}[Infinity]
+\label{ax:infinity}
+There is an inductive set.
+\end{axiom}
+
+\begin{definition}[Natural numbers]
+\label{def:naturals}
+Let $I_0$ be an inductive set (\cref{ax:infinity}) and
+\[
+  \N \coloneqq \setof{x \in I_0}{x \in I \text{ for every inductive set } I}.
+\]
+The elements of $\N$ are the \emph{natural numbers}.
+\end{definition}
+
+$\N$ doesn't depend on which $I_0$ we picked: if $I_1$ is another inductive set,
+any $x$ in every inductive set is in both $I_0$ and $I_1$, so both choices give
+the same elements. Two facts follow directly from the definition:
+\begin{itemize}
+  \item \emph{$\N$ is inductive.} $\varnothing$ lies in every inductive set. If
+    $x$ lies in every inductive set, so does $S(x)$.
+  \item \emph{$\N$ is contained in every inductive set.} That is how its elements
+    were chosen.
+\end{itemize}
+So $\N$ is the \emph{smallest} inductive set. \emph{Numerals} are defined as
+\[
+  0 \coloneqq \varnothing,\; 1 \coloneqq S(0),\; 2 \coloneqq S(1),\; 3 \coloneqq
+  S(2),\; \dots,\; 9 \coloneqq S(8).
+\]
+Indeed $1 = \varnothing \cup \set{\varnothing} = \set{0}$, $2 = \set{0} \cup
+\set{1} = \set{0, 1}$, and so on. Positional notation like $10, 11, \dots$ needs
+division with remainder and waits for the chapter on divisibility. In this book,
+$0 \in \N$.
+
+\section{Induction}
+
+\begin{theorem}[Principle of induction]
+\label{thm:induction}
+Let $X \subseteq \N$ with
+\begin{enumerate}
+  \item $0 \in X$, and
+  \item $n \in X \Rightarrow S(n) \in X$ for all $n \in \N$.
+\end{enumerate}
+Then $X = \N$.
+
+Equivalently, for a predicate $P$: if $P(0)$ holds (the \emph{base case}) and $P(n)
+\Rightarrow P(S(n))$ holds for every $n \in \N$ (the \emph{induction step}, with
+\emph{induction hypothesis} $P(n)$), then $P(n)$ holds for all $n \in \N$.
+\end{theorem}
+
+\begin{proof}
+By (1) and (2), $X$ is inductive: every $x \in X$ lies in $\N$, so (2) applies to
+it. So $\N \subseteq X$ (\cref{def:naturals}), and $X \subseteq \N$ is given. For
+the predicate form, apply this to $X \coloneqq \setof{n \in \N}{P(n)}$.
+\end{proof}
+
+Induction is not a new law of logic. It follows from the way $\N$ was built: as
+the \emph{smallest} inductive set, it has no room for anything that isn't reached
+from $0$ by successors.
+
+\begin{lemma}[Shape of natural numbers]
+\label{lem:shape}
+For every $n \in \N$:
+\begin{enumerate}
+  \item $n \subseteq \N$: every element of a natural number is a natural number;
+  \item $n$ is \emph{transitive}: $m \in n \Rightarrow m \subseteq n$;
+  \item $n \notin n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Each by induction on $n$.
+
+(1) $0 = \varnothing \subseteq \N$. If $n \subseteq \N$, then $S(n) = n \cup
+\set{n} \subseteq \N$, because $n \in \N$.
+
+(2) $0$ has no elements, so the condition holds vacuously. Assume $n$ is
+transitive and let $m \in S(n)$. Then $m \in n$ or $m = n$. If $m \in n$, then $m
+\subseteq n \subseteq S(n)$. If $m = n$, then $m = n \subseteq S(n)$.
+
+(3) $0 \notin 0$, since $0$ has no elements. Assume $n \notin n$, and suppose
+$S(n) \in S(n)$. Then $S(n) \in n$ or $S(n) = n$. If $S(n) = n$, then $n \in S(n) =
+n$. If $S(n) \in n$, then $S(n) \subseteq n$ by (2), and $n \in S(n)$ gives $n \in
+n$. Both contradict the induction hypothesis.
+\end{proof}
+
+\begin{theorem}[Peano axioms]
+\label{thm:peano}
+\leavevmode
+\begin{enumerate}
+  \item $0 \in \N$.
+  \item $n \in \N \Rightarrow S(n) \in \N$. So $S$ restricts to a map $S \colon \N
+    \to \N$.
+  \item $S(n) \neq 0$ for every $n \in \N$.
+  \item $S$ is injective: $S(m) = S(n) \Rightarrow m = n$.
+  \item Induction (\cref{thm:induction}).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) and (2): $\N$ is inductive. (3): $n \in S(n)$, so $S(n) \neq \varnothing$.
+
+(4) Let $S(m) = S(n)$ and suppose $m \neq n$. Since $m \in S(m) = S(n) = n \cup
+\set{n}$ and $m \neq n$, we get $m \in n$. In the same way $n \in m$. By
+transitivity (\cref{lem:shape}(2)), $m \in n$ gives $m \subseteq n$, and with $n
+\in m$ that gives $n \in n$, contradicting \cref{lem:shape}(3).
+\end{proof}
+
+\begin{corollary}[Predecessor]
+\label{cor:predecessor}
+Every $n \in \N$ with $n \neq 0$ is $S(p)$ for exactly one $p \in \N$, the
+\emph{predecessor} of $n$.
+\end{corollary}
+
+\begin{proof}
+Existence, by induction on the statement \enquote{$n = 0$ or $n = S(p)$ for some
+$p \in \N$}: it holds for $0$, and for $S(n)$ with $p \coloneqq n$. Uniqueness:
+\cref{thm:peano}(4).
+\end{proof}
+
+\section{Recursion}
+
+Induction \emph{proves} statements about all $n$. Recursion \emph{defines} things
+for all $n$: give the value at $0$, and a rule that turns the value at $n$ into
+the value at $S(n)$. That this defines a map at all is a theorem.
+
+\begin{theorem}[Recursion theorem]
+\label{thm:recursion}
+Let $A$ be a set, $a \in A$, and $g \colon A \to A$ a map. Then there is exactly
+one map $h \colon \N \to A$ with
+\[
+  h(0) = a \qquad\text{and}\qquad h(S(n)) = g(h(n)) \quad \text{for all } n \in
+  \N.
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Idea:} $h$ should be the smallest relation that contains $(0, a)$ and is
+closed under the step $(n, x) \mapsto (S(n), g(x))$. Then we show this relation is
+a map.
+
+Call $R \subseteq \N \times A$ \emph{closed} if $(0, a) \in R$ and $(n, x) \in R
+\Rightarrow (S(n), g(x)) \in R$. Then $\N \times A$ is closed. Let $h$ be the
+intersection of all closed relations, i.e.\ of the nonempty set of closed elements
+of $\Pow(\N \times A)$ (\cref{def:set-operations}). Then $h$ is closed as well,
+and $h \subseteq R$ for every closed $R$.
+
+\emph{$h$ is a map.} We show by induction on $n$: there is exactly one $x$ with
+$(n, x) \in h$.
+\begin{itemize}
+  \item $n = 0$. We have $(0, a) \in h$. Suppose $(0, b) \in h$ with $b \neq a$.
+    Then $h' \coloneqq h \setminus \set{(0, b)}$ is still closed: it contains $(0,
+    a)$, and every pair $(S(n), g(x))$ produced by the step differs from $(0, b)$
+    because $S(n) \neq 0$ (\cref{thm:peano}(3)). That contradicts $h \subseteq
+    h'$, since $(0, b) \notin h'$.
+  \item Step. Assume $x$ is the only element with $(n, x) \in h$. Since $h$ is
+    closed, $(S(n), g(x)) \in h$. Suppose $(S(n), y) \in h$ with $y \neq g(x)$.
+    Then $h' \coloneqq h \setminus \set{(S(n), y)}$ is still closed. It contains
+    $(0, a)$. If $(k, z) \in h'$ and $(S(k), g(z)) = (S(n), y)$, then $S(k) =
+    S(n)$, so $k = n$ (\cref{thm:peano}(4)), so $z = x$ by the induction
+    hypothesis, so $y = g(x)$, which is false. Again $h \subseteq h'$ fails, a
+    contradiction.
+\end{itemize}
+Since $h$ is closed, $h(0) = a$ and $h(S(n)) = g(h(n))$.
+
+\emph{Uniqueness.} If $h'$ also satisfies both equations, then $h(n) = h'(n)$ by
+induction: $h(0) = a = h'(0)$, and $h(n) = h'(n)$ gives $h(S(n)) = g(h(n)) =
+g(h'(n)) = h'(S(n))$. Use \cref{thm:map-equality}.
+\end{proof}
+
+Often the step also needs to know $n$, as in $n! = n \cdot (n-1)!$. The stronger
+form follows from the simple one.
+
+\begin{corollary}[Recursion with index]
+\label{cor:recursion-index}
+Let $a \in A$ and $g \colon \N \times A \to A$. Then there is exactly one $h \colon
+\N \to A$ with $h(0) = a$ and $h(S(n)) = g(n, h(n))$.
+\end{corollary}
+
+\begin{proof}
+Apply \cref{thm:recursion} to the set $\N \times A$, the start value $(0, a)$ and
+the step $G(n, x) \coloneqq (S(n), g(n, x))$. This gives $H \colon \N \to \N \times
+A$. By induction, the first component of $H(n)$ is $n$; write $H(n) = (n, h(n))$.
+Then $H(S(n)) = G(n, h(n)) = (S(n), g(n, h(n)))$, which says exactly $h(S(n)) =
+g(n, h(n))$. Uniqueness again by induction.
+\end{proof}
+
+\section{Addition}
+
+\begin{definition}[Addition]
+\label{def:addition}
+Fix $m \in \N$. By \cref{thm:recursion} (with $A = \N$, $a = m$, $g = S$) there is
+exactly one $h_m \colon \N \to \N$ with $h_m(0) = m$ and $h_m(S(n)) = S(h_m(n))$.
+Let $m + n \coloneqq h_m(n)$. By \cref{thm:map-rule} this defines an operation $+
+\colon \N \times \N \to \N$, characterised by
+\[
+  \text{(A1)}\quad m + 0 = m, \qquad\qquad \text{(A2)}\quad m + S(n) = S(m + n).
+\]
+\end{definition}
+
+In particular $m + 1 = m + S(0) = S(m + 0) = S(m)$. \emph{From now on we write $n +
+1$ for $S(n)$.} (A2) then reads $m + (n + 1) = (m + n) + 1$. For example,
+\[
+  2 + 2 = 2 + S(1) = S(2 + 1) = S(S(2)) = S(3) = 4.
+\]
+
+\begin{theorem}[Laws of addition]
+\label{thm:addition-laws}
+For all $k, m, n \in \N$:
+\begin{enumerate}
+  \item $0 + n = n$;
+  \item $S(m) + n = S(m + n)$;
+  \item $m + n = n + m$ (commutativity);
+  \item $(k + m) + n = k + (m + n)$ (associativity);
+  \item $k + n = m + n \Rightarrow k = m$ (cancellation);
+  \item $m + n = 0 \Rightarrow m = 0 \land n = 0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1)--(5) by induction on $n$, using (A1) and (A2) at each step.
+
+(1) $0 + 0 = 0$. If $0 + n = n$, then $0 + S(n) = S(0 + n) = S(n)$.
+
+(2) $S(m) + 0 = S(m) = S(m + 0)$. If it holds for $n$, then $S(m) + S(n) = S(S(m)
++ n) = S(S(m + n)) = S(m + S(n))$.
+
+(3) $m + 0 = m = 0 + m$ by (1). If $m + n = n + m$, then $m + S(n) = S(m + n) = S(n
++ m) = S(n) + m$ by (2).
+
+(4) $(k + m) + 0 = k + m = k + (m + 0)$. If it holds for $n$, then $(k + m) + S(n)
+= S((k + m) + n) = S(k + (m + n)) = k + S(m + n) = k + (m + S(n))$.
+
+(5) For $n = 0$ use (A1). Step: $k + S(n) = m + S(n)$ means $S(k + n) = S(m + n)$,
+so $k + n = m + n$ by \cref{thm:peano}(4), so $k = m$ by the induction hypothesis.
+
+(6) If $n \neq 0$, then $n = S(p)$ (\cref{cor:predecessor}), and $m + n = S(m + p)
+\neq 0$ (\cref{thm:peano}(3)). So $n = 0$, and then $m = m + 0 = 0$.
+\end{proof}
+
+By associativity, brackets in sums like $k + m + n$ can be left out.
+
+\section{Multiplication}
+
+\begin{definition}[Multiplication]
+\label{def:multiplication}
+Fix $m$. By \cref{thm:recursion} (with $a = 0$ and $g(x) = x + m$) define $m \cdot
+n$ by
+\[
+  \text{(M1)}\quad m \cdot 0 = 0, \qquad\qquad \text{(M2)}\quad m \cdot S(n) = m
+  \cdot n + m.
+\]
+We write $mn$ for $m \cdot n$, and products are evaluated before sums: $mn + m$
+means $(mn) + m$.
+\end{definition}
+
+\begin{theorem}[Laws of multiplication]
+\label{thm:multiplication-laws}
+For all $k, m, n \in \N$:
+\begin{enumerate}
+  \item $0 \cdot n = 0$;
+  \item $S(m) \cdot n = mn + n$;
+  \item $mn = nm$ (commutativity);
+  \item $k(m + n) = km + kn$ and $(m + n)k = mk + nk$ (distributivity);
+  \item $(km)n = k(mn)$ (associativity);
+  \item $1 \cdot n = n = n \cdot 1$ ($1$ is neutral);
+  \item $mn = 0 \Rightarrow m = 0 \lor n = 0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1)--(5) by induction on $n$, using (M1), (M2) and \cref{thm:addition-laws}.
+
+(1) $0 \cdot 0 = 0$. If $0 \cdot n = 0$, then $0 \cdot S(n) = 0 \cdot n + 0 = 0$.
+
+(2) $S(m) \cdot 0 = 0 = m \cdot 0 + 0$. If it holds for $n$:
+\begin{align*}
+  S(m) \cdot S(n) &= S(m) \cdot n + S(m) = (mn + n) + S(m) = mn + (n + S(m)) \\
+  &= mn + S(n + m) = mn + S(m + n) = mn + (m + S(n)) \\
+  &= (mn + m) + S(n) = m \cdot S(n) + S(n).
+\end{align*}
+
+(3) $m \cdot 0 = 0 = 0 \cdot m$ by (1). If $mn = nm$, then $m \cdot S(n) = mn + m =
+nm + m = S(n) \cdot m$ by (2).
+
+(4) $k(m + 0) = km = km + 0 = km + k \cdot 0$. If it holds for $n$, then $k(m +
+S(n)) = k \cdot S(m + n) = k(m + n) + k = (km + kn) + k = km + (kn + k) = km + k
+\cdot S(n)$. The second form follows by (3).
+
+(5) $(km) \cdot 0 = 0 = k \cdot 0 = k(m \cdot 0)$. If it holds for $n$, then $(km)
+\cdot S(n) = (km)n + km = k(mn) + km = k(mn + m) = k(m \cdot S(n))$, using (4).
+
+(6) $n \cdot 1 = n \cdot S(0) = n \cdot 0 + n = 0 + n = n$, and $1 \cdot n = n$ by
+(3).
+
+(7) If $m \neq 0$ and $n \neq 0$, write $m = S(p)$ and $n = S(q)$
+(\cref{cor:predecessor}). Then $mn = mq + m = mq + S(p) = S(mq + p) \neq 0$.
+\end{proof}
+
+\section{Order}
+
+\begin{definition}[Order on $\N$]
+\label{def:order-naturals}
+For $m, n \in \N$:
+\[
+  m < n \defiff m \in n, \qquad m \le n \defiff m < n \lor m = n.
+\]
+\end{definition}
+
+So $n = \setof{m \in \N}{m < n}$: a natural number is the set of its
+predecessors, as promised. (Elements of $n$ are natural numbers by
+\cref{lem:shape}(1).)
+
+\begin{lemma}
+\label{lem:order-naturals}
+For all $m, n \in \N$:
+\begin{enumerate}
+  \item $m < S(n) \Leftrightarrow m \le n$;
+  \item $\lnot (n < 0)$;
+  \item $0 \le n$;
+  \item $m < n \Rightarrow S(m) \le n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) $m \in n \cup \set{n} \Leftrightarrow m \in n \lor m = n$.
+
+(2) $0 = \varnothing$ has no elements.
+
+(3) By induction: $0 \le 0$, and $0 \le n$ gives $0 < S(n)$ by (1).
+
+(4) By induction on $n$. For $n = 0$ there is nothing to show, by (2). Assume it
+holds for $n$ and let $m < S(n)$, so $m \le n$ by (1). If $m = n$, then $S(m) =
+S(n)$. If $m < n$, then $S(m) \le n$ by the induction hypothesis, so $S(m) < S(n)$
+by (1).
+\end{proof}
+
+\begin{theorem}[$\le$ is a total order]
+\label{thm:total-order-naturals}
+$<$ is irreflexive and transitive on $\N$, and \emph{trichotomy} holds: for all
+$m, n$ exactly one of
+\[
+  m < n, \qquad m = n, \qquad n < m
+\]
+is true. Consequently $\le$ is a total order on $\N$ (\cref{def:order}).
+\end{theorem}
+
+\begin{proof}
+Irreflexive: $n \notin n$ (\cref{lem:shape}(3)). Transitive: if $k \in m$ and $m
+\in n$, then $m \subseteq n$ (\cref{lem:shape}(2)), so $k \in n$.
+
+\emph{At least one} holds, by induction on $n$ for fixed $m$. For $n = 0$: $0 \le
+m$ by \cref{lem:order-naturals}(3), so $0 = m$ or $0 < m$. Step: assume one of the
+three holds for $n$. If $m < n$ or $m = n$, then $m \le n$, so $m < S(n)$ by
+\cref{lem:order-naturals}(1). If $n < m$, then $S(n) \le m$ by
+\cref{lem:order-naturals}(4). Either way one of the three holds for $S(n)$.
+
+\emph{At most one} holds: $m < n$ together with $m = n$ or with $n < m$ would give
+$m < m$ by transitivity, against irreflexivity.
+
+By \cref{lem:strict-order}, $\le$ is a partial order, and trichotomy makes it
+total.
+\end{proof}
+
+\begin{theorem}[Order and arithmetic]
+\label{thm:order-arithmetic}
+For all $k, m, n \in \N$:
+\begin{enumerate}
+  \item $m \le n \Leftrightarrow \exists d \in \N\; n = m + d$, and this $d$ is
+    unique. It is written $n - m$ (the \emph{difference});
+  \item $m < n \Leftrightarrow \exists d \in \N\; n = m + S(d)$;
+  \item $m < n \Rightarrow m + k < n + k$;
+  \item $m < n \land k \neq 0 \Rightarrow mk < nk$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) ($\Leftarrow$) By induction on $d$: $m \le m + 0$. If $m \le m + d$, then $m +
+d < S(m + d) = m + S(d)$ (\cref{lem:order-naturals}(1)), so $m < m + S(d)$ by
+transitivity. ($\Rightarrow$) By induction on $n$. If $m \le 0$, then $m = 0$
+(\cref{lem:order-naturals}(2)), and $d = 0$ works. Assume the claim for $n$, and
+let $m \le S(n)$. If $m = S(n)$, take $d = 0$. Otherwise $m < S(n)$, so $m \le n$,
+so $n = m + d$ for some $d$, and $S(n) = S(m + d) = m + S(d)$. Uniqueness: $m + d =
+m + d'$ gives $d = d'$ by \cref{thm:addition-laws}(3) and (5).
+
+(2) ($\Rightarrow$) $S(m) \le n$ (\cref{lem:order-naturals}(4)), so by (1) $n =
+S(m) + d = m + S(d)$, using \cref{thm:addition-laws}(2). ($\Leftarrow$) $m \le m +
+d < S(m + d) = n$ by (1) and \cref{lem:order-naturals}(1).
+
+(3) By (2), $n = m + S(d)$, so $n + k = (m + k) + S(d)$ by
+\cref{thm:addition-laws}(3) and (4). Use (2) again.
+
+(4) By (2), $n = m + S(d)$, so $nk = mk + S(d)k$. Since $k \neq 0$ and $S(d) \neq
+0$, $S(d)k \neq 0$ (\cref{thm:multiplication-laws}(7)), so $S(d)k = S(e)$ for some
+$e$ (\cref{cor:predecessor}). Use (2).
+\end{proof}
+
+\begin{corollary}[Cancellation]
+\label{cor:cancellation-naturals}
+$m + k < n + k \Rightarrow m < n$. And if $k \neq 0$: $mk = nk \Rightarrow m = n$,
+and $mk < nk \Rightarrow m < n$.
+\end{corollary}
+
+\begin{proof}
+Each time, compare $m$ and $n$ by trichotomy (\cref{thm:total-order-naturals}).
+The cases other than the claimed one contradict the hypothesis by
+\cref{thm:order-arithmetic}(3) and (4). For example, if $mk = nk$ but $m < n$, then
+$mk < nk$, contradicting irreflexivity.
+\end{proof}
+
+\section{Well-ordering}
+
+\begin{theorem}[Well-ordering principle]
+\label{thm:well-ordering}
+Every nonempty subset of $\N$ has a least element. So $(\N, \le)$ is well-ordered
+(\cref{def:well-order}).
+\end{theorem}
+
+\begin{proof}
+Let $X \subseteq \N$ have no least element. We show $X = \varnothing$. Let
+\[
+  Y \coloneqq \setof{n \in \N}{\forall m < n\; m \notin X}
+\]
+be the set of $n$ such that no number below $n$ is in $X$. We show $Y$ is
+inductive. $0 \in Y$ vacuously (\cref{lem:order-naturals}(2)). Let $n \in Y$. If
+$n$ were in $X$, it would be the least element of $X$: for $x \in X$, $x < n$ is
+impossible because $n \in Y$, so $n \le x$ by trichotomy. So $n \notin X$. Then no
+$m \le n$ is in $X$, i.e.\ no $m < S(n)$ (\cref{lem:order-naturals}(1)). So $S(n)
+\in Y$.
+
+By induction $Y = \N$. Every $n \in \N$ satisfies $n < S(n)$ and $S(n) \in Y$, so $n
+\notin X$.
+\end{proof}
+
+\begin{corollary}[Strong induction]
+\label{cor:strong-induction}
+Let $P$ be a predicate such that for every $n \in \N$,
+\[
+  \bigl( \forall m < n\; P(m) \bigr) \Rightarrow P(n).
+\]
+Then $P(n)$ holds for every $n \in \N$.
+\end{corollary}
+
+\begin{proof}
+Suppose $X \coloneqq \setof{n \in \N}{\lnot P(n)}$ is nonempty, and let $n$ be its
+least element (\cref{thm:well-ordering}). Every $m < n$ is outside $X$, so $P(m)$
+holds for all $m < n$. The hypothesis gives $P(n)$, contradicting $n \in X$.
+\end{proof}
+
+The case $n = 0$ has no $m < 0$, so it requires proving $P(0)$ outright. Strong
+induction lets the step use \emph{all} smaller cases, not only the previous one. It
+will be used for prime factorization.
+
+\section{What is still missing}
+
+$\N$ has addition and multiplication with all the familiar laws, and an order
+compatible with both. But the equation $m + x = n$ only has a solution $x \in \N$
+when $m \le n$ (\cref{thm:order-arithmetic}(1)). There is no $x$ with $1 + x = 0$.
+\Cref{ch:integers} builds a larger number system where subtraction always works.
+
+\begin{exercises}
+  \item Prove $2 \cdot 3 = 6$ from the definitions, citing each step.
+  \item Prove that there is no $m$ with $n < m < n + 1$.
+  \item Use \cref{thm:recursion} to define powers $m^0 \coloneqq 1$, $m^{S(n)}
+    \coloneqq m^n \cdot m$. Prove $m^{a + b} = m^a m^b$ and $(m^a)^b = m^{ab}$.
+  \item Use \cref{cor:recursion-index} to define the factorial $0! \coloneqq 1$,
+    $S(n)! \coloneqq n! \cdot S(n)$. Compute $4!$.
+  \item Use \cref{cor:recursion-index} to define, for a sequence $(x_i)_{i \in \N}$
+    in $\N$, the partial sums $s_0 \coloneqq 0$, $s_{S(n)} \coloneqq s_n + x_n$, so
+    that $s_n = x_0 + \dots + x_{n-1}$. Prove $2 s_{n+1} = n(n + 1)$ when $x_i = i$.
+  \item Show that $\N$ has no greatest element.
+\end{exercises}

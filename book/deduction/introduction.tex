@@ -1,0 +1,97 @@
+\chapter*{Introduction to deduction}
+\addcontentsline{toc}{chapter}{Introduction to deduction}
+\markboth{Introduction to deduction}{Introduction to deduction}
+\label{intro:deduction}
+
+A deductive science does not look at the world. It fixes a small number of
+starting rules, the \emph{axioms}, and constructs everything else from them.
+Whatever it proves is true \emph{relative to those axioms}, without any
+observation. This is the sense in which a deductive science constructs its world.
+
+\section*{The one rule}
+
+\begin{center}
+  \emph{Nothing may be used before it has been constructed.}
+\end{center}
+
+\noindent Every chapter uses only definitions and results from earlier chapters, or
+from earlier in the same chapter. When a later topic needs something new, the new
+thing gets its own definition first. So this part of the book is one single
+chain that can be read, and checked, from the beginning.
+
+\section*{Where the chain starts}
+
+Something has to come first, and it can't be constructed from anything earlier.
+We start with:
+\begin{enumerate}
+  \item \textbf{Classical logic}, the rules of correct reasoning
+    (\cref{ch:logic}). It is the language everything else is written in.
+  \item \textbf{Zermelo--Fraenkel set theory}: one kind of object, the
+    \emph{set}, and one relation between objects, \emph{membership} $\in$
+    (\cref{ch:sets}).
+\end{enumerate}
+Everything after that is constructed: pairs, relations and maps, then the number
+systems
+\[
+  \N \subset \Z \subset \Q \subset \R,
+\]
+then sequences, functions, calculus, linear algebra, and from there the rest of
+mathematics.
+
+\section*{Discrete mathematics first}
+
+Discrete mathematics deals with objects that are separate and can be counted:
+truth values, finite collections, whole numbers, fractions. It comes first
+because the rest of mathematics is built on it. The real numbers, and with them
+functions, series and calculus, are constructed from the rational numbers, and
+those are constructed in the first chapters:
+\[
+\begin{array}{ccccccccc}
+  \text{logic} & \to & \text{sets} & \to & \text{pairs} & \to &
+  \text{relations} & \to & \text{maps} \\[1ex]
+  & & & & & & \downarrow & & \downarrow \\[1ex]
+  \Q & \leftarrow & \Z & \leftarrow & \N & & \text{equivalence classes}
+  & & \text{recursion}
+\end{array}
+\]
+\begin{itemize}
+  \item A \textbf{natural number} is a particular set: $0 = \varnothing$, $1 =
+    \set{0}$, $2 = \set{0, 1}$, and so on. Each number is the set of all numbers
+    before it (\cref{ch:naturals}).
+  \item An \textbf{integer} is what a difference $a - b$ of natural numbers
+    \emph{would} be. Subtraction doesn't exist yet, so we use the pair $(a, b)$
+    and treat two pairs as equal when they would give the same difference
+    (\cref{ch:integers}).
+  \item A \textbf{rational number} is built the same way from a quotient $a / b$
+    of integers (\cref{ch:rationals}).
+\end{itemize}
+
+\noindent Planned chapters, each using only what is already in place:
+\begin{itemize}
+  \item finite and infinite sets, cardinality, Cantor's theorem;
+  \item combinatorics: sums, products, binomial coefficients;
+  \item divisibility and primes: Euclid's algorithm, positional notation, unique
+    factorization;
+  \item graphs;
+  \item the real numbers, sequences and series;
+  \item functions and calculus;
+  \item linear algebra.
+\end{itemize}
+
+\section*{Conventions}
+
+\begin{itemize}
+  \item Numbered statements are counted per section: Definition~3.2.4 is the
+    fourth numbered item of Section~3.2. Axioms, definitions, theorems, lemmas,
+    corollaries and remarks all share one counter, so references are easy to
+    find.
+  \item A \emph{theorem} is an important result, a \emph{lemma} a stepping
+    stone, a \emph{corollary} a direct consequence.
+  \item A reference such as \enquote{Lemma~5.2.2(3)} means item~(3) of Lemma~5.2.2.
+  \item Every proof ends with $\blacksquare$.
+  \item The symbols $\defiff$ and $\coloneqq$ mean \enquote{is defined to mean}
+    and \enquote{is defined to be}.
+  \item Exercises are optional. Nothing later depends on them.
+  \item Examples and remarks may mention things that come later, to motivate or
+    illustrate. Definitions and proofs never use them.
+\end{itemize}

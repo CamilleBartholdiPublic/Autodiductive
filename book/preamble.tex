@@ -1,0 +1,66 @@
+% Packages and conventions shared by the whole book.
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.8cm]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{csquotes}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+% ---------------------------------------------------------------------------
+% Numbered statements: one counter per section, shared by all kinds, so that
+% "Definition 3.2.4" is the fourth numbered item of Section 3.2.
+% cleveref must be loaded before the \newtheorem declarations.
+% ---------------------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{axiom}[theorem]{Axiom}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\crefname{axiom}{Axiom}{Axioms}
+\crefname{remark}{Remark}{Remarks}
+\crefname{part}{Part}{Parts}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\setlist[enumerate,1]{label=(\arabic*)}
+
+% ---------------------------------------------------------------------------
+% Notation
+% ---------------------------------------------------------------------------
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Pow}{\mathcal{P}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\F}{\mathrm{F}}
+
+\newcommand{\set}[1]{\lbrace #1 \rbrace}
+\newcommand{\setof}[2]{\lbrace #1 \mid #2 \rbrace}
+
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\ran}{ran}
+\newcommand{\id}{\mathrm{id}}
+
+% "is defined to mean"
+\newcommand{\defiff}{\mathrel{\vcentcolon\Leftrightarrow}}
+
+% Exercises at the end of a chapter.
+\newenvironment{exercises}
+  {\section*{Exercises}\begin{enumerate}[label=\arabic*.,ref=\arabic*]}
+  {\end{enumerate}}

@@ -1,0 +1,293 @@
+\chapter{Rational numbers}
+\label{ch:rationals}
+
+In $\Z$, $2x = 1$ has no solution. We repeat the trick of \cref{ch:integers}, now
+for division: a rational number is what a quotient $a / b$ of integers
+\emph{would} be. As a stand-in we use the pair $(a, b)$ with $b \neq 0$. Two pairs
+mean the same quotient when $a / b = c / d$, that is, when $ad = cb$. That
+equation only uses multiplication, which we have.
+
+\section{Construction}
+
+\begin{definition}
+\label{def:rational-relation}
+Let $\Z^\ast \coloneqq \Z \setminus \set{0}$. On $\Z \times \Z^\ast$ let
+\[
+  (a, b) \approx (c, d) \defiff ad = cb.
+\]
+\end{definition}
+
+\begin{lemma}
+\label{lem:rational-equivalence}
+$\approx$ is an equivalence relation.
+\end{lemma}
+
+\begin{proof}
+Reflexive and symmetric are clear. Transitive: let $ad = cb$ and $cf = ed$.
+Multiplying the first by $f$ gives $adf = cbf = (cf)b = edb$, i.e.\ $(af)d =
+(eb)d$. Since $d \neq 0$, cancellation in $\Z$ (\cref{thm:integral-domain}(2))
+gives $af = eb$.
+\end{proof}
+
+This is where \cref{ch:integers} pays off: without \enquote{no zero divisors},
+$\approx$ would not be transitive.
+
+\begin{definition}[Rational numbers]
+\label{def:rationals}
+$\Q \coloneqq (\Z \times \Z^\ast)/{\approx}$. We write $\dfrac{a}{b}$ or $a/b$ for
+the class of $(a, b)$, with \emph{numerator} $a$ and \emph{denominator} $b$.
+\end{definition}
+
+So $\dfrac{a}{b} = \dfrac{c}{d} \Leftrightarrow ad = cb$.
+
+\begin{lemma}[Expanding fractions]
+\label{lem:expand}
+$\dfrac{ak}{bk} = \dfrac{a}{b}$ for $k \neq 0$. In particular $\dfrac{-a}{-b} =
+\dfrac{a}{b}$, so every rational number has a representative with positive
+denominator.
+\end{lemma}
+
+\begin{proof}
+$(ak)b = a(bk)$. Take $k = -1$ for the second claim, and use
+\cref{cor:integer-normal-form} for the third.
+\end{proof}
+
+\section{Arithmetic}
+
+\begin{definition}[Operations on $\Q$]
+\label{def:rational-operations}
+\[
+  \frac{a}{b} + \frac{c}{d} \coloneqq \frac{ad + cb}{bd}, \qquad -\frac{a}{b}
+  \coloneqq \frac{-a}{b}, \qquad \frac{a}{b} \cdot \frac{c}{d} \coloneqq
+  \frac{ac}{bd},
+\]
+with $0 \coloneqq 0/1$ and $1 \coloneqq 1/1$. The denominators are allowed: $b, d
+\neq 0$ gives $bd \neq 0$ by \cref{thm:integral-domain}(1).
+\end{definition}
+
+\begin{lemma}
+\label{lem:rational-well-defined}
+The operations of \cref{def:rational-operations} are well-defined.
+\end{lemma}
+
+\begin{proof}
+Let $ab' = a'b$. We change the first argument; both formulas are symmetric in the
+two arguments, so that is enough.
+
+\emph{Addition.} We need $(ad + cb)(b'd) = (a'd + cb')(bd)$. The left side is
+$ab'dd + cbb'd$, the right side is $a'bdd + cb'bd$. They are equal because $ab' =
+a'b$.
+
+\emph{Multiplication.} $(ac)(b'd) = (ab')cd = (a'b)cd = (a'c)(bd)$.
+
+\emph{Negation.} $(-a)b' = -(ab') = -(a'b) = (-a')b$.
+\end{proof}
+
+\begin{definition}[Field]
+\label{def:field}
+A \emph{field} is a commutative ring with $0 \neq 1$ in which every $x \neq 0$ has
+a \emph{multiplicative inverse} $x^{-1}$ with $x \cdot x^{-1} = 1$. In a field,
+$x / y \coloneqq x \cdot y^{-1}$ for $y \neq 0$.
+\end{definition}
+
+\begin{theorem}
+\label{thm:rationals-field}
+$\Q$ is a field.
+\end{theorem}
+
+\begin{proof}
+Let $x = a/b$, $y = c/d$, $z = e/f$. Commutativity of both operations is built into
+the formulas.
+
+\emph{Associativity of $+$.} Both $(x + y) + z$ and $x + (y + z)$ come out as
+$\dfrac{adf + cbf + ebd}{bdf}$.
+
+\emph{Associativity of $\cdot$.} Both sides are $\dfrac{ace}{bdf}$.
+
+\emph{Neutral elements.} $\dfrac{a}{b} + \dfrac{0}{1} = \dfrac{a \cdot 1 + 0 \cdot
+b}{b \cdot 1} = \dfrac{a}{b}$, and $\dfrac{a}{b} \cdot \dfrac{1}{1} =
+\dfrac{a}{b}$.
+
+\emph{Additive inverse.} $\dfrac{a}{b} + \dfrac{-a}{b} = \dfrac{ab + (-a)b}{bb} =
+\dfrac{0}{bb} = \dfrac{0}{1}$, since $0 \cdot 1 = 0 \cdot bb$.
+
+\emph{Distributivity.} Using \cref{lem:expand} with $k = b$:
+\[
+  xy + xz = \frac{ac}{bd} + \frac{ae}{bf} = \frac{acbf + aebd}{bdbf} =
+  \frac{(acf + aed)\,b}{(bdf)\,b} = \frac{a(cf + ed)}{bdf} = x(y + z).
+\]
+
+\emph{$0 \neq 1$.} $0/1 = 1/1$ would mean $0 = 1$ in $\Z$.
+
+\emph{Multiplicative inverse.} First, $a/b = 0$ iff $a \cdot 1 = 0 \cdot b$ iff $a
+= 0$. So if $x = a/b \neq 0$, then $a \neq 0$, and $b/a$ is a rational number with
+$\dfrac{a}{b} \cdot \dfrac{b}{a} = \dfrac{ab}{ba} = \dfrac{1}{1}$.
+\end{proof}
+
+All of \cref{lem:ring-laws} holds in $\Q$, since only ring laws were used there.
+Also, a field has no zero divisors: if $xy = 0$ and $x \neq 0$, then $y =
+x^{-1}xy = 0$.
+
+\section{\texorpdfstring{$\Z$}{Z} inside \texorpdfstring{$\Q$}{Q}}
+
+\begin{theorem}[Embedding]
+\label{thm:rationals-embedding}
+The map $j \colon \Z \to \Q$, $a \mapsto a/1$, is injective, preserves $+$,
+$\cdot$, $0$ and $1$, and satisfies
+\[
+  \frac{a}{b} = j(a) \cdot j(b)^{-1} \quad \text{for all } a \in \Z,\; b \in
+  \Z^\ast.
+\]
+\end{theorem}
+
+\begin{proof}
+$a/1 = a'/1$ iff $a = a'$. Next, $\dfrac{a}{1} + \dfrac{c}{1} = \dfrac{a + c}{1}$
+and $\dfrac{a}{1} \cdot \dfrac{c}{1} = \dfrac{ac}{1}$. Finally $j(b)^{-1} = 1/b$ by
+the proof of \cref{thm:rationals-field}, and $\dfrac{a}{1} \cdot \dfrac{1}{b} =
+\dfrac{a}{b}$.
+\end{proof}
+
+As before, \emph{we identify $a$ with $a/1$}, so $\N \subseteq \Z \subseteq \Q$.
+The theorem then says the class $a/b$ \emph{is} the quotient $a \cdot b^{-1}$, so
+the notation is justified.
+
+\section{Order}
+
+\begin{lemma}
+\label{lem:rational-sign}
+Let $\dfrac{a}{b} = \dfrac{a'}{b'}$ with $b, b' > 0$. Then $a \ge 0 \Leftrightarrow
+a' \ge 0$.
+\end{lemma}
+
+\begin{proof}
+We have $ab' = a'b$. In $\Z$, the product of a positive and a negative number is
+negative: if $p > 0$ and $n < 0$, then $p(-n) \ge 0$ by
+\cref{thm:integers-ordered}(3), and $p(-n) \neq 0$ by \cref{thm:integral-domain},
+so $pn < 0$. Now if $a \ge 0$, then $ab' \ge 0$, so $a'b \ge 0$, and with $b > 0$,
+$a' < 0$ is impossible. The converse follows by symmetry.
+\end{proof}
+
+\begin{definition}[Order on $\Q$]
+\label{def:rational-order}
+A rational number $x$ is \emph{nonnegative}, $x \ge 0$, if $x = a/b$ with $b > 0$
+and $a \ge 0$. By \cref{lem:expand,lem:rational-sign} this doesn't depend on the
+representative. Let $x \le y \defiff y - x \ge 0$.
+\end{definition}
+
+\begin{theorem}[$\Q$ is an ordered field]
+\label{thm:rationals-ordered}
+$\le$ is a total order on $\Q$; $x \le y \Rightarrow x + z \le y + z$; and $0 \le
+x \land 0 \le y \Rightarrow 0 \le xy$. On $\Z$ it agrees with the order of
+\cref{ch:integers}.
+\end{theorem}
+
+\begin{proof}
+Let $\Q_{\ge 0}$ be the set of nonnegative rationals. It has three properties:
+\begin{itemize}
+  \item \emph{It is closed under $+$ and $\cdot$:} for $b, d > 0$ and $a, c \ge 0$,
+    the sum $\dfrac{ad + cb}{bd}$ and the product $\dfrac{ac}{bd}$ have
+    nonnegative numerators and positive denominators.
+  \item \emph{For every $x$, $x \ge 0$ or $-x \ge 0$:} write $x = a/b$ with $b > 0$.
+    Then $a \ge 0$ or $-a \ge 0$.
+  \item \emph{$x \ge 0$ and $-x \ge 0$ only for $x = 0$:} that would need $a \ge 0$
+    and $-a \ge 0$, so $a = 0$.
+\end{itemize}
+The proof of \cref{thm:integers-ordered}(1)--(3) used only these three properties
+of $\N \subseteq \Z$, so it goes through word for word. On $\Z$: $a/1 \ge 0$ iff $a
+\ge 0$.
+\end{proof}
+
+\section{Two properties of \texorpdfstring{$\Q$}{Q}}
+
+\begin{theorem}[Archimedean property]
+\label{thm:archimedean}
+For every $x \in \Q$ there is an $n \in \N$ with $x < n$.
+\end{theorem}
+
+\begin{proof}
+Write $x = a/b$ with $b > 0$, so $b \ge 1$. If $a \le 0$, then $x \le 0 < 1$. If $a
+> 0$, take $n \coloneqq a + 1$. Then
+\[
+  n - x = \frac{(a + 1)b - a}{b} = \frac{a(b - 1) + b}{b},
+\]
+and the numerator is at least $b > 0$. So $x < n$.
+\end{proof}
+
+\begin{theorem}[Density]
+\label{thm:density}
+If $x < y$ in $\Q$, then $x < \dfrac{x + y}{2} < y$. So between any two rational
+numbers there is another one, and hence infinitely many.
+\end{theorem}
+
+\begin{proof}
+$2 = 1 + 1 > 0$. From $x < y$ we get $2x = x + x < x + y$ and $x + y < y + y = 2y$.
+Multiply by $\tfrac12 > 0$.
+\end{proof}
+
+\section{The gap}
+
+$\Q$ looks complete: it is a field, it is ordered, and it is dense. But it has
+holes.
+
+\begin{theorem}[$\sqrt 2$ is irrational]
+\label{thm:sqrt2}
+There is no $q \in \Q$ with $q^2 = 2$.
+\end{theorem}
+
+\begin{proof}
+Suppose $q^2 = 2$. Replacing $q$ by $-q$ if needed, we may assume $q > 0$. Then $1
+< q < 2$: $0 < q \le 1$ would give $q^2 \le q \le 1$, and $q \ge 2$ would give $q^2
+\ge 4$.
+
+Write $q = a/b$ with $b > 0$. Then $bq = a$ is a natural number, so the set
+\[
+  X \coloneqq \setof{m \in \N}{m > 0 \text{ and } mq \in \N}
+\]
+is nonempty. By \cref{thm:well-ordering} it has a least element $m$. Let $m'
+\coloneqq mq - m = m(q - 1)$. Then:
+\begin{itemize}
+  \item $m'$ is an integer, as a difference of two natural numbers, and $m' > 0$
+    because $q > 1$. So $m' \in \N$ and $m' > 0$.
+  \item $m' q = mq^2 - mq = 2m - mq$ is an integer, and it is positive because $m'
+    > 0$ and $q > 0$. So $m'q \in \N$.
+  \item $m' < m$, because $q - 1 < 1$.
+\end{itemize}
+So $m' \in X$ and $m' < m$, contradicting the choice of $m$.
+\end{proof}
+
+The proof uses only order and well-ordering; it needs no divisibility. So the set
+$\setof{q \in \Q}{q > 0,\; q^2 < 2}$ is bounded above (by $2$), but its least upper
+bound would have to be $\sqrt 2$, which isn't in $\Q$.
+
+This is where the real numbers come in. They are constructed by filling exactly
+these gaps, using sequences, i.e.\ maps $\N \to \Q$ (\cref{def:family}), or cuts of
+$\Q$. From there come limits, series, functions and calculus.
+
+\section{Summary of the number constructions}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+  \toprule
+  Set & Built from & Element & Means & Gains \\
+  \midrule
+  $\N$ & $\varnothing$, successor & $\set{0, 1, \dots, n-1}$ & $n$ & counting,
+    induction, recursion \\
+  $\Z$ & pairs in $\N \times \N$ & $[a, b]$ & $a - b$ & subtraction \\
+  $\Q$ & pairs in $\Z \times \Z^\ast$ & $a/b$ & $a \cdot b^{-1}$ & division \\
+  $\R$ & still to come & & & limits, completeness \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{exercises}
+  \item Show that $\Q$ is the smallest field containing $\Z$, in this sense: if $F$
+    is a field and $\varphi \colon \Z \to F$ is injective and preserves $+$, $\cdot$
+    and $1$, then $a/b \mapsto \varphi(a)\varphi(b)^{-1}$ is a well-defined
+    injective map $\Q \to F$ that preserves $+$ and $\cdot$.
+  \item Show that for $x, y \in \Q$ with $0 < x$ there is $n \in \N$ with $y < nx$.
+  \item Adapt the proof of \cref{thm:sqrt2} to show there is no rational $q$ with
+    $q^2 = 3$.
+  \item Let $S \coloneqq \setof{q \in \Q}{q > 0,\; q^2 < 2}$. Show that for every $s
+    \in S$ there is a larger element of $S$. (Try $s + h$ with a suitable small
+    rational $h > 0$.)
+\end{exercises}

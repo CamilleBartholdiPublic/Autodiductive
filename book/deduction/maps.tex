@@ -1,0 +1,226 @@
+\chapter{Maps}
+\label{ch:maps}
+
+A map assigns to each element of one set exactly one element of another. Maps are
+needed \emph{before} numbers: the successor $n \mapsto n + 1$, and addition and
+multiplication, are all maps. Later, the \emph{functions} of calculus will be
+special maps between sets of real numbers. To keep the two apart, this book says
+\emph{map} for the general notion.
+
+\section{Maps as relations}
+
+\begin{definition}[Map]
+\label{def:map}
+A \emph{map} $f$ from $A$ to $B$, written $f \colon A \to B$, is a relation $f
+\subseteq A \times B$ such that every element of $A$ is related to exactly one
+element of $B$:
+\[
+  \forall a \in A\; \exists! b \in B\; (a, b) \in f.
+\]
+That unique $b$ is the \emph{value} of $f$ at $a$, written $f(a)$. We also write
+$a \mapsto f(a)$. $A$ is the \emph{domain} of $f$ and $B$ its \emph{codomain}.
+\enquote{Mapping} and \enquote{function} are synonyms in most texts.
+\end{definition}
+
+So a map \emph{is} its graph: the set of all pairs $(a, f(a))$.
+
+\begin{theorem}[Equality of maps]
+\label{thm:map-equality}
+For maps $f, g \colon A \to B$:
+\[
+  f = g \;\Leftrightarrow\; \forall a \in A\; f(a) = g(a).
+\]
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) Substitution. ($\Leftarrow$) Let $p \in f$. Since $f \subseteq A
+\times B$, $p = (a, b)$ with $a \in A$, and $b = f(a)$ by uniqueness of values.
+Then $b = g(a)$, so $p = (a, g(a)) \in g$. So $f \subseteq g$, and by symmetry $g
+\subseteq f$. Use \cref{thm:subset}.
+\end{proof}
+
+\begin{theorem}[Defining maps by a rule]
+\label{thm:map-rule}
+If $P(a, b)$ is a predicate such that for every $a \in A$ there is exactly one $b
+\in B$ with $P(a, b)$, then there is exactly one map $f \colon A \to B$ with $P(a,
+f(a))$ for all $a \in A$.
+\end{theorem}
+
+\begin{proof}
+$f \coloneqq \setof{(a, b) \in A \times B}{P(a, b)}$ exists by
+\cref{ax:separation} and is a map by the hypothesis. Uniqueness follows from
+\cref{thm:map-equality}.
+\end{proof}
+
+This is what justifies writing \enquote{let $f \colon A \to B$, $a \mapsto
+\dots$}.
+
+\begin{definition}[Set of maps]
+\label{def:map-set}
+$B^A \coloneqq \setof{f \in \Pow(A \times B)}{f \text{ is a map from } A \text{
+to } B}$.
+\end{definition}
+
+For example, $\id_A \colon A \to A$ is a map with $\id_A(a) = a$. For any $A$
+there is exactly one map $\varnothing \to A$, namely the empty relation: the
+condition \enquote{for every $a \in \varnothing$} is vacuously true.
+
+\section{Images and preimages}
+
+\begin{definition}[Image, preimage, restriction]
+\label{def:image}
+Let $f \colon A \to B$, $X \subseteq A$ and $Y \subseteq B$.
+\begin{itemize}
+  \item The \emph{image} of $X$ is $f[X] \coloneqq \setof{b \in B}{\exists a \in X\;
+    f(a) = b}$.
+  \item The \emph{preimage} of $Y$ is $f^{-1}[Y] \coloneqq \setof{a \in A}{f(a) \in
+    Y}$.
+  \item The \emph{restriction} to $X$ is $f|_X \coloneqq f \cap (X \times B)$, a
+    map $X \to B$.
+\end{itemize}
+\end{definition}
+
+Square brackets keep the image of a \emph{subset} $X$ apart from the value at an
+\emph{element}. In some cases $X$ is both a subset and an element of $A$; that
+happens with the natural numbers.
+
+\section{Injective, surjective, bijective}
+
+\begin{definition}
+\label{def:injective}
+A map $f \colon A \to B$ is
+\begin{itemize}
+  \item \emph{injective} if different inputs have different values: $\forall a, a'
+    \in A\; (f(a) = f(a') \Rightarrow a = a')$;
+  \item \emph{surjective} if every element of $B$ is a value: $\forall b \in B\;
+    \exists a \in A\; f(a) = b$, i.e.\ $f[A] = B$;
+  \item \emph{bijective} if it is both. Then every $b \in B$ is the value of
+    exactly one $a \in A$.
+\end{itemize}
+\end{definition}
+
+\section{Composition and inverses}
+
+\begin{theorem}[Composition]
+\label{thm:composition}
+For maps $f \colon A \to B$ and $g \colon B \to C$ there is a unique map $g \circ
+f \colon A \to C$ with
+\[
+  (g \circ f)(a) = g(f(a)) \quad \text{for all } a \in A.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply \cref{thm:map-rule} to the predicate $P(a, c) \defiff c = g(f(a))$.
+\end{proof}
+
+\begin{theorem}
+\label{thm:composition-laws}
+For $f \colon A \to B$, $g \colon B \to C$ and $h \colon C \to D$:
+\begin{enumerate}
+  \item $h \circ (g \circ f) = (h \circ g) \circ f$ (associativity);
+  \item $f \circ \id_A = f = \id_B \circ f$;
+  \item if $f$ and $g$ are injective (surjective, bijective), then so is $g \circ
+    f$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) and (2): both sides have the same value at every $a$, namely $h(g(f(a)))$
+and $f(a)$ respectively. Use \cref{thm:map-equality}.
+
+(3) Injective: if $g(f(a)) = g(f(a'))$, then $f(a) = f(a')$ because $g$ is
+injective, and then $a = a'$ because $f$ is injective. Surjective: for $c \in C$
+pick $b \in B$ with $g(b) = c$, then $a \in A$ with $f(a) = b$. Then $(g \circ
+f)(a) = c$. Bijective: combine both.
+\end{proof}
+
+\begin{theorem}[Inverse map]
+\label{thm:inverse}
+A map $f \colon A \to B$ is bijective if and only if there is a map $g \colon B
+\to A$ with
+\[
+  g \circ f = \id_A \quad\text{and}\quad f \circ g = \id_B.
+\]
+In that case $g$ is unique. It is called the \emph{inverse} $f^{-1}$, and it equals
+the inverse relation of $f$ (\cref{def:relation}). It is also bijective, with
+$(f^{-1})^{-1} = f$.
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) Since $f$ is bijective, every $b \in B$ is $f(a)$ for exactly one
+$a \in A$. So by \cref{thm:map-rule} there is a map $g \colon B \to A$ with $f(g(b))
+= b$, and its graph is $\setof{(b, a)}{f(a) = b}$, the inverse relation. For $a \in
+A$, $g(f(a))$ is the unique $a'$ with $f(a') = f(a)$, and that is $a$ itself.
+
+($\Leftarrow$) Injective: $f(a) = f(a')$ gives $a = g(f(a)) = g(f(a')) = a'$.
+Surjective: $b = f(g(b))$.
+
+Uniqueness: if $g'$ also works, then by \cref{thm:composition-laws}
+\[
+  g' = g' \circ \id_B = g' \circ (f \circ g) = (g' \circ f) \circ g = \id_A \circ
+  g = g.
+\]
+The last claim holds because the defining equations are symmetric in $f$ and $g$.
+\end{proof}
+
+\section{Maps on quotient sets}
+
+When we construct $\Z$ and $\Q$, arithmetic is first defined on representatives
+and then moved to classes. The following theorem makes that precise.
+
+\begin{theorem}[Inducing a map on a quotient]
+\label{thm:quotient-map}
+Let $\sim$ be an equivalence relation on $A$ and $f \colon A \to B$ a map that
+respects $\sim$:
+\[
+  a \sim a' \;\Rightarrow\; f(a) = f(a').
+\]
+Then there is exactly one map $\bar f \colon A/{\sim} \to B$ with $\bar f([a]) =
+f(a)$ for all $a \in A$.
+\end{theorem}
+
+\begin{proof}
+For a class $C \in A/{\sim}$ we need exactly one $b$ with $b = f(a)$ for some $a
+\in C$. There is at least one, because $C$ is nonempty (\cref{thm:partition}).
+There is at most one: if $a, a' \in C$, then $a \sim a'$ (\cref{lem:classes}), so
+$f(a) = f(a')$. Now apply \cref{thm:map-rule}. Uniqueness follows from
+\cref{thm:map-equality}, because every class is of the form $[a]$.
+\end{proof}
+
+The hypothesis \enquote{$f$ respects $\sim$} is exactly the statement that $\bar
+f$ is well-defined (\cref{def:well-defined}).
+
+\section{Operations and families}
+
+\begin{definition}[Binary operation]
+\label{def:operation}
+A \emph{binary operation} on a set $A$ is a map $\ast \colon A \times A \to A$. We
+write $a \ast b$ for $\ast((a, b))$. It is \emph{associative} if $(a \ast b) \ast c
+= a \ast (b \ast c)$ for all $a, b, c$, and \emph{commutative} if $a \ast b = b
+\ast a$ for all $a, b$. An element $e \in A$ is \emph{neutral} for $\ast$ if $e
+\ast a = a = a \ast e$ for all $a$.
+\end{definition}
+
+A neutral element is unique when it exists: if $e$ and $e'$ are both neutral,
+then $e = e \ast e' = e'$.
+
+\begin{definition}[Families and sequences]
+\label{def:family}
+A \emph{family} of elements of $X$ indexed by $I$ is a map $x \colon I \to X$,
+written $(x_i)_{i \in I}$ with $x_i \coloneqq x(i)$. When $I$ is the set of
+natural numbers (\cref{ch:naturals}) it is called a \emph{sequence}.
+\end{definition}
+
+Sequences are the starting point of analysis.
+
+\begin{exercises}
+  \item Let $f \colon A \to B$ and $X, X' \subseteq A$. Show $f[X \cup X'] = f[X]
+    \cup f[X']$ and $f[X \cap X'] \subseteq f[X] \cap f[X']$. Find an example where
+    the inclusion is strict. Show it is an equality when $f$ is injective.
+  \item Show that preimages preserve everything: $f^{-1}[Y \cap Y'] = f^{-1}[Y]
+    \cap f^{-1}[Y']$, and the same for $\cup$ and $\setminus$.
+  \item If $g \circ f$ is injective, must $f$ be injective? Must $g$ be?
+  \item Show: for $A \neq \varnothing$, $f \colon A \to B$ is injective iff there
+    is a $g \colon B \to A$ with $g \circ f = \id_A$.
+\end{exercises}

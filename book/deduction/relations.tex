@@ -1,0 +1,289 @@
+\chapter{Relations}
+\label{ch:relations}
+
+Sets don't care about order: $\set{a, b} = \set{b, a}$. To compare, combine or map
+objects we need a pair in which one element comes \emph{first}. Then we use pairs
+to say when objects are \emph{related}, and from that we get the two most
+important kinds of relations: \emph{equivalences} and \emph{orders}.
+
+\section{Ordered pairs}
+
+\begin{definition}[Ordered pair, Kuratowski]
+\label{def:pair}
+\[
+  (a, b) \coloneqq \set{\set{a}, \set{a, b}}.
+\]
+$a$ is the \emph{first component} and $b$ the \emph{second component}.
+\end{definition}
+
+This exists by \cref{ax:pairing}. The definition is only useful because of the
+following property, which is all we will ever use about pairs.
+
+\begin{theorem}[Characteristic property of pairs]
+\label{thm:pair}
+\[
+  (a, b) = (c, d) \;\Leftrightarrow\; a = c \land b = d.
+\]
+\end{theorem}
+
+\begin{proof}
+($\Leftarrow$) Substitution.
+
+($\Rightarrow$) Assume $\set{\set{a}, \set{a, b}} = \set{\set{c}, \set{c, d}}$.
+
+\emph{Step 1: $a = c$.} $\set{a}$ is an element of the left side, so of the right
+side: $\set{a} = \set{c}$ or $\set{a} = \set{c, d}$. In both cases $c \in
+\set{a}$, so $c = a$.
+
+\emph{Step 2, case $a = b$.} Then $(a, b) = \set{\set{a}, \set{a}} =
+\set{\set{a}}$. The element $\set{c, d}$ of the right side must equal $\set{a}$,
+so $d \in \set{a}$, so $d = a = b$.
+
+\emph{Step 2, case $a \neq b$.} $\set{a, b}$ is an element of the right side
+$\set{\set{a}, \set{a, d}}$ (using $c = a$). It is not $\set{a}$, since $b \in
+\set{a, b}$ but $b \notin \set{a}$. So $\set{a, b} = \set{a, d}$. Then $b \in
+\set{a, d}$ and $b \neq a$, so $b = d$.
+\end{proof}
+
+\begin{definition}[Tuples]
+\label{def:tuple}
+Let $(a, b, c) \coloneqq ((a, b), c)$, and generally
+\[
+  (a_1, \dots, a_{n+1}) \coloneqq ((a_1, \dots, a_n), a_{n+1}).
+\] Applying \cref{thm:pair} repeatedly, two
+tuples are equal iff their components are equal one by one.
+\end{definition}
+
+\section{Cartesian products}
+
+\begin{theorem}
+\label{thm:product-exists}
+For sets $A, B$ there is a unique set whose elements are exactly the pairs $(a,
+b)$ with $a \in A$ and $b \in B$.
+\end{theorem}
+
+\begin{proof}
+We need a set we already have that contains all such pairs, so that Separation
+can pick them out. Let $a \in A$ and $b \in B$. Then $\set{a} \subseteq A \cup B$
+and $\set{a, b} \subseteq A \cup B$, so both are elements of $\Pow(A \cup B)$.
+Hence $(a, b) \subseteq \Pow(A \cup B)$, i.e.\ $(a, b) \in \Pow(\Pow(A \cup B))$.
+Now let
+\[
+  A \times B \coloneqq \setof{p \in \Pow(\Pow(A \cup B))}{\exists a \in A\;
+  \exists b \in B\; p = (a, b)}.
+\]
+Uniqueness is by \cref{ax:extensionality}.
+\end{proof}
+
+\begin{definition}[Cartesian product]
+\label{def:product}
+The set from \cref{thm:product-exists} is the \emph{Cartesian product} $A \times
+B$. We write $A^2 \coloneqq A \times A$.
+\end{definition}
+
+\section{Relations}
+
+\begin{definition}[Relation]
+\label{def:relation}
+A \emph{relation from $A$ to $B$} is a subset $R \subseteq A \times B$. We write
+$x \mathrel{R} y$ for $(x, y) \in R$. A \emph{relation on $A$} is a relation from
+$A$ to $A$. Its \emph{domain} and \emph{range} are
+\[
+  \dom R \coloneqq \setof{x \in A}{\exists y\; x \mathrel{R} y}, \qquad
+  \ran R \coloneqq \setof{y \in B}{\exists x\; x \mathrel{R} y}.
+\]
+Its \emph{inverse} is $R^{-1} \coloneqq \setof{(y, x) \in B \times A}{x
+\mathrel{R} y}$, a relation from $B$ to $A$.
+\end{definition}
+
+Examples of relations on a set $A$: the \emph{identity} $\id_A \coloneqq
+\setof{(x, x)}{x \in A}$, formally $\setof{p \in A^2}{\exists x \in A\; p = (x,
+x)}$; the empty relation $\varnothing$; the full relation $A^2$. On $\Pow(A)$
+there is the relation $\subseteq$, meaning the set $\setof{(X, Y) \in
+\Pow(A)^2}{X \subseteq Y}$.
+
+\begin{definition}[Properties of relations]
+\label{def:relation-properties}
+A relation $R$ on $A$ is
+\begin{itemize}
+  \item \emph{reflexive} if $\forall x \in A\; x \mathrel{R} x$;
+  \item \emph{symmetric} if $\forall x, y \in A\; (x \mathrel{R} y \Rightarrow y
+    \mathrel{R} x)$;
+  \item \emph{antisymmetric} if $\forall x, y \in A\; (x \mathrel{R} y \land y
+    \mathrel{R} x \Rightarrow x = y)$;
+  \item \emph{transitive} if $\forall x, y, z \in A\; (x \mathrel{R} y \land y
+    \mathrel{R} z \Rightarrow x \mathrel{R} z)$;
+  \item \emph{irreflexive} if $\forall x \in A\; \lnot(x \mathrel{R} x)$.
+\end{itemize}
+\end{definition}
+
+\section{Equivalence relations}
+
+An equivalence relation says when two objects are \enquote{the same in the respect
+we care about}. It is the main tool of the number constructions: integers and
+rationals are both \emph{equivalence classes}.
+
+\begin{definition}[Equivalence relation]
+\label{def:equivalence}
+An \emph{equivalence relation} on $A$ is a relation $\sim$ on $A$ that is
+reflexive, symmetric and transitive. For $a \in A$, the \emph{equivalence class}
+of $a$ is
+\[
+  [a] \coloneqq \setof{x \in A}{x \sim a}.
+\]
+The \emph{quotient set} is the set of all classes:
+\[
+  A/{\sim} \coloneqq \setof{C \in \Pow(A)}{\exists a \in A\; C = [a]}.
+\]
+Any $x \in C$ is a \emph{representative} of the class $C$.
+\end{definition}
+
+\begin{lemma}
+\label{lem:classes}
+Let $\sim$ be an equivalence relation on $A$ and $a, b \in A$.
+\begin{enumerate}
+  \item $a \in [a]$.
+  \item $[a] = [b] \;\Leftrightarrow\; a \sim b$.
+  \item Either $[a] = [b]$ or $[a] \cap [b] = \varnothing$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Reflexivity.
+
+(2) ($\Rightarrow$) $a \in [a] = [b]$, so $a \sim b$. ($\Leftarrow$) Let $x \in
+[a]$, so $x \sim a$. With $a \sim b$ and transitivity, $x \sim b$, so $x \in [b]$.
+So $[a] \subseteq [b]$. By symmetry $b \sim a$, and the same argument gives $[b]
+\subseteq [a]$. Use \cref{thm:subset}.
+
+(3) Suppose some $x$ lies in both $[a]$ and $[b]$. Then $x \sim a$ and $x \sim b$,
+so $a \sim x$ (symmetry) and $a \sim b$ (transitivity). By (2), $[a] = [b]$.
+\end{proof}
+
+So every element sits in exactly one class, and \emph{which} representative we
+use to name a class doesn't matter.
+
+\begin{definition}[Partition]
+\label{def:partition}
+A \emph{partition} of $A$ is a set $\Pi$ of nonempty subsets of $A$ such that
+every $x \in A$ lies in exactly one $C \in \Pi$.
+\end{definition}
+
+\begin{theorem}[Equivalences are partitions]
+\label{thm:partition}
+\leavevmode
+\begin{enumerate}
+  \item If $\sim$ is an equivalence relation on $A$, then $A/{\sim}$ is a
+    partition of $A$.
+  \item If $\Pi$ is a partition of $A$, then $x \sim_\Pi y \defiff \exists C \in
+    \Pi\; (x \in C \land y \in C)$ defines an equivalence relation on $A$ whose
+    classes are exactly the elements of $\Pi$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Every class $[a]$ is nonempty, since it contains $a$
+(\cref{lem:classes}(1)). Every $x \in A$ is in the class $[x]$, and if $x \in [a]$
+and $x \in [b]$, then $[a] = [b]$ by \cref{lem:classes}(3).
+
+(2) Reflexive: $x$ lies in some $C \in \Pi$. Symmetric: the definition is
+symmetric in $x, y$. Transitive: if $x, y \in C$ and $y, z \in C'$, then $y$ is in
+both $C$ and $C'$, so $C = C'$ by uniqueness, and $x, z \in C$. For the classes:
+let $C$ be the element of $\Pi$ containing $a$. Then $x \sim_\Pi a$ iff $x$ and
+$a$ share an element of $\Pi$, iff $x \in C$ (uniqueness again). So $[a] = C$,
+and every $C \in \Pi$ arises this way because $C \neq \varnothing$.
+\end{proof}
+
+\begin{definition}[Well-defined]
+\label{def:well-defined}
+Often we define something on classes by using a representative: \enquote{for a
+class $C$, pick $a \in C$ and let $f(C) \coloneqq \dots a \dots$}. This is a valid
+definition only if the result is the same for \emph{every} choice of
+representative. Proving that is called \emph{showing that the definition is
+well-defined}.
+\end{definition}
+
+We will do this many times in \cref{ch:integers,ch:rationals}.
+
+\section{Orders}
+
+\begin{definition}[Partial and total order]
+\label{def:order}
+A relation $\le$ on $A$ is a \emph{partial order} if it is reflexive,
+antisymmetric and transitive. Then $(A, \le)$ is a \emph{partially ordered set}.
+It is a \emph{total order} (or \emph{linear order}) if in addition any two
+elements are comparable:
+\[
+  \forall x, y \in A\; (x \le y \lor y \le x).
+\]
+We write $x < y$ for $x \le y \land x \neq y$, and $x \ge y$ for $y \le x$.
+\end{definition}
+
+For example, $\subseteq$ on $\Pow(A)$ is a partial order by \cref{thm:subset}. It
+is not total in general: on $\Pow(\set{a, b})$ with $a \neq b$, neither $\set{a}
+\subseteq \set{b}$ nor $\set{b} \subseteq \set{a}$.
+
+\begin{lemma}
+\label{lem:strict-order}
+If $\le$ is a partial order, then $<$ is irreflexive and transitive. Conversely,
+if $<$ is an irreflexive transitive relation on $A$, then $x \le y \defiff x < y
+\lor x = y$ is a partial order.
+\end{lemma}
+
+\begin{proof}
+Irreflexivity of $<$ is built into its definition. Transitivity: if $x < y < z$,
+then $x \le z$. If $x = z$, then $x \le y$ and $y \le x$, so $x = y$ by
+antisymmetry, contradicting $x < y$. So $x < z$.
+
+Conversely, $\le$ is reflexive by definition. Transitivity follows by cases on
+which side of each \enquote{or} holds. Antisymmetry: if $x \le y$, $y \le x$ and
+$x \neq y$, then $x < y < x$, so $x < x$ by transitivity, contradicting
+irreflexivity.
+\end{proof}
+
+\begin{definition}[Bounds]
+\label{def:bounds}
+Let $(A, \le)$ be partially ordered and $S \subseteq A$.
+\begin{itemize}
+  \item $m \in S$ is a \emph{least element} of $S$ if $m \le s$ for all $s \in S$,
+    and a \emph{greatest element} if $s \le m$ for all $s \in S$.
+  \item $u \in A$ is an \emph{upper bound} of $S$ if $s \le u$ for all $s \in S$,
+    and a \emph{lower bound} if $u \le s$ for all $s \in S$. $S$ is \emph{bounded
+    above} (\emph{below}) if it has an upper (lower) bound.
+  \item A least element of the set of upper bounds of $S$ is a \emph{supremum}
+    $\sup S$. A greatest element of the set of lower bounds is an \emph{infimum}
+    $\inf S$.
+\end{itemize}
+\end{definition}
+
+\begin{lemma}
+\label{lem:least-unique}
+A set has at most one least element. So $\sup S$ and $\inf S$ are unique when they
+exist.
+\end{lemma}
+
+\begin{proof}
+If $m$ and $m'$ are least elements of $S$, then $m \le m'$ and $m' \le m$, so $m
+= m'$ by antisymmetry. The same works for greatest elements.
+\end{proof}
+
+Suprema become central with the real numbers: $\R$ is constructed so that
+\emph{every} nonempty set bounded above has a supremum, which $\Q$ lacks
+(\cref{thm:sqrt2}).
+
+\begin{definition}[Well-order]
+\label{def:well-order}
+A total order $\le$ on $A$ is a \emph{well-order} if every nonempty subset of $A$
+has a least element.
+\end{definition}
+
+\begin{exercises}
+  \item Show that $(a, b, c) = (a', b', c')$ iff $a = a'$, $b = b'$ and $c = c'$.
+  \item Show $A \times (B \cup C) = (A \times B) \cup (A \times C)$.
+  \item On a set $A$, is the empty relation reflexive? Symmetric? Transitive?
+    (Watch out when $A = \varnothing$.)
+  \item Find an example showing that \enquote{symmetric and transitive} does not
+    imply reflexive.
+  \item In $(\Pow(A), \subseteq)$, show that every $\mathcal{F} \subseteq \Pow(A)$
+    has supremum $\bigcup \mathcal{F}$.
+\end{exercises}

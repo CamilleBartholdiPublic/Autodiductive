@@ -1,0 +1,39 @@
+\documentclass[11pt,openany]{book}
+
+\input{preamble}
+
+\title{\textbf{Autodiductive}\\[1ex]
+  \large The sciences, constructed and observed}
+\author{Camille Bartholdi}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+% ===========================================================================
+\part{Deduction}
+\label{part:deduction}
+% ===========================================================================
+
+\input{deduction/introduction}
+\input{deduction/logic}
+\input{deduction/sets}
+\input{deduction/relations}
+\input{deduction/maps}
+\input{deduction/natural-numbers}
+\input{deduction/integers}
+\input{deduction/rational-numbers}
+
+% ===========================================================================
+\part{Induction}
+\label{part:induction}
+% ===========================================================================
+
+\input{induction/introduction}
+
+\end{document}

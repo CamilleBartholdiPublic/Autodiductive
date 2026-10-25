@@ -1,0 +1,90 @@
+\chapter*{Introduction to induction}
+\addcontentsline{toc}{chapter}{Introduction to induction}
+\markboth{Introduction to induction}{Introduction to induction}
+\label{intro:induction}
+
+A deductive science constructs a world from axioms and never has to look outside.
+An inductive science works the other way round: it starts with the world as we
+find it and asks which constructed world \emph{fits} it. Here we observe, and then
+construct a model that matches what we observed.
+
+\section*{Two meanings of \enquote{induction}}
+
+The word is used for two unrelated things, and the difference matters here.
+\emph{Mathematical induction} (\cref{thm:induction}) is a deductive proof method:
+from $P(0)$ and $P(n) \Rightarrow P(n+1)$ it proves $P(n)$ for \emph{all} $n$,
+with certainty. \emph{Scientific induction}, the subject of this part, goes from
+finitely many observations to a general model. That step is never certain. No
+number of white swans proves that all swans are white, and a single black one
+refutes it.
+
+\section*{The inductive cycle}
+
+Every inductive science goes through the same cycle:
+\begin{enumerate}
+  \item \textbf{Observe.} Record what happens, together with how precisely it was
+    measured.
+  \item \textbf{Model.} Propose a mathematical structure that is meant to describe
+    it. The model is itself a deductive object: a set with relations, maps and
+    numbers, built with the tools of \cref{part:deduction}.
+  \item \textbf{Deduce.} Work out, by proof or computation, what the model
+    predicts, including things nobody has observed yet.
+  \item \textbf{Compare.} Check the predictions against new observations. Keep the
+    model if it fits, revise or replace it if it doesn't, and go back to step 1.
+\end{enumerate}
+Deduction is part of every round: step 3 is pure deduction. What makes the
+science inductive is steps 1 and 4, where the world gets the last word.
+
+\section*{What a model can claim}
+
+A deductive theorem is true relative to its axioms, once and for all. An
+inductive model has a weaker and different status:
+\begin{itemize}
+  \item It is never proved, only \emph{supported}: it has survived the comparisons
+    made so far.
+  \item It can be \emph{refuted} by a single reliable observation it can't
+    accommodate. A model that no conceivable observation could contradict says
+    nothing about the world.
+  \item It has a \emph{domain of validity}. A model can be excellent at one scale
+    and wrong at another, and still be the right tool inside its domain.
+  \item \enquote{Fits} has to be made precise. Observations carry uncertainty, so
+    comparing them with predictions needs \emph{probability} and
+    \emph{statistics}. Probability theory is itself deductive. Statistical
+    inference, which uses it to judge models against data, is the bridge between
+    the two parts of this book.
+\end{itemize}
+
+\section*{One science, not many}
+
+Physics, chemistry, biology and psychology are usually taught as separate
+subjects. Here they are not separated, because they follow the same cycle and
+differ only in the scale and kind of what they observe. A molecule is described
+by a model built from models of atoms, a cell by models of molecules, behaviour by
+models of nervous systems. So this part is ordered the way the deductive part is:
+\emph{nothing is used before it has been introduced}. Here that applies to models
+and to the observations supporting them, as well as to definitions.
+
+\section*{Conventions for this part}
+
+Each model will be presented with:
+\begin{itemize}
+  \item the \textbf{observations} it is meant to explain;
+  \item its \textbf{assumptions}, stated as precisely as axioms;
+  \item the \textbf{mathematics} it uses, with references to \cref{part:deduction};
+  \item its \textbf{predictions}, and how they were tested;
+  \item its known \textbf{limits}: where it fails, and which model takes over.
+\end{itemize}
+
+\section*{Planned chapters}
+
+\begin{itemize}
+  \item measurement, units and uncertainty;
+  \item probability and statistical inference: how to judge a model against data;
+  \item motion and forces;
+  \item matter: from atoms to molecules and reactions;
+  \item life: from molecules to cells, organisms and evolution;
+  \item mind: from nervous systems to behaviour.
+\end{itemize}
+These chapters depend on mathematics that comes later in \cref{part:deduction}
+(real numbers, calculus, linear algebra, probability), so they will be written once
+that mathematics is in place.
