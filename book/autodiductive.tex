@@ -12,6 +12,7 @@
 \frontmatter
 \maketitle
 \tableofcontents
+\input{rules}
 
 \mainmatter
 
@@ -35,5 +36,17 @@
 % ===========================================================================
 
 \input{induction/introduction}
+
+% ===========================================================================
+\backmatter
+
+\chapter{Register}
+\label{register}
+
+Every notation of the book, grouped by the mathematical model it belongs to, with
+a link to the definition that introduces it (\cref{rule:one}). The register is
+generated from the definitions themselves.
+
+\printregister
 
 \end{document}

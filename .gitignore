@@ -1,8 +1,23 @@
-build/
+# LaTeX byproducts: only the .tex sources and the compiled PDF are kept.
 *.aux
 *.log
 *.out
 *.toc
+*.lof
+*.lot
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.synctex(busy)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.xdv
+*.dvi

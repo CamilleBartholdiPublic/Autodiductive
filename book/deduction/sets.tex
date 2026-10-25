@@ -2,9 +2,17 @@
 \label{ch:sets}
 
 We now fix the world that logic talks about. It contains a single kind of object,
-\emph{sets}, and a single basic relation, \emph{membership}: for objects $x$ and
-$A$, $x \in A$ is a proposition (\enquote{$x$ is an element of $A$}). We write $x
-\notin A$ for $\lnot (x \in A)$.
+\emph{sets}, and a single basic relation between them, \emph{membership}.
+
+\section{Membership}
+
+\begin{definition}[Membership]
+\label{def:membership}
+For objects $x$ and $A$, $x \in A$ is a proposition: \enquote{$x$ is an element of
+$A$}. We write $x \notin A$ for $\lnot (x \in A)$.
+\register{sets}{$x \in A$}{$x$ is an element of $A$}
+\register{sets}{$x \notin A$}{$\lnot (x \in A)$}
+\end{definition}
 
 There is nothing else: no numbers, no points, no symbols. Every mathematical
 object in this book, including numbers, pairs, maps and later functions and
@@ -34,6 +42,8 @@ count: $\set{a, b} = \set{b, a} = \set{a, a, b}$, once these are defined
 $A \subseteq B \defiff \forall x\, (x \in A \Rightarrow x \in B)$. We say $A$ is a
 \emph{subset} of $B$. A \emph{proper subset}, $A \subsetneq B$, is one with $A
 \subseteq B$ and $A \neq B$.
+\register{sets}{$A \subseteq B$}{$A$ is a subset of $B$}
+\register{sets}{$A \subsetneq B$}{$A \subseteq B$ and $A \neq B$}
 \end{definition}
 
 \begin{theorem}
@@ -81,6 +91,7 @@ $E = E'$ by \cref{ax:extensionality}.
 \begin{definition}[Empty set]
 \label{def:emptyset}
 This unique set is the \emph{empty set}, written $\varnothing$.
+\register{sets}{$\varnothing$}{the empty set}
 \end{definition}
 
 \begin{corollary}
@@ -104,6 +115,8 @@ exactly the elements of $A$ that satisfy $P$:
   \bigr).
 \]
 By \cref{ax:extensionality}, $B$ is unique. We write it $\setof{x \in A}{P(x)}$.
+\register{sets}{$\setof{x \in A}{P(x)}$}{the set of elements of $A$ satisfying
+$P$}
 \end{axiom}
 
 This is really one axiom for each predicate $P$: an \emph{axiom schema}. The
@@ -138,6 +151,8 @@ objects.
 For all $a, b$ there is a set whose elements are exactly $a$ and $b$. By
 \cref{ax:extensionality} it is unique, written $\set{a, b}$. We write $\set{a}
 \coloneqq \set{a, a}$, the \emph{singleton} of $a$.
+\register{sets}{$\set{a, b}$}{the set with exactly the elements $a$ and $b$}
+\register{sets}{$\set{a}$}{the set with exactly the element $a$}
 \end{axiom}
 
 So $x \in \set{a, b} \Leftrightarrow (x = a \lor x = b)$, and $x \in \set{a}
@@ -151,6 +166,8 @@ of the elements of $\mathcal{F}$. It is unique, written
   \bigcup \mathcal{F}, \qquad x \in \bigcup \mathcal{F} \;\Leftrightarrow\;
   \exists F \in \mathcal{F}\; x \in F.
 \]
+\register{sets}{$\bigcup \mathcal{F}$}{the set of elements of elements of
+$\mathcal{F}$}
 \end{axiom}
 
 \begin{definition}[Union, intersection, difference]
@@ -168,15 +185,20 @@ For a \emph{nonempty} set $\mathcal{F}$, pick any $F_0 \in \mathcal{F}$ and let
 \]
 This doesn't depend on the choice of $F_0$: any element of every $F \in
 \mathcal{F}$ is in particular in $F_0$. Sets $A, B$ are \emph{disjoint} if $A
-\cap B = \varnothing$.
+\cap B = \varnothing$. For three elements, $\set{a, b, c} \coloneqq \set{a, b}
+\cup \set{c}$, and so on.
+\register{sets}{$A \cup B$}{union of $A$ and $B$}
+\register{sets}{$A \cap B$}{intersection of $A$ and $B$}
+\register{sets}{$A \setminus B$}{elements of $A$ not in $B$}
+\register{sets}{$\bigcap \mathcal{F}$}{elements of every element of
+$\mathcal{F}$, for $\mathcal{F} \neq \varnothing$}
+\register{sets}{$\set{a, b, c}$, \dots}{$\set{a, b} \cup \set{c}$, and so on}
 \end{definition}
 
 Unwinding the definitions:
 $x \in A \cup B \Leftrightarrow x \in A \lor x \in B$;
 $x \in A \cap B \Leftrightarrow x \in A \land x \in B$;
 $x \in A \setminus B \Leftrightarrow x \in A \land x \notin B$.
-Sets with more elements can now be written down: $\set{a, b, c} \coloneqq \set{a,
-b} \cup \set{c}$, and so on.
 
 \begin{remark}
 $\bigcap \varnothing$ is left undefined on purpose. \enquote{The set of all $x$ in
@@ -223,13 +245,14 @@ A \lor x \in B) \Leftrightarrow (x \in C \land x \notin A) \land (x \in C \land 
 \begin{axiom}[Power set]
 \label{ax:power}
 For every set $A$ there is a set whose elements are exactly the subsets of $A$.
-It is unique, written $\Pow(A)$:
+It is unique, written $\Pow A$:
 \[
-  X \in \Pow(A) \;\Leftrightarrow\; X \subseteq A.
+  X \in \Pow A \;\Leftrightarrow\; X \subseteq A.
 \]
+\register{sets}{$\Pow A$}{the set of all subsets of $A$}
 \end{axiom}
 
-For example, $\Pow(\varnothing) = \set{\varnothing}$ and $\Pow(\set{\varnothing})
+For example, $\Pow \varnothing = \set{\varnothing}$ and $\Pow \set{\varnothing}
 = \set{\varnothing, \set{\varnothing}}$. Note $\varnothing \neq
 \set{\varnothing}$: the first has no elements, the second has one.
 
@@ -256,8 +279,8 @@ ZF has four more axioms:
 
 \begin{exercises}
   \item Prove $A \setminus (A \setminus B) = A \cap B$.
-  \item Prove $A \subseteq B \Rightarrow \Pow(A) \subseteq \Pow(B)$.
-  \item Write out the elements of $\Pow(\set{\varnothing, \set{\varnothing}})$. How
+  \item Prove $A \subseteq B \Rightarrow \Pow A \subseteq \Pow B$.
+  \item Write out the elements of $\Pow \set{\varnothing, \set{\varnothing}}$. How
     many are there?
   \item Show that for every set $A$ there is a set not in $A$. (Hint: adapt the
     proof of \cref{thm:russell}.)

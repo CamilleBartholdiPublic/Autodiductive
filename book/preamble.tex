@@ -9,7 +9,9 @@
 \usepackage{enumitem}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{longtable}
 \usepackage{csquotes}
+\usepackage{etoolbox}
 
 \usepackage[hidelinks]{hyperref}
 \usepackage[capitalise,nameinlink,noabbrev]{cleveref}
@@ -27,12 +29,14 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{notationrule}{Rule}
 
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
 \crefname{axiom}{Axiom}{Axioms}
 \crefname{remark}{Remark}{Remarks}
+\crefname{notationrule}{Rule}{Rules}
 \crefname{part}{Part}{Parts}
 
 \renewcommand{\qedsymbol}{$\blacksquare$}
@@ -40,7 +44,8 @@
 \setlist[enumerate,1]{label=(\arabic*)}
 
 % ---------------------------------------------------------------------------
-% Notation
+% Notation. Every symbol defined here has exactly one meaning, and each
+% meaning has exactly one symbol (see the Rules of notation).
 % ---------------------------------------------------------------------------
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -57,6 +62,9 @@
 \DeclareMathOperator{\ran}{ran}
 \newcommand{\id}{\mathrm{id}}
 
+% x \via{f} y : "the map f sends x to y". The only notation for map values.
+\newcommand{\via}[1]{\xmapsto{\;#1\;}}
+
 % "is defined to mean"
 \newcommand{\defiff}{\mathrel{\vcentcolon\Leftrightarrow}}
 
@@ -64,3 +72,48 @@
 \newenvironment{exercises}
   {\section*{Exercises}\begin{enumerate}[label=\arabic*.,ref=\arabic*]}
   {\end{enumerate}}
+
+% ---------------------------------------------------------------------------
+% Register of notation.
+%
+%   \register{model}{notation}{meaning}
+%
+% placed inside the definition that introduces a notation, records it for the
+% register at the end of the book, with a link back to that definition.
+% Entries are written to the .aux file and read back on the next run, so the
+% register is always generated from the text itself. Models are listed in the
+% order declared here.
+% ---------------------------------------------------------------------------
+\makeatletter
+\newcommand{\declaremodel}[2]{%
+  \listgadd{\reg@models}{#1}%
+  \csgdef{reg@title@#1}{#2}%
+  \csgdef{reg@rows@#1}{}}
+\newcommand{\register}[3]{%
+  \immediate\write\@auxout{\string\regentry{#1}%
+    {\unexpanded{#2}}{\unexpanded{#3}}{\thetheorem}{\@currentHref}}}
+\newcommand{\regentry}[5]{%
+  \ifcsdef{reg@title@#1}{}{\PackageError{autodiductive}%
+    {Unknown model `#1' in \string\register}{Declare it with \string\declaremodel.}}%
+  \csgappto{reg@rows@#1}{#2 & #3 & \hyperlink{#5}{#4} \\}}
+\newcommand{\reg@print}[1]{%
+  \section*{\csuse{reg@title@#1}}
+  \begin{longtable}{@{}p{0.28\textwidth}p{0.55\textwidth}r@{}}
+    \toprule
+    Notation & Meaning & Defined in \\
+    \midrule
+    \endhead
+    \csuse{reg@rows@#1}
+    \bottomrule
+  \end{longtable}}
+\newcommand{\printregister}{\forlistloop{\reg@print}{\reg@models}}
+\makeatother
+
+\declaremodel{logic}{Logic}
+\declaremodel{sets}{Sets}
+\declaremodel{relations}{Relations and orders}
+\declaremodel{maps}{Maps}
+\declaremodel{naturals}{Natural numbers}
+\declaremodel{rings}{Commutative rings and fields}
+\declaremodel{integers}{Integers}
+\declaremodel{rationals}{Rational numbers}

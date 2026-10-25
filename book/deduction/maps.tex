@@ -2,87 +2,112 @@
 \label{ch:maps}
 
 A map assigns to each element of one set exactly one element of another. Maps are
-needed \emph{before} numbers: the successor $n \mapsto n + 1$, and addition and
+needed \emph{before} numbers: the successor of a number, and addition and
 multiplication, are all maps. Later, the \emph{functions} of calculus will be
 special maps between sets of real numbers. To keep the two apart, this book says
 \emph{map} for the general notion.
+
+This chapter also fixes the one notation for maps that the whole book uses
+(\cref{rule:maps}).
 
 \section{Maps as relations}
 
 \begin{definition}[Map]
 \label{def:map}
 A \emph{map} $f$ from $A$ to $B$, written $f \colon A \to B$, is a relation $f
-\subseteq A \times B$ such that every element of $A$ is related to exactly one
-element of $B$:
+\subseteq A \times B$ that relates every element of $A$ to exactly one element of
+$B$. For a map, the relation $x \mathrel{f} y$ is written
 \[
-  \forall a \in A\; \exists! b \in B\; (a, b) \in f.
+  x \via{f} y \qquad \text{(\enquote{$f$ sends $x$ to $y$})},
 \]
-That unique $b$ is the \emph{value} of $f$ at $a$, written $f(a)$. We also write
-$a \mapsto f(a)$. $A$ is the \emph{domain} of $f$ and $B$ its \emph{codomain}.
-\enquote{Mapping} and \enquote{function} are synonyms in most texts.
+so the defining condition reads $\forall x \in A\; \exists! y \in B\; x \via{f}
+y$. That unique $y$ is called the \emph{value} of $f$ at $x$. By
+\cref{rule:maps} a value is only ever named in words or by a letter introduced for
+it, never by a term such as \enquote{$f$ of $x$}. $A$ is the \emph{domain} of $f$
+and $B$ its \emph{codomain}.
+\register{maps}{$f \colon A \to B$}{$f$ is a map from $A$ to $B$}
+\register{maps}{$x \via{f} y$}{the map $f$ sends $x$ to $y$; the only notation
+for values of maps}
 \end{definition}
 
-So a map \emph{is} its graph: the set of all pairs $(a, f(a))$.
+So a map \emph{is} its graph: the set of all pairs $(x, y)$ with $x \via{f} y$. A
+map with domain $\N$ (\cref{ch:naturals}) is called a \emph{sequence}, and a map
+with domain $I$ a \emph{family indexed by $I$}. These are only names: sequences and
+families are maps and use the same notation.
 
 \begin{theorem}[Equality of maps]
 \label{thm:map-equality}
 For maps $f, g \colon A \to B$:
 \[
-  f = g \;\Leftrightarrow\; \forall a \in A\; f(a) = g(a).
+  f = g \;\Leftrightarrow\; \forall x \in A\; \forall y \in B\; (x \via{f} y
+  \Rightarrow x \via{g} y).
 \]
 \end{theorem}
 
 \begin{proof}
 ($\Rightarrow$) Substitution. ($\Leftarrow$) Let $p \in f$. Since $f \subseteq A
-\times B$, $p = (a, b)$ with $a \in A$, and $b = f(a)$ by uniqueness of values.
-Then $b = g(a)$, so $p = (a, g(a)) \in g$. So $f \subseteq g$, and by symmetry $g
-\subseteq f$. Use \cref{thm:subset}.
+\times B$, $p = (x, y)$ with $x \via{f} y$. Then $x \via{g} y$, so $p \in g$. So $f
+\subseteq g$. Conversely, let $p = (x, y) \in g$, and let $y'$ be the value of $f$
+at $x$. Then $x \via{g} y'$ by hypothesis, so $y' = y$ because $g$ has only one
+value at $x$. So $p \in f$. Use \cref{thm:subset}.
 \end{proof}
 
 \begin{theorem}[Defining maps by a rule]
 \label{thm:map-rule}
-If $P(a, b)$ is a predicate such that for every $a \in A$ there is exactly one $b
-\in B$ with $P(a, b)$, then there is exactly one map $f \colon A \to B$ with $P(a,
-f(a))$ for all $a \in A$.
+Let $P(x, y)$ be a predicate such that for every $x \in A$ there is exactly one $y
+\in B$ with $P(x, y)$. Then there is exactly one map $f \colon A \to B$ with
+\[
+  \forall x \in A\; \forall y \in B\; \bigl( x \via{f} y \Leftrightarrow P(x, y)
+  \bigr).
+\]
 \end{theorem}
 
 \begin{proof}
-$f \coloneqq \setof{(a, b) \in A \times B}{P(a, b)}$ exists by
-\cref{ax:separation} and is a map by the hypothesis. Uniqueness follows from
+$f \coloneqq \setof{(x, y) \in A \times B}{P(x, y)}$ exists by
+\cref{def:product} and is a map by the hypothesis. Uniqueness follows from
 \cref{thm:map-equality}.
 \end{proof}
 
-This is what justifies writing \enquote{let $f \colon A \to B$, $a \mapsto
-\dots$}.
+The most common case is $P(x, y) \defiff y = t$ for an expression $t$ built from
+$x$ that lies in $B$ for every $x \in A$. We then speak of \emph{the map $f \colon
+A \to B$ with $x \via{f} t$ for all $x \in A$}.
 
 \begin{definition}[Set of maps]
 \label{def:map-set}
-$B^A \coloneqq \setof{f \in \Pow(A \times B)}{f \text{ is a map from } A \text{
+$B^A \coloneqq \setof{f \in \Pow (A \times B)}{f \text{ is a map from } A \text{
 to } B}$.
+\register{maps}{$B^A$}{the set of maps from $A$ to $B$}
 \end{definition}
 
-For example, $\id_A \colon A \to A$ is a map with $\id_A(a) = a$. For any $A$
-there is exactly one map $\varnothing \to A$, namely the empty relation: the
-condition \enquote{for every $a \in \varnothing$} is vacuously true.
+For example, $\id_A$ (\cref{def:identity}) is the map $A \to A$ with $x \via{\id_A}
+x$. For any $A$ there is exactly one map $\varnothing \to A$, namely the empty
+relation: the condition \enquote{for every $x \in \varnothing$} is vacuously true.
 
 \section{Images and preimages}
 
 \begin{definition}[Image, preimage, restriction]
 \label{def:image}
-Let $f \colon A \to B$, $X \subseteq A$ and $Y \subseteq B$.
-\begin{itemize}
-  \item The \emph{image} of $X$ is $f[X] \coloneqq \setof{b \in B}{\exists a \in X\;
-    f(a) = b}$.
-  \item The \emph{preimage} of $Y$ is $f^{-1}[Y] \coloneqq \setof{a \in A}{f(a) \in
-    Y}$.
-  \item The \emph{restriction} to $X$ is $f|_X \coloneqq f \cap (X \times B)$, a
-    map $X \to B$.
-\end{itemize}
+Let $R$ be a relation from $A$ to $B$ and $X \subseteq A$. The \emph{image} of $X$
+under $R$ is
+\[
+  R[X] \coloneqq \setof{y \in B}{\exists x \in X\; x \mathrel{R} y}.
+\]
+For a map $f \colon A \to B$ and $Y \subseteq B$ this gives the image $f[X] =
+\setof{y \in B}{\exists x \in X\; x \via{f} y}$ and the \emph{preimage}
+\[
+  f^{-1}[Y] = \setof{x \in A}{\exists y \in Y\; x \via{f} y},
+\]
+the image of $Y$ under the inverse relation $f^{-1}$. The \emph{restriction} of
+$f$ to $X$ is $f|_X \coloneqq f \cap (X \times B)$, a map $X \to B$ with $x
+\via{f|_X} y \Leftrightarrow x \via{f} y$ for $x \in X$.
+\register{maps}{$R[X]$}{image of the set $X$ under the relation $R$; for a map
+$f$, $f[X]$ is the image and $f^{-1}[Y]$ the preimage}
+\register{maps}{$f|_X$}{restriction of $f$ to $X$}
 \end{definition}
 
-Square brackets keep the image of a \emph{subset} $X$ apart from the value at an
-\emph{element}. In some cases $X$ is both a subset and an element of $A$; that
-happens with the natural numbers.
+The image of a \emph{set} is written with square brackets (\cref{rule:brackets}).
+The value of a map at an \emph{element} has no bracket notation at all, so the two
+can never be confused.
 
 \section{Injective, surjective, bijective}
 
@@ -90,29 +115,51 @@ happens with the natural numbers.
 \label{def:injective}
 A map $f \colon A \to B$ is
 \begin{itemize}
-  \item \emph{injective} if different inputs have different values: $\forall a, a'
-    \in A\; (f(a) = f(a') \Rightarrow a = a')$;
-  \item \emph{surjective} if every element of $B$ is a value: $\forall b \in B\;
-    \exists a \in A\; f(a) = b$, i.e.\ $f[A] = B$;
-  \item \emph{bijective} if it is both. Then every $b \in B$ is the value of
-    exactly one $a \in A$.
+  \item \emph{injective} if different elements have different values: $\forall x,
+    x' \in A\; \forall y \in B\; (x \via{f} y \land x' \via{f} y \Rightarrow x =
+    x')$;
+  \item \emph{surjective} if every element of $B$ is a value: $\forall y \in B\;
+    \exists x \in A\; x \via{f} y$, that is, $f[A] = B$;
+  \item \emph{bijective} if it is both. Then every $y \in B$ is the value of
+    exactly one $x \in A$.
 \end{itemize}
 \end{definition}
 
 \section{Composition and inverses}
 
-\begin{theorem}[Composition]
-\label{thm:composition}
-For maps $f \colon A \to B$ and $g \colon B \to C$ there is a unique map $g \circ
-f \colon A \to C$ with
+\begin{definition}[Composition]
+\label{def:composition}
+For a relation $R$ from $A$ to $B$ and a relation $S$ from $B$ to $C$, the
+\emph{composition} is the relation from $A$ to $C$
 \[
-  (g \circ f)(a) = g(f(a)) \quad \text{for all } a \in A.
+  S \circ R \coloneqq \setof{(x, z) \in A \times C}{\exists y \in B\; (x \mathrel{R}
+  y \land y \mathrel{S} z)}.
+\]
+\register{maps}{$S \circ R$}{composition: first $R$, then $S$}
+\end{definition}
+
+\begin{theorem}[Composition of maps]
+\label{thm:composition}
+For maps $f \colon A \to B$ and $g \colon B \to C$, the composition $g \circ f$ is
+a map $A \to C$, and
+\[
+  x \via{f} y \;\land\; y \via{g} z \;\Rightarrow\; x \via{g \circ f} z.
 \]
 \end{theorem}
 
 \begin{proof}
-Apply \cref{thm:map-rule} to the predicate $P(a, c) \defiff c = g(f(a))$.
+Let $x \in A$, let $y$ be the value of $f$ at $x$, and $z$ the value of $g$ at
+$y$. Then $x \mathrel{(g \circ f)} z$ by definition. If also $x \mathrel{(g \circ
+f)} z'$, there is $y'$ with $x \via{f} y'$ and $y' \via{g} z'$. Then $y' = y$,
+since $f$ has one value at $x$, and then $z' = z$, since $g$ has one value at $y$.
 \end{proof}
+
+\begin{definition}[Chains]
+\label{def:chain}
+A chain $x \via{f} y \via{g} z$ abbreviates $x \via{f} y \land y \via{g} z$, and
+likewise for longer chains.
+\register{maps}{$x \via{f} y \via{g} z$}{$x \via{f} y$ and $y \via{g} z$}
+\end{definition}
 
 \begin{theorem}
 \label{thm:composition-laws}
@@ -126,13 +173,16 @@ For $f \colon A \to B$, $g \colon B \to C$ and $h \colon C \to D$:
 \end{theorem}
 
 \begin{proof}
-(1) and (2): both sides have the same value at every $a$, namely $h(g(f(a)))$
-and $f(a)$ respectively. Use \cref{thm:map-equality}.
+(1) Both sides send $x$ to $w$ exactly when there are $y, z$ with $x \via{f} y$, $y
+\via{g} z$ and $z \via{h} w$. Use \cref{thm:map-equality}.
 
-(3) Injective: if $g(f(a)) = g(f(a'))$, then $f(a) = f(a')$ because $g$ is
-injective, and then $a = a'$ because $f$ is injective. Surjective: for $c \in C$
-pick $b \in B$ with $g(b) = c$, then $a \in A$ with $f(a) = b$. Then $(g \circ
-f)(a) = c$. Bijective: combine both.
+(2) $x \via{\id_A} x \via{f} y$ and $x \via{f} y \via{\id_B} y$, so all three maps
+send $x$ to the value of $f$ at $x$.
+
+(3) Injective: let $x \via{f} y \via{g} z$ and $x' \via{f} y' \via{g} z$. Then $y =
+y'$ because $g$ is injective, and then $x = x'$ because $f$ is injective.
+Surjective: for $z \in C$ pick $y \in B$ with $y \via{g} z$, then $x \in A$ with $x
+\via{f} y$. Then $x \via{g \circ f} z$. Bijective: combine both.
 \end{proof}
 
 \begin{theorem}[Inverse map]
@@ -142,26 +192,33 @@ A map $f \colon A \to B$ is bijective if and only if there is a map $g \colon B
 \[
   g \circ f = \id_A \quad\text{and}\quad f \circ g = \id_B.
 \]
-In that case $g$ is unique. It is called the \emph{inverse} $f^{-1}$, and it equals
-the inverse relation of $f$ (\cref{def:relation}). It is also bijective, with
-$(f^{-1})^{-1} = f$.
+In that case $g$ is unique and equals the inverse relation $f^{-1}$
+(\cref{def:relation}), which is therefore a map, the \emph{inverse} of $f$:
+\[
+  y \via{f^{-1}} x \;\Leftrightarrow\; x \via{f} y.
+\]
 \end{theorem}
 
 \begin{proof}
-($\Rightarrow$) Since $f$ is bijective, every $b \in B$ is $f(a)$ for exactly one
-$a \in A$. So by \cref{thm:map-rule} there is a map $g \colon B \to A$ with $f(g(b))
-= b$, and its graph is $\setof{(b, a)}{f(a) = b}$, the inverse relation. For $a \in
-A$, $g(f(a))$ is the unique $a'$ with $f(a') = f(a)$, and that is $a$ itself.
+($\Rightarrow$) Since $f$ is bijective, every $y \in B$ is the value of exactly one
+$x \in A$, so the inverse relation $f^{-1}$ is a map $B \to A$. If $x \via{f} y
+\via{f^{-1}} x'$, then $x' \via{f} y$, so $x' = x$ by injectivity: $f^{-1} \circ f$
+sends every $x$ to $x$. If $y \via{f^{-1}} x \via{f} y'$, then $x \via{f} y$, so $y'
+= y$: $f \circ f^{-1}$ sends every $y$ to $y$. By \cref{thm:map-equality}, $g
+\coloneqq f^{-1}$ works.
 
-($\Leftarrow$) Injective: $f(a) = f(a')$ gives $a = g(f(a)) = g(f(a')) = a'$.
-Surjective: $b = f(g(b))$.
+($\Leftarrow$) Injective: let $x \via{f} y$ and $x' \via{f} y$, and let $z$ be the
+value of $g$ at $y$. Then $x \via{g \circ f} z$ and $x' \via{g \circ f} z$
+(\cref{thm:composition}). Since $g \circ f = \id_A$, $z = x$ and $z = x'$.
+Surjective: let $y \in B$. Since $f \circ g = \id_B$, $y \via{f \circ g} y$, so
+there is $x$ with $y \via{g} x \via{f} y$.
 
 Uniqueness: if $g'$ also works, then by \cref{thm:composition-laws}
 \[
   g' = g' \circ \id_B = g' \circ (f \circ g) = (g' \circ f) \circ g = \id_A \circ
   g = g.
 \]
-The last claim holds because the defining equations are symmetric in $f$ and $g$.
+Since $f^{-1}$ works, every such $g$ equals $f^{-1}$.
 \end{proof}
 
 \section{Maps on quotient sets}
@@ -174,45 +231,48 @@ and then moved to classes. The following theorem makes that precise.
 Let $\sim$ be an equivalence relation on $A$ and $f \colon A \to B$ a map that
 respects $\sim$:
 \[
-  a \sim a' \;\Rightarrow\; f(a) = f(a').
+  a \sim a' \land a \via{f} b \land a' \via{f} b' \;\Rightarrow\; b = b'.
 \]
-Then there is exactly one map $\bar f \colon A/{\sim} \to B$ with $\bar f([a]) =
-f(a)$ for all $a \in A$.
+Then there is exactly one map $\bar f \colon A/{\sim} \to B$ with
+\[
+  a \via{f} b \;\Rightarrow\; [a] \via{\bar f} b \qquad \text{for all } a \in A,\;
+  b \in B.
+\]
 \end{theorem}
 
 \begin{proof}
-For a class $C \in A/{\sim}$ we need exactly one $b$ with $b = f(a)$ for some $a
+For a class $C \in A/{\sim}$ we need exactly one $b$ with $a \via{f} b$ for some $a
 \in C$. There is at least one, because $C$ is nonempty (\cref{thm:partition}).
 There is at most one: if $a, a' \in C$, then $a \sim a'$ (\cref{lem:classes}), so
-$f(a) = f(a')$. Now apply \cref{thm:map-rule}. Uniqueness follows from
+their values agree. Now apply \cref{thm:map-rule}. Uniqueness follows from
 \cref{thm:map-equality}, because every class is of the form $[a]$.
 \end{proof}
 
 The hypothesis \enquote{$f$ respects $\sim$} is exactly the statement that $\bar
 f$ is well-defined (\cref{def:well-defined}).
 
-\section{Operations and families}
+\section{Operations}
 
-\begin{definition}[Binary operation]
+\begin{definition}[Operation]
 \label{def:operation}
-A \emph{binary operation} on a set $A$ is a map $\ast \colon A \times A \to A$. We
-write $a \ast b$ for $\ast((a, b))$. It is \emph{associative} if $(a \ast b) \ast c
-= a \ast (b \ast c)$ for all $a, b, c$, and \emph{commutative} if $a \ast b = b
-\ast a$ for all $a, b$. An element $e \in A$ is \emph{neutral} for $\ast$ if $e
-\ast a = a = a \ast e$ for all $a$.
+A \emph{binary operation} on a set $A$ is a map $\ast \colon A \times A \to A$
+that has been given a symbol of its own. Its value is written as a term
+(\cref{rule:operations}): $a \ast b$ denotes the value of $\ast$ at $(a, b)$, so
+\[
+  (a, b) \via{\ast} c \;\Leftrightarrow\; a \ast b = c.
+\]
+Likewise a \emph{unary operation} is a map $A \to A$ with a symbol of its own,
+whose value at $a$ is written with that symbol, as in $-a$. An operation $\ast$ is
+\emph{associative} if $(a \ast b) \ast c = a \ast (b \ast c)$ for all $a, b, c$,
+and \emph{commutative} if $a \ast b = b \ast a$ for all $a, b$. An element $e \in
+A$ is \emph{neutral} for $\ast$ if $e \ast a = a = a \ast e$ for all $a$.
+\register{maps}{$a \ast b$}{value of the binary operation $\ast$ at $(a, b)$;
+operations are the only maps whose values are terms}
 \end{definition}
 
-A neutral element is unique when it exists: if $e$ and $e'$ are both neutral,
-then $e = e \ast e' = e'$.
-
-\begin{definition}[Families and sequences]
-\label{def:family}
-A \emph{family} of elements of $X$ indexed by $I$ is a map $x \colon I \to X$,
-written $(x_i)_{i \in I}$ with $x_i \coloneqq x(i)$. When $I$ is the set of
-natural numbers (\cref{ch:naturals}) it is called a \emph{sequence}.
-\end{definition}
-
-Sequences are the starting point of analysis.
+Constructions that apply to all sets, such as $\cup$ and $\circ$, are written in the
+same way. A neutral element is unique when it exists: if $e$ and $e'$ are both
+neutral, then $e = e \ast e' = e'$.
 
 \begin{exercises}
   \item Let $f \colon A \to B$ and $X, X' \subseteq A$. Show $f[X \cup X'] = f[X]
@@ -221,6 +281,6 @@ Sequences are the starting point of analysis.
   \item Show that preimages preserve everything: $f^{-1}[Y \cap Y'] = f^{-1}[Y]
     \cap f^{-1}[Y']$, and the same for $\cup$ and $\setminus$.
   \item If $g \circ f$ is injective, must $f$ be injective? Must $g$ be?
-  \item Show: for $A \neq \varnothing$, $f \colon A \to B$ is injective iff there
-    is a $g \colon B \to A$ with $g \circ f = \id_A$.
+  \item Show: for $A \neq \varnothing$, $f \colon A \to B$ is injective if and only
+    if there is a $g \colon B \to A$ with $g \circ f = \id_A$.
 \end{exercises}

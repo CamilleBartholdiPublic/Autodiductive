@@ -1,0 +1,97 @@
+\chapter*{Rules of notation}
+\addcontentsline{toc}{chapter}{Rules of notation}
+\markboth{Rules of notation}{Rules of notation}
+\label{rules}
+
+Mathematics grew in many places at once, and the same thing ended up with many
+notations. A map's value is written $f(x)$, $fx$, $f_x$ or $x^f$, depending on the
+field and the century. Order is written with $\le$ and with $\ge$. Products are
+written with a dot, a cross, or nothing at all. Each tradition reads easily to
+its own members and is a barrier to everyone else.
+
+This book uses \emph{one notation for one thing}. The rules below hold
+throughout, in both parts. Every notation is introduced once, in a numbered
+definition, and is then listed in the \hyperref[register]{Register} at the end of
+the book, grouped by the mathematical model it belongs to.
+
+\begin{notationrule}[One notation]
+\label{rule:one}
+Every object, relation and operation has exactly one notation, and every
+notation has exactly one meaning. A notation is introduced in the numbered
+definition where its meaning is defined, and is recorded in the register.
+\end{notationrule}
+
+\begin{notationrule}[Abbreviations replace]
+\label{rule:abbreviation}
+When a short notation is introduced for a longer expression, the short one is
+used from then on and the long one is not used again. Example: once $x \notin A$
+is defined to mean $\lnot (x \in A)$, the second form does not appear again.
+\end{notationrule}
+
+\begin{notationrule}[Maps]
+\label{rule:maps}
+For a map $f$, the statement \enquote{$f$ sends $x$ to $y$} is written
+\[
+  x \via{f} y.
+\]
+This is the only way values of maps appear. The value of a map is never written
+as a term: there is no $f(x)$, $fx$ or $f_x$. A map is defined by saying what it
+sends each element to: \enquote{the map $f \colon A \to B$ with $x \via{f} t$ for
+all $x \in A$}. Sequences and families are maps, so the same rule applies to them
+(\cref{def:map}).
+\end{notationrule}
+
+\begin{notationrule}[Operations]
+\label{rule:operations}
+An \emph{operation} is a map that has been given a symbol of its own: $+$,
+$\cdot$, $\cup$, $\circ$, and so on. Its value \emph{is} written as a term. A
+binary operation is written between its two arguments, as in $a + b$, and an
+operation of one argument by its symbol, as in $-a$ or $a^{-1}$
+(\cref{def:operation}). Products are always written with $\cdot$, never by
+putting letters side by side.
+\end{notationrule}
+
+\begin{notationrule}[Relations]
+\label{rule:relations}
+A relation is written between the two things it relates: $x \in A$, $x \le y$,
+$x \sim y$, $x \mathrel{R} y$ (\cref{def:relation}). Each relation has one symbol.
+In particular there is no $\ge$ and no $>$: $y \ge x$ is written $x \le y$.
+\end{notationrule}
+
+\begin{notationrule}[Brackets]
+\label{rule:brackets}
+Round brackets $(\;)$ group, and form ordered pairs $(a, b)$
+(\cref{def:pair}). Curly brackets $\set{\;}$ form sets. Square brackets $[\;]$
+form equivalence classes and images. Brackets never stand for applying a map.
+\end{notationrule}
+
+\begin{notationrule}[Predicates]
+\label{rule:predicates}
+$P(x)$ stands for a statement in which the variable $x$ occurs
+(\cref{def:predicate}). It is a statement, not a map applied to $x$. Apart from
+predicates, round brackets after a symbol only group, as in $\Pow (A \cup B)$.
+\end{notationrule}
+
+\begin{notationrule}[Identification]
+\label{rule:identification}
+When a structure is copied into a larger one by an injective map that preserves
+all of its notation, the copy is identified with the original, and the same
+symbols are used for both. This happens for $\N \subseteq \Z \subseteq \Q$
+(\cref{thm:integers-embedding,thm:rationals-embedding}). Likewise, when a new
+kind of object is built from an old one, it gets a name of its own: the number $0$
+is the empty set $\varnothing$, regarded as a number (\cref{def:naturals}). The
+register marks every identification.
+\end{notationrule}
+
+\begin{notationrule}[Subscripts]
+\label{rule:subscripts}
+Subscripts only tell apart objects that have different names, such as $x_1$ and
+$x_2$, or attach a fixed set to a notation, as in $\id_A$. A subscript never
+stands for the value of a map.
+\end{notationrule}
+
+\begin{notationrule}[Prose]
+\label{rule:prose}
+In prose, statements are said in words (\enquote{if and only if}, \enquote{for
+all}). Symbols are kept for formulas.
+\end{notationrule}

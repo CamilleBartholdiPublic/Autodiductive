@@ -30,34 +30,44 @@ $\sim$ is an equivalence relation.
 Reflexive: $a + b = a + b$. Symmetric: $a + d = c + b \Rightarrow c + b = a + d$.
 Transitive: let $a + d = c + b$ and $c + f = e + d$. Adding the equations and
 rearranging (\cref{thm:addition-laws}) gives $(a + f) + (c + d) = (e + b) + (c +
-d)$. Cancelling $c + d$ (\cref{thm:addition-laws}(5)) gives $a + f = e + b$, i.e.\
+d)$. Cancelling $c + d$ (\cref{thm:addition-laws}(5)) gives $a + f = e + b$, so
 $(a, b) \sim (e, f)$.
 \end{proof}
 
 \begin{definition}[Integers]
 \label{def:integers}
-$\Z \coloneqq (\N \times \N)/{\sim}$. Its elements are the \emph{integers}. We
-write $[a, b]$ for the class of $(a, b)$; think of it as \enquote{$a - b$}.
+$\Z \coloneqq (\N \times \N)/{\sim}$. Its elements are the \emph{integers}. The
+class of $(a, b)$ is $[(a, b)]$; think of it as \enquote{$a - b$}.
+\register{integers}{$\Z$}{the set of integers}
+\register{integers}{$[(a, b)]$}{the integer \enquote{$a - b$}; replaced by $a - b$
+after \cref{thm:integers-embedding}}
 \end{definition}
 
-By \cref{lem:classes}, $[a, b] = [c, d] \Leftrightarrow a + d = c + b$.
+By \cref{lem:classes}, $[(a, b)] = [(c, d)] \Leftrightarrow a + d = c + b$.
 
 \section{Arithmetic}
 
 The definitions below come from asking what $(a - b) + (c - d)$, $-(a - b)$ and
-$(a - b)(c - d)$ \emph{would} be, and writing the answer as a difference without
-using subtraction.
+$(a - b) \cdot (c - d)$ \emph{would} be, and writing the answer as a difference
+without using subtraction.
 
 \begin{definition}[Operations on $\Z$]
 \label{def:integer-operations}
-For integers $[a, b]$ and $[c, d]$:
 \begin{align*}
-  [a, b] + [c, d] &\coloneqq [a + c,\; b + d], \\
-  -[a, b] &\coloneqq [b, a], \\
-  [a, b] \cdot [c, d] &\coloneqq [ac + bd,\; ad + bc].
+  [(a, b)] + [(c, d)] &\coloneqq [(a + c,\; b + d)], \\
+  -[(a, b)] &\coloneqq [(b, a)], \\
+  [(a, b)] \cdot [(c, d)] &\coloneqq [(a \cdot c + b \cdot d,\; a \cdot d + b \cdot
+  c)],
 \end{align*}
-We also define $0 \coloneqq [0, 0]$, $1 \coloneqq [1, 0]$, and \emph{subtraction}
-$x - y \coloneqq x + (-y)$.
+with $0 \coloneqq [(0, 0)]$ and $1 \coloneqq [(1, 0)]$. \emph{Subtraction} is $x -
+y \coloneqq x + (-y)$. The symbols $+$, $\cdot$, $0$ and $1$ are the same as in
+$\N$; \cref{thm:integers-embedding} shows this is consistent
+(\cref{rule:identification}).
+\register{integers}{$x + y$, $x \cdot y$}{sum and product of integers (extend
+those of $\N$)}
+\register{integers}{$-x$}{the negative of $x$}
+\register{integers}{$0$, $1$}{$[(0, 0)]$ and $[(1, 0)]$ (identified with
+$0, 1 \in \N$)}
 \end{definition}
 
 These use representatives, so they are only valid definitions once they're shown
@@ -70,8 +80,8 @@ of representatives.
 \end{lemma}
 
 \begin{proof}
-Let $(a, b) \sim (a', b')$, i.e.\ $a + b' = a' + b$, and $(c, d) \sim (c', d')$,
-i.e.\ $c + d' = c' + d$.
+Let $(a, b) \sim (a', b')$, so $a + b' = a' + b$, and $(c, d) \sim (c', d')$, so $c
++ d' = c' + d$.
 
 \emph{Addition.} We need $(a + c) + (b' + d') = (a' + c') + (b + d)$. That is the
 sum of the two hypotheses, rearranged.
@@ -79,32 +89,38 @@ sum of the two hypotheses, rearranged.
 \emph{Negation.} We need $b + a' = b' + a$. That is the first hypothesis, read
 backwards.
 
-\emph{Multiplication.} First change only the first factor. We need $(ac + bd) +
-(a'd + b'c) = (a'c + b'd) + (ad + bc)$. By \cref{thm:addition-laws,%
-thm:multiplication-laws}, the left side is $(a + b')c + (b + a')d$ and the right
-side is $(a' + b)c + (b' + a)d$. These are equal because $a + b' = a' + b$. The
-formula is symmetric in the two pairs ($ca + db = ac + bd$ and $cb + da = ad +
-bc$), so the same argument covers changing the second factor. Changing both is one
-change after the other.
+\emph{Multiplication.} First change only the first factor. We need
+\[
+  (a \cdot c + b \cdot d) + (a' \cdot d + b' \cdot c) = (a' \cdot c + b' \cdot d) +
+  (a \cdot d + b \cdot c).
+\]
+By \cref{thm:addition-laws,thm:multiplication-laws}, the left side is $(a + b')
+\cdot c + (b + a') \cdot d$ and the right side is $(a' + b) \cdot c + (b' + a)
+\cdot d$. These are equal because $a + b' = a' + b$. The formula is symmetric in
+the two pairs, so the same argument covers changing the second factor. Changing
+both is one change after the other.
 \end{proof}
 
 \begin{definition}[Commutative ring]
 \label{def:ring}
-A \emph{commutative ring} is a set $R$ with two binary operations $+$ and $\cdot$
-and two elements $0, 1 \in R$ such that for all $x, y, z \in R$:
+A \emph{commutative ring} is a set $R$ with two binary operations $+$ and $\cdot$,
+a unary operation $-$, and two elements $0, 1 \in R$ such that for all $x, y, z
+\in R$:
 \begin{center}
 \begin{tabular}{@{}lll@{}}
   \toprule
   & Addition & Multiplication \\
   \midrule
-  Associative & $(x + y) + z = x + (y + z)$ & $(xy)z = x(yz)$ \\
-  Commutative & $x + y = y + x$ & $xy = yx$ \\
+  Associative & $(x + y) + z = x + (y + z)$ & $(x \cdot y) \cdot z = x \cdot (y \cdot z)$ \\
+  Commutative & $x + y = y + x$ & $x \cdot y = y \cdot x$ \\
   Neutral element & $x + 0 = x$ & $x \cdot 1 = x$ \\
-  Inverse & each $x$ has $-x$ with $x + (-x) = 0$ & (not required) \\
-  Distributive & \multicolumn{2}{l}{$x(y + z) = xy + xz$} \\
+  Inverse & $x + (-x) = 0$ & (not required) \\
+  Distributive & \multicolumn{2}{l}{$x \cdot (y + z) = x \cdot y + x \cdot z$} \\
   \bottomrule
 \end{tabular}
 \end{center}
+Subtraction is $x - y \coloneqq x + (-y)$.
+\register{rings}{$(R, +, \cdot, -, 0, 1)$}{a commutative ring}
 \end{definition}
 
 $\N$ is not a commutative ring, since additive inverses are missing.
@@ -116,34 +132,32 @@ and $0 \neq 1$.
 \end{theorem}
 
 \begin{proof}
-Write $x = [a, b]$, $y = [c, d]$, $z = [e, f]$. Every law reduces to laws of $\N$
-(\cref{thm:addition-laws,thm:multiplication-laws}) applied to the components.
+Write $x = [(a, b)]$, $y = [(c, d)]$ and $z = [(e, f)]$. Every law reduces to laws
+of $\N$ (\cref{thm:addition-laws,thm:multiplication-laws}) applied to the
+components.
 
 \emph{Addition} is associative and commutative because it is componentwise. $x + 0
-= [a + 0, b + 0] = x$. $x + (-x) = [a + b, b + a] = [0, 0]$, since $(a + b) + 0 = 0
-+ (b + a)$.
+= [(a + 0, b + 0)] = x$. $x + (-x) = [(a + b, b + a)] = [(0, 0)]$, since $(a + b) +
+0 = 0 + (b + a)$.
 
-\emph{Multiplication.} Commutative: shown in the proof of
-\cref{lem:integer-well-defined}. Neutral: $x \cdot 1 = [a \cdot 1 + b \cdot 0,\; a
-\cdot 0 + b \cdot 1] = [a, b]$. Associative: expanding both sides with
-distributivity in $\N$,
-\begin{align*}
-  (xy)z &= [ac + bd,\; ad + bc] \cdot [e, f]
-    = [ace + bde + adf + bcf,\; acf + bdf + ade + bce], \\
-  x(yz) &= [a, b] \cdot [ce + df,\; cf + de]
-    = [ace + adf + bcf + bde,\; acf + ade + bce + bdf].
-\end{align*}
-The components agree term by term.
+\emph{Multiplication.} Commutative: the formula is symmetric in the two pairs.
+Neutral: $x \cdot 1 = [(a \cdot 1 + b \cdot 0,\; a \cdot 0 + b \cdot 1)] = [(a,
+b)]$. Associative: expanding with distributivity in $\N$, $(x \cdot y) \cdot z$ and
+$x \cdot (y \cdot z)$ both equal
+\[
+  [(a \cdot c \cdot e + a \cdot d \cdot f + b \cdot c \cdot f + b \cdot d \cdot
+  e,\; a \cdot c \cdot f + a \cdot d \cdot e + b \cdot c \cdot e + b \cdot d \cdot
+  f)].
+\]
 
-\emph{Distributivity:}
-\begin{align*}
-  x(y + z) &= [a, b] \cdot [c + e,\; d + f] = [ac + ae + bd + bf,\; ad + af + bc + be], \\
-  xy + xz &= [ac + bd,\; ad + bc] + [ae + bf,\; af + be],
-\end{align*}
-which has the same components.
+\emph{Distributivity.} Both $x \cdot (y + z)$ and $x \cdot y + x \cdot z$ equal
+\[
+  [(a \cdot c + a \cdot e + b \cdot d + b \cdot f,\; a \cdot d + a \cdot f + b
+  \cdot c + b \cdot e)].
+\]
 
-$0 \neq 1$: $[0, 0] = [1, 0]$ would mean $0 + 0 = 1 + 0$, i.e.\ $0 = S(0)$, against
-\cref{thm:peano}(3).
+$0 \neq 1$: $[(0, 0)] = [(1, 0)]$ would mean $0 + 0 = 1 + 0$, so $0 = 0 + 1$,
+against \cref{thm:peano}(3).
 \end{proof}
 
 \begin{lemma}[Consequences of the ring laws]
@@ -152,7 +166,7 @@ In every commutative ring:
 \begin{enumerate}
   \item the additive inverse is unique: if $x + y = 0$, then $y = -x$;
   \item $x \cdot 0 = 0$;
-  \item $(-x)y = -(xy)$ and $(-x)(-y) = xy$;
+  \item $(-x) \cdot y = -(x \cdot y)$ and $(-x) \cdot (-y) = x \cdot y$;
   \item $-(-x) = x$ and $-(x + y) = (-x) + (-y)$;
   \item $x + z = y + z \Rightarrow x = y$.
 \end{enumerate}
@@ -161,14 +175,15 @@ In every commutative ring:
 \begin{proof}
 (1) $y = y + (x + (-x)) = (y + x) + (-x) = 0 + (-x) = -x$.
 
-(2) $x \cdot 0 = x(0 + 0) = x \cdot 0 + x \cdot 0$. Adding $-(x \cdot 0)$ to both
-sides gives $0 = x \cdot 0$.
+(2) $x \cdot 0 = x \cdot (0 + 0) = x \cdot 0 + x \cdot 0$. Adding $-(x \cdot 0)$
+to both sides gives $0 = x \cdot 0$.
 
 (4) $(-x) + x = 0$, so $x = -(-x)$ by (1). And $(x + y) + ((-x) + (-y)) = 0$, so
 (1) applies again.
 
-(3) $(-x)y + xy = ((-x) + x)y = 0 \cdot y = 0$, so $(-x)y = -(xy)$ by (1). Then
-$(-x)(-y) = -(x(-y)) = -(-(xy)) = xy$ by (4).
+(3) $(-x) \cdot y + x \cdot y = ((-x) + x) \cdot y = 0 \cdot y = 0$, so $(-x) \cdot
+y = -(x \cdot y)$ by (1). Then $(-x) \cdot (-y) = -(x \cdot (-y)) = -(-(x \cdot
+y)) = x \cdot y$ by (4).
 
 (5) Add $-z$ to both sides.
 \end{proof}
@@ -181,27 +196,30 @@ later for $\R$, the complex numbers and rings of matrices. Proving things
 
 \begin{theorem}[Embedding]
 \label{thm:integers-embedding}
-The map $\iota \colon \N \to \Z$, $n \mapsto [n, 0]$, is injective and satisfies
+Let $\iota \colon \N \to \Z$ be the map with $n \via{\iota} [(n, 0)]$. Then $\iota$
+is injective, $0 \via{\iota} 0$, $1 \via{\iota} 1$, and for all $m, n \in \N$ and
+$x, y \in \Z$:
 \[
-  \iota(m + n) = \iota(m) + \iota(n), \qquad \iota(mn) = \iota(m)\,\iota(n), \qquad
-  \iota(0) = 0, \qquad \iota(1) = 1.
+  m \via{\iota} x \land n \via{\iota} y \;\Rightarrow\; m + n \via{\iota} x + y
+  \;\land\; m \cdot n \via{\iota} x \cdot y \;\land\; [(m, n)] = x - y.
 \]
-Moreover, every integer is a difference of embedded natural numbers: $[a, b] =
-\iota(a) - \iota(b)$.
 \end{theorem}
 
 \begin{proof}
-Injective: $[m, 0] = [n, 0]$ means $m + 0 = n + 0$. Next, $[m, 0] + [n, 0] = [m + n,
-0]$ and $[m, 0] \cdot [n, 0] = [mn + 0, m \cdot 0 + 0 \cdot n] = [mn, 0]$. Finally
-$\iota(a) - \iota(b) = [a, 0] + [0, b] = [a, b]$.
+Injective: $[(m, 0)] = [(n, 0)]$ means $m + 0 = n + 0$. Next, $[(m, 0)] + [(n, 0)]
+= [(m + n, 0)]$ and $[(m, 0)] \cdot [(n, 0)] = [(m \cdot n + 0,\; m \cdot 0 + 0
+\cdot n)] = [(m \cdot n, 0)]$. Finally $[(m, 0)] - [(n, 0)] = [(m, 0)] + [(0, n)]
+= [(m, n)]$.
 \end{proof}
 
-So $\iota$ copies $\N$, with its arithmetic, into $\Z$. \emph{From now on we
-identify $n$ with $\iota(n)$} and treat $\N$ as a subset of $\Z$. Strictly
-speaking, the set $2 = \set{0, 1}$ and the class $[2, 0]$ are different sets.
-Nothing we do depends on which one we use, because $\iota$ preserves all the
-structure. Under this identification the construction says what we wanted: the
-class $[a, b]$ \emph{is} $a - b$.
+So $\iota$ copies $\N$, with its arithmetic, into $\Z$. By
+\cref{rule:identification} \emph{we identify every $n \in \N$ with the integer
+$[(n, 0)]$} and treat $\N$ as a subset of $\Z$. Strictly speaking, the set $2 =
+\set{0, 1}$ and the class $[(2, 0)]$ are different sets, but nothing we do depends
+on that, because $\iota$ preserves all the structure. Under the identification
+the construction says what we wanted: $[(a, b)] = a - b$. By
+\cref{rule:abbreviation}, from now on integers are written with $-$ and the class
+notation is not used again.
 
 \begin{corollary}[Normal form]
 \label{cor:integer-normal-form}
@@ -214,11 +232,12 @@ and $n$ is unique.
 \end{corollary}
 
 \begin{proof}
-Let $x = [a, b]$. If $b \le a$, then $a = b + d$ (\cref{thm:order-arithmetic}(1)),
-and $[a, b] = [d, 0] = d$, since $a + 0 = d + b$. If $a < b$, then $b = a + d$ with
-$d \neq 0$, and $[a, b] = [0, d] = -d$, since $a + d = 0 + b$. The cases are
-exclusive and $n$ is unique: $[n, 0] = [m, 0]$ gives $n = m$, and $[n, 0] = [0, m]$
-gives $n + m = 0$, so $n = m = 0$ (\cref{thm:addition-laws}(6)).
+Write $x = a - b$ with $a, b \in \N$. If $b \le a$, then $a = b + d$ for some $d \in
+\N$ (\cref{thm:order-arithmetic}(1)), and $x = (b + d) - b = d$. If $a < b$, then
+$b = a + d$ with $d \neq 0$, and $x = a - (a + d) = -d$. The cases are exclusive
+and $n$ is unique: $n = m$ in $\Z$ gives $n = m$ in $\N$ because $\iota$ is
+injective, and $n = -m$ gives $n + m = 0$, so $n = m = 0$
+(\cref{thm:addition-laws}(6)).
 \end{proof}
 
 \section{No zero divisors}
@@ -227,33 +246,32 @@ gives $n + m = 0$, so $n = m = 0$ (\cref{thm:addition-laws}(6)).
 \label{thm:integral-domain}
 For $x, y, z \in \Z$:
 \begin{enumerate}
-  \item $xy = 0 \Rightarrow x = 0 \lor y = 0$;
-  \item $xz = yz \land z \neq 0 \Rightarrow x = y$ (cancellation).
+  \item $x \cdot y = 0 \Rightarrow x = 0 \lor y = 0$;
+  \item $x \cdot z = y \cdot z \land z \neq 0 \Rightarrow x = y$ (cancellation).
 \end{enumerate}
 A commutative ring with $0 \neq 1$ and property (1) is called an \emph{integral
 domain}.
 \end{theorem}
 
 \begin{proof}
-(1) By \cref{cor:integer-normal-form}, $x = \pm m$ and $y = \pm n$ with $m, n \in
-\N$. By \cref{lem:ring-laws}(3) and \cref{thm:integers-embedding}, $xy = \pm mn$.
-If $xy = 0$, then $mn = 0$, because $-k = 0$ only for $k = 0$. So $m = 0$ or $n =
-0$ (\cref{thm:multiplication-laws}(7)).
+(1) By \cref{cor:integer-normal-form}, $x$ is $m$ or $-m$ and $y$ is $n$ or $-n$
+for some $m, n \in \N$. By \cref{lem:ring-laws}(3), $x \cdot y$ is $m \cdot n$ or
+$-(m \cdot n)$. If $x \cdot y = 0$, then $m \cdot n = 0$, because $-k = 0$ only for
+$k = 0$. So $m = 0$ or $n = 0$ (\cref{thm:multiplication-laws}(7)).
 
-(2) $(x - y)z = xz - yz = 0$ by distributivity and \cref{lem:ring-laws}(3). Since
-$z \neq 0$, (1) gives $x - y = 0$, so $x = y$.
+(2) $(x - y) \cdot z = x \cdot z - y \cdot z = 0$ by distributivity and
+\cref{lem:ring-laws}(3). Since $z \neq 0$, (1) gives $x - y = 0$, so $x = y$.
 \end{proof}
 
 \section{Order}
 
 \begin{definition}[Order on $\Z$]
 \label{def:integer-order}
-$x \le y \defiff y - x \in \N$. An integer $x$ is \emph{positive} if $x > 0$ and
+$x \le y \defiff y - x \in \N$. An integer $x$ is \emph{positive} if $0 < x$ and
 \emph{negative} if $x < 0$.
+\register{integers}{$x \le y$, $x < y$}{order of integers: $y - x \in \N$
+(extends the order of $\N$)}
 \end{definition}
-
-In representatives, $[a, b] \le [c, d] \Leftrightarrow a + d \le c + b$
-(Exercise~\ref{ex:integer-order}).
 
 \begin{theorem}[$\Z$ is an ordered ring]
 \label{thm:integers-ordered}
@@ -261,7 +279,7 @@ In representatives, $[a, b] \le [c, d] \Leftrightarrow a + d \le c + b$
 \begin{enumerate}
   \item $\le$ is a total order on $\Z$;
   \item $x \le y \Rightarrow x + z \le y + z$;
-  \item $0 \le x \land 0 \le y \Rightarrow 0 \le xy$;
+  \item $0 \le x \land 0 \le y \Rightarrow 0 \le x \cdot y$;
   \item on $\N$, this order agrees with the order of \cref{ch:naturals}.
 \end{enumerate}
 \end{theorem}
@@ -278,31 +296,32 @@ $y - x$ or $-(y - x) = x - y$ lies in $\N$.
 
 (2) $(y + z) - (x + z) = y - x$.
 
-(3) $xy \in \N$ when $x, y \in \N$.
+(3) $x \cdot y \in \N$ when $x, y \in \N$.
 
-(4) For $m, n \in \N$: $m \le n$ in $\N$ iff $n = m + d$ for some $d \in \N$
-(\cref{thm:order-arithmetic}(1)), iff $n - m \in \N$.
+(4) For $m, n \in \N$: $m \le n$ in $\N$ if and only if $n = m + d$ for some $d
+\in \N$ (\cref{thm:order-arithmetic}(1)), if and only if $n - m \in \N$.
 \end{proof}
 
 Familiar rules follow from \cref{thm:integers-ordered}: for example $x \le y
-\Leftrightarrow -y \le -x$, and $x \le y \land 0 \le z \Rightarrow xz \le yz$
-(Exercise~\ref{ex:integer-rules}).
+\Leftrightarrow -y \le -x$, and $x \le y \land 0 \le z \Rightarrow x \cdot z \le y
+\cdot z$ (Exercise~\ref{ex:integer-rules}).
 
 \section{What is still missing}
 
-In $\Z$ every equation $a + x = b$ has exactly one solution, $x = b - a$. But $2x =
-1$ has none: $2x$ is $0$ for $x = 0$, at least $2$ for $x > 0$, and negative for $x
-< 0$. \Cref{ch:rationals} adds the missing quotients.
+In $\Z$ every equation $a + x = b$ has exactly one solution, $x = b - a$. But $2
+\cdot x = 1$ has none: $2 \cdot x$ is $0$ for $x = 0$, at least $2$ for $0 < x$,
+and negative for $x < 0$. \Cref{ch:rationals} adds the missing quotients.
 
 \begin{exercises}
-  \item \label{ex:integer-order}
-    Show $[a, b] \le [c, d] \Leftrightarrow a + d \le c + b$.
-  \item Define $|x| \coloneqq x$ if $0 \le x$ and $|x| \coloneqq -x$ otherwise.
-    Prove $|xy| = |x|\,|y|$ and $|x + y| \le |x| + |y|$ (the \emph{triangle
-    inequality}).
+  \item Show that for $a, b, c, d \in \N$: $a - b \le c - d \Leftrightarrow a + d
+    \le c + b$.
+  \item Let $|\;|$ be the unary operation on $\Z$ with $|x| = x$ if $0 \le x$ and
+    $|x| = -x$ otherwise. Prove $|x \cdot y| = |x| \cdot |y|$ and $|x + y| \le |x| +
+    |y|$ (the \emph{triangle inequality}).
   \item \label{ex:integer-rules}
     Prove from \cref{thm:integers-ordered}: $x \le y \Rightarrow -y \le -x$; $x \le
-    y \land 0 \le z \Rightarrow xz \le yz$; $0 \le x^2$ for all $x$; $0 < 1$.
+    y \land 0 \le z \Rightarrow x \cdot z \le y \cdot z$; $0 \le x \cdot x$ for
+    all $x$; $0 < 1$.
   \item Why does the construction need \emph{ordered} pairs? Try using unordered
     pairs $\set{a, b}$ instead of $(a, b)$ and find where it breaks. (Compare
     \enquote{$3 - 5$} and \enquote{$5 - 3$}.)

@@ -14,6 +14,8 @@ important kinds of relations: \emph{equivalences} and \emph{orders}.
   (a, b) \coloneqq \set{\set{a}, \set{a, b}}.
 \]
 $a$ is the \emph{first component} and $b$ the \emph{second component}.
+\register{relations}{$(a, b)$}{ordered pair with first component $a$ and second
+component $b$}
 \end{definition}
 
 This exists by \cref{ax:pairing}. The definition is only useful because of the
@@ -50,8 +52,10 @@ $\set{\set{a}, \set{a, d}}$ (using $c = a$). It is not $\set{a}$, since $b \in
 Let $(a, b, c) \coloneqq ((a, b), c)$, and generally
 \[
   (a_1, \dots, a_{n+1}) \coloneqq ((a_1, \dots, a_n), a_{n+1}).
-\] Applying \cref{thm:pair} repeatedly, two
-tuples are equal iff their components are equal one by one.
+\]
+Applying \cref{thm:pair} repeatedly, two tuples are equal if and only if their
+components are equal one by one.
+\register{relations}{$(a, b, c)$, \dots}{tuple $((a, b), c)$, and so on}
 \end{definition}
 
 \section{Cartesian products}
@@ -65,42 +69,66 @@ b)$ with $a \in A$ and $b \in B$.
 \begin{proof}
 We need a set we already have that contains all such pairs, so that Separation
 can pick them out. Let $a \in A$ and $b \in B$. Then $\set{a} \subseteq A \cup B$
-and $\set{a, b} \subseteq A \cup B$, so both are elements of $\Pow(A \cup B)$.
-Hence $(a, b) \subseteq \Pow(A \cup B)$, i.e.\ $(a, b) \in \Pow(\Pow(A \cup B))$.
-Now let
+and $\set{a, b} \subseteq A \cup B$, so both are elements of $\Pow (A \cup B)$.
+Hence $(a, b) \subseteq \Pow (A \cup B)$, so $(a, b) \in \Pow \Pow (A \cup B)$. The
+set
 \[
-  A \times B \coloneqq \setof{p \in \Pow(\Pow(A \cup B))}{\exists a \in A\;
-  \exists b \in B\; p = (a, b)}.
+  \setof{p \in \Pow \Pow (A \cup B)}{\exists a \in A\; \exists b \in B\; p = (a,
+  b)}
 \]
-Uniqueness is by \cref{ax:extensionality}.
+has the required elements. Uniqueness is by \cref{ax:extensionality}.
 \end{proof}
 
 \begin{definition}[Cartesian product]
 \label{def:product}
 The set from \cref{thm:product-exists} is the \emph{Cartesian product} $A \times
-B$. We write $A^2 \coloneqq A \times A$.
+B$. For a predicate $P(x, y)$ we write
+\[
+  \setof{(x, y) \in A \times B}{P(x, y)} \coloneqq \setof{p \in A \times
+  B}{\exists x \in A\; \exists y \in B\; (p = (x, y) \land P(x, y))}.
+\]
+\register{relations}{$A \times B$}{the set of pairs $(a, b)$ with $a \in A$, $b
+\in B$}
+\register{relations}{$\setof{(x, y) \in A \times B}{P(x, y)}$}{the set of pairs
+in $A \times B$ satisfying $P$}
 \end{definition}
 
 \section{Relations}
 
 \begin{definition}[Relation]
 \label{def:relation}
-A \emph{relation from $A$ to $B$} is a subset $R \subseteq A \times B$. We write
-$x \mathrel{R} y$ for $(x, y) \in R$. A \emph{relation on $A$} is a relation from
-$A$ to $A$. Its \emph{domain} and \emph{range} are
+A \emph{relation from $A$ to $B$} is a subset $R \subseteq A \times B$. A
+\emph{relation on $A$} is a relation from $A$ to $A$. For $(x, y) \in R$ we write
 \[
-  \dom R \coloneqq \setof{x \in A}{\exists y\; x \mathrel{R} y}, \qquad
-  \ran R \coloneqq \setof{y \in B}{\exists x\; x \mathrel{R} y}.
+  x \mathrel{R} y,
 \]
-Its \emph{inverse} is $R^{-1} \coloneqq \setof{(y, x) \in B \times A}{x
-\mathrel{R} y}$, a relation from $B$ to $A$.
+and by \cref{rule:abbreviation} the form $(x, y) \in R$ is not used again. The
+\emph{domain}, \emph{range} and \emph{inverse} of $R$ are
+\begin{gather*}
+  \dom R \coloneqq \setof{x \in A}{\exists y \in B\; x \mathrel{R} y}, \qquad
+  \ran R \coloneqq \setof{y \in B}{\exists x \in A\; x \mathrel{R} y}, \\
+  R^{-1} \coloneqq \setof{(y, x) \in B \times A}{x \mathrel{R} y}.
+\end{gather*}
+So $R^{-1}$ is a relation from $B$ to $A$.
+\register{relations}{$x \mathrel{R} y$}{$x$ is related to $y$ by $R$, i.e.\ $(x, y)
+\in R$}
+\register{relations}{$\dom R$, $\ran R$}{domain and range of $R$}
+\register{relations}{$R^{-1}$}{inverse relation: $y \mathrel{R^{-1}} x
+\Leftrightarrow x \mathrel{R} y$}
 \end{definition}
 
-Examples of relations on a set $A$: the \emph{identity} $\id_A \coloneqq
-\setof{(x, x)}{x \in A}$, formally $\setof{p \in A^2}{\exists x \in A\; p = (x,
-x)}$; the empty relation $\varnothing$; the full relation $A^2$. On $\Pow(A)$
-there is the relation $\subseteq$, meaning the set $\setof{(X, Y) \in
-\Pow(A)^2}{X \subseteq Y}$.
+\begin{definition}[Identity relation]
+\label{def:identity}
+The \emph{identity} on $A$ is $\id_A \coloneqq \setof{(x, y) \in A \times A}{x =
+y}$.
+\register{relations}{$\id_A$}{identity on $A$: $x \mathrel{\id_A} y
+\Leftrightarrow x = y$}
+\end{definition}
+
+Other examples on a set $A$: the empty relation $\varnothing$ and the full
+relation $A \times A$. On $\Pow A$ the statement $X \subseteq Y$ is itself a
+relation, the set $\setof{(X, Y) \in \Pow A \times \Pow A}{X \subseteq Y}$, and
+\cref{rule:relations} lets $\subseteq$ name both.
 
 \begin{definition}[Properties of relations]
 \label{def:relation-properties}
@@ -133,9 +161,12 @@ of $a$ is
 \]
 The \emph{quotient set} is the set of all classes:
 \[
-  A/{\sim} \coloneqq \setof{C \in \Pow(A)}{\exists a \in A\; C = [a]}.
+  A/{\sim} \coloneqq \setof{C \in \Pow A}{\exists a \in A\; C = [a]}.
 \]
 Any $x \in C$ is a \emph{representative} of the class $C$.
+\register{relations}{$[a]$}{equivalence class of $a$ (the relation is fixed by
+the context)}
+\register{relations}{$A/{\sim}$}{set of equivalence classes of $\sim$}
 \end{definition}
 
 \begin{lemma}
@@ -175,9 +206,9 @@ every $x \in A$ lies in exactly one $C \in \Pi$.
 \begin{enumerate}
   \item If $\sim$ is an equivalence relation on $A$, then $A/{\sim}$ is a
     partition of $A$.
-  \item If $\Pi$ is a partition of $A$, then $x \sim_\Pi y \defiff \exists C \in
-    \Pi\; (x \in C \land y \in C)$ defines an equivalence relation on $A$ whose
-    classes are exactly the elements of $\Pi$.
+  \item If $\Pi$ is a partition of $A$, then the relation $\approx$ on $A$ given
+    by $x \approx y \defiff \exists C \in \Pi\; (x \in C \land y \in C)$ is an
+    equivalence relation whose classes are exactly the elements of $\Pi$.
 \end{enumerate}
 \end{theorem}
 
@@ -189,16 +220,17 @@ and $x \in [b]$, then $[a] = [b]$ by \cref{lem:classes}(3).
 (2) Reflexive: $x$ lies in some $C \in \Pi$. Symmetric: the definition is
 symmetric in $x, y$. Transitive: if $x, y \in C$ and $y, z \in C'$, then $y$ is in
 both $C$ and $C'$, so $C = C'$ by uniqueness, and $x, z \in C$. For the classes:
-let $C$ be the element of $\Pi$ containing $a$. Then $x \sim_\Pi a$ iff $x$ and
-$a$ share an element of $\Pi$, iff $x \in C$ (uniqueness again). So $[a] = C$,
-and every $C \in \Pi$ arises this way because $C \neq \varnothing$.
+let $C$ be the element of $\Pi$ containing $a$. Then $x \approx a$ if and only if
+$x$ and $a$ share an element of $\Pi$, if and only if $x \in C$ (uniqueness
+again). So $[a] = C$, and every $C \in \Pi$ arises this way because $C \neq
+\varnothing$.
 \end{proof}
 
 \begin{definition}[Well-defined]
 \label{def:well-defined}
 Often we define something on classes by using a representative: \enquote{for a
-class $C$, pick $a \in C$ and let $f(C) \coloneqq \dots a \dots$}. This is a valid
-definition only if the result is the same for \emph{every} choice of
+class $C$, pick $a \in C$ and let the result be \dots{} $a$ \dots}. This is a
+valid definition only if the result is the same for \emph{every} choice of
 representative. Proving that is called \emph{showing that the definition is
 well-defined}.
 \end{definition}
@@ -211,16 +243,18 @@ We will do this many times in \cref{ch:integers,ch:rationals}.
 \label{def:order}
 A relation $\le$ on $A$ is a \emph{partial order} if it is reflexive,
 antisymmetric and transitive. Then $(A, \le)$ is a \emph{partially ordered set}.
-It is a \emph{total order} (or \emph{linear order}) if in addition any two
-elements are comparable:
+It is a \emph{total order} if in addition any two elements are comparable:
 \[
   \forall x, y \in A\; (x \le y \lor y \le x).
 \]
-We write $x < y$ for $x \le y \land x \neq y$, and $x \ge y$ for $y \le x$.
+We write $x < y$ for $x \le y \land x \neq y$. By \cref{rule:relations} there is
+no separate symbol for the reversed relations.
+\register{relations}{$x \le y$}{a partial order}
+\register{relations}{$x < y$}{$x \le y$ and $x \neq y$}
 \end{definition}
 
-For example, $\subseteq$ on $\Pow(A)$ is a partial order by \cref{thm:subset}. It
-is not total in general: on $\Pow(\set{a, b})$ with $a \neq b$, neither $\set{a}
+For example, $\subseteq$ on $\Pow A$ is a partial order by \cref{thm:subset}. It is
+not total in general: on $\Pow \set{a, b}$ with $a \neq b$, neither $\set{a}
 \subseteq \set{b}$ nor $\set{b} \subseteq \set{a}$.
 
 \begin{lemma}
@@ -231,13 +265,13 @@ if $<$ is an irreflexive transitive relation on $A$, then $x \le y \defiff x < y
 \end{lemma}
 
 \begin{proof}
-Irreflexivity of $<$ is built into its definition. Transitivity: if $x < y < z$,
-then $x \le z$. If $x = z$, then $x \le y$ and $y \le x$, so $x = y$ by
+Irreflexivity of $<$ is built into its definition. Transitivity: if $x < y$ and $y
+< z$, then $x \le z$. If $x = z$, then $x \le y$ and $y \le x$, so $x = y$ by
 antisymmetry, contradicting $x < y$. So $x < z$.
 
 Conversely, $\le$ is reflexive by definition. Transitivity follows by cases on
 which side of each \enquote{or} holds. Antisymmetry: if $x \le y$, $y \le x$ and
-$x \neq y$, then $x < y < x$, so $x < x$ by transitivity, contradicting
+$x \neq y$, then $x < y$ and $y < x$, so $x < x$ by transitivity, contradicting
 irreflexivity.
 \end{proof}
 
@@ -254,6 +288,8 @@ Let $(A, \le)$ be partially ordered and $S \subseteq A$.
     $\sup S$. A greatest element of the set of lower bounds is an \emph{infimum}
     $\inf S$.
 \end{itemize}
+\register{relations}{$\sup S$, $\inf S$}{least upper bound, greatest lower bound
+of $S$}
 \end{definition}
 
 \begin{lemma}
@@ -278,12 +314,13 @@ has a least element.
 \end{definition}
 
 \begin{exercises}
-  \item Show that $(a, b, c) = (a', b', c')$ iff $a = a'$, $b = b'$ and $c = c'$.
+  \item Show that $(a, b, c) = (a', b', c')$ if and only if $a = a'$, $b = b'$ and
+    $c = c'$.
   \item Show $A \times (B \cup C) = (A \times B) \cup (A \times C)$.
   \item On a set $A$, is the empty relation reflexive? Symmetric? Transitive?
     (Watch out when $A = \varnothing$.)
   \item Find an example showing that \enquote{symmetric and transitive} does not
     imply reflexive.
-  \item In $(\Pow(A), \subseteq)$, show that every $\mathcal{F} \subseteq \Pow(A)$
+  \item In $(\Pow A, \subseteq)$, show that every $\mathcal{F} \subseteq \Pow A$
     has supremum $\bigcup \mathcal{F}$.
 \end{exercises}

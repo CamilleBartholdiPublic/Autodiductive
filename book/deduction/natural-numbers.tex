@@ -4,8 +4,8 @@
 We now construct the numbers $0, 1, 2, 3, \dots$ out of sets. The idea, due to
 von Neumann, is to let \emph{each number be the set of all numbers before it}:
 \[
-  0 \coloneqq \varnothing, \quad 1 \coloneqq \set{0}, \quad 2 \coloneqq \set{0, 1},
-  \quad 3 \coloneqq \set{0, 1, 2}, \quad \dots
+  0 = \varnothing, \quad 1 = \set{0}, \quad 2 = \set{0, 1}, \quad 3 = \set{0, 1,
+  2}, \quad \dots
 \]
 Then the number $n$ has exactly $n$ elements, \enquote{$m$ is smaller than $n$}
 can simply mean $m \in n$, and passing to the next number means adding the number
@@ -17,20 +17,16 @@ multiplication and order, with all the usual laws.
 
 \section{Construction}
 
-\begin{definition}[Successor]
-\label{def:successor}
-The \emph{successor} of a set $x$ is $S(x) \coloneqq x \cup \set{x}$.
-\end{definition}
-
-\begin{definition}[Inductive set]
+\begin{definition}[Successor, inductive set]
 \label{def:inductive}
-A set $I$ is \emph{inductive} if $\varnothing \in I$ and $x \in I \Rightarrow S(x)
-\in I$ for every $x$.
+The \emph{successor} of a set $x$ is the set $x \cup \set{x}$. A set $I$ is
+\emph{inductive} if $\varnothing \in I$ and $\forall x\; (x \in I \Rightarrow x
+\cup \set{x} \in I)$.
 \end{definition}
 
-An inductive set contains $\varnothing$, $S(\varnothing)$, $S(S(\varnothing))$,
-and so on. None of the axioms so far guarantees that such a set exists: every set
-we have built so far is finite. So we need a new axiom.
+An inductive set contains $\varnothing$, $\varnothing \cup \set{\varnothing}$, the
+successor of that, and so on. None of the axioms so far guarantees that such a set
+exists: every set we have built so far is finite. So we need a new axiom.
 
 \begin{axiom}[Infinity]
 \label{ax:infinity}
@@ -43,7 +39,14 @@ Let $I_0$ be an inductive set (\cref{ax:infinity}) and
 \[
   \N \coloneqq \setof{x \in I_0}{x \in I \text{ for every inductive set } I}.
 \]
-The elements of $\N$ are the \emph{natural numbers}.
+The elements of $\N$ are the \emph{natural numbers}. The \emph{numerals} are
+\[
+  0 \coloneqq \varnothing,\quad 1 \coloneqq 0 \cup \set{0},\quad 2 \coloneqq 1 \cup
+  \set{1},\quad \dots,\quad 9 \coloneqq 8 \cup \set{8}.
+\]
+\register{naturals}{$\N$}{the set of natural numbers}
+\register{naturals}{$0, 1, \dots, 9$}{the first ten natural numbers; $0$ is the
+empty set regarded as a number (\cref{rule:identification})}
 \end{definition}
 
 $\N$ doesn't depend on which $I_0$ we picked: if $I_1$ is another inductive set,
@@ -51,19 +54,14 @@ any $x$ in every inductive set is in both $I_0$ and $I_1$, so both choices give
 the same elements. Two facts follow directly from the definition:
 \begin{itemize}
   \item \emph{$\N$ is inductive.} $\varnothing$ lies in every inductive set. If
-    $x$ lies in every inductive set, so does $S(x)$.
+    $x$ lies in every inductive set, so does $x \cup \set{x}$.
   \item \emph{$\N$ is contained in every inductive set.} That is how its elements
     were chosen.
 \end{itemize}
-So $\N$ is the \emph{smallest} inductive set. \emph{Numerals} are defined as
-\[
-  0 \coloneqq \varnothing,\; 1 \coloneqq S(0),\; 2 \coloneqq S(1),\; 3 \coloneqq
-  S(2),\; \dots,\; 9 \coloneqq S(8).
-\]
-Indeed $1 = \varnothing \cup \set{\varnothing} = \set{0}$, $2 = \set{0} \cup
-\set{1} = \set{0, 1}$, and so on. Positional notation like $10, 11, \dots$ needs
-division with remainder and waits for the chapter on divisibility. In this book,
-$0 \in \N$.
+So $\N$ is the \emph{smallest} inductive set. Indeed $1 = \varnothing \cup
+\set{\varnothing} = \set{0}$, $2 = \set{0} \cup \set{1} = \set{0, 1}$, and so on.
+Positional notation like $10, 11, \dots$ needs division with remainder and waits
+for the chapter on divisibility. In this book, $0 \in \N$.
 
 \section{Induction}
 
@@ -72,19 +70,20 @@ $0 \in \N$.
 Let $X \subseteq \N$ with
 \begin{enumerate}
   \item $0 \in X$, and
-  \item $n \in X \Rightarrow S(n) \in X$ for all $n \in \N$.
+  \item $n \in X \Rightarrow n \cup \set{n} \in X$ for all $n \in \N$.
 \end{enumerate}
 Then $X = \N$.
 
 Equivalently, for a predicate $P$: if $P(0)$ holds (the \emph{base case}) and $P(n)
-\Rightarrow P(S(n))$ holds for every $n \in \N$ (the \emph{induction step}, with
-\emph{induction hypothesis} $P(n)$), then $P(n)$ holds for all $n \in \N$.
+\Rightarrow P(n \cup \set{n})$ holds for every $n \in \N$ (the \emph{induction
+step}, with \emph{induction hypothesis} $P(n)$), then $P(n)$ holds for all $n \in
+\N$.
 \end{theorem}
 
 \begin{proof}
-By (1) and (2), $X$ is inductive: every $x \in X$ lies in $\N$, so (2) applies to
-it. So $\N \subseteq X$ (\cref{def:naturals}), and $X \subseteq \N$ is given. For
-the predicate form, apply this to $X \coloneqq \setof{n \in \N}{P(n)}$.
+By (1) and (2), $X$ is inductive: every element of $X$ lies in $\N$, so (2)
+applies to it. So $\N \subseteq X$ (\cref{def:naturals}), and $X \subseteq \N$ is
+given. For the predicate form, apply this to $X \coloneqq \setof{n \in \N}{P(n)}$.
 \end{proof}
 
 Induction is not a new law of logic. It follows from the way $\N$ was built: as
@@ -104,137 +103,167 @@ For every $n \in \N$:
 \begin{proof}
 Each by induction on $n$.
 
-(1) $0 = \varnothing \subseteq \N$. If $n \subseteq \N$, then $S(n) = n \cup
-\set{n} \subseteq \N$, because $n \in \N$.
+(1) $0 = \varnothing \subseteq \N$. If $n \subseteq \N$, then $n \cup \set{n} \subseteq \N$,
+because $n \in \N$.
 
 (2) $0$ has no elements, so the condition holds vacuously. Assume $n$ is
-transitive and let $m \in S(n)$. Then $m \in n$ or $m = n$. If $m \in n$, then $m
-\subseteq n \subseteq S(n)$. If $m = n$, then $m = n \subseteq S(n)$.
+transitive and let $m \in n \cup \set{n}$. Then $m \in n$ or $m = n$. If $m \in n$, then $m
+\subseteq n \subseteq n \cup \set{n}$. If $m = n$, then $m = n \subseteq n \cup \set{n}$.
 
-(3) $0 \notin 0$, since $0$ has no elements. Assume $n \notin n$, and suppose
-$S(n) \in S(n)$. Then $S(n) \in n$ or $S(n) = n$. If $S(n) = n$, then $n \in S(n) =
-n$. If $S(n) \in n$, then $S(n) \subseteq n$ by (2), and $n \in S(n)$ gives $n \in
-n$. Both contradict the induction hypothesis.
+(3) $0 \notin 0$, since $0$ has no elements. Assume $n \notin n$, and suppose $n \cup \set{n}
+\in n \cup \set{n}$. Then $n \cup \set{n} \in n$ or $n \cup \set{n} = n$. If $n \cup \set{n} = n$, then $n \in n \cup \set{n} = n$. If
+$n \cup \set{n} \in n$, then $n \cup \set{n} \subseteq n$ by (2), and $n \in n \cup \set{n}$ gives $n \in n$. Both
+contradict the induction hypothesis.
 \end{proof}
+
+\begin{definition}[Successor map]
+\label{def:successor-map}
+Since $\N$ is inductive, $n \cup \set{n} \in \N$ for every $n \in \N$. The
+\emph{successor map} is the map $S \colon \N \to \N$ with $n \via{S} n \cup
+\set{n}$.
+\register{naturals}{$S$}{the successor map $\N \to \N$, sending $n$ to $n + 1$}
+\end{definition}
 
 \begin{theorem}[Peano axioms]
 \label{thm:peano}
 \leavevmode
 \begin{enumerate}
   \item $0 \in \N$.
-  \item $n \in \N \Rightarrow S(n) \in \N$. So $S$ restricts to a map $S \colon \N
-    \to \N$.
-  \item $S(n) \neq 0$ for every $n \in \N$.
-  \item $S$ is injective: $S(m) = S(n) \Rightarrow m = n$.
+  \item $S$ is a map $\N \to \N$.
+  \item $0$ is not a value of $S$: $n \cup \set{n} \neq 0$ for every $n \in \N$.
+  \item $S$ is injective: $m \cup \set{m} = n \cup \set{n} \Rightarrow m = n$.
   \item Induction (\cref{thm:induction}).
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-(1) and (2): $\N$ is inductive. (3): $n \in S(n)$, so $S(n) \neq \varnothing$.
+(1) and (2): $\N$ is inductive. (3): $n \in n \cup \set{n}$, so $n \cup \set{n}
+\neq \varnothing$.
 
-(4) Let $S(m) = S(n)$ and suppose $m \neq n$. Since $m \in S(m) = S(n) = n \cup
-\set{n}$ and $m \neq n$, we get $m \in n$. In the same way $n \in m$. By
-transitivity (\cref{lem:shape}(2)), $m \in n$ gives $m \subseteq n$, and with $n
-\in m$ that gives $n \in n$, contradicting \cref{lem:shape}(3).
+(4) Let $m \cup \set{m} = n \cup \set{n}$ and suppose $m \neq n$. Since $m$ is an
+element of the left side, $m \in n$ or $m = n$, so $m \in n$. In the same way $n
+\in m$. By transitivity (\cref{lem:shape}(2)), $m \in n$ gives $m \subseteq n$,
+and with $n \in m$ that gives $n \in n$, contradicting \cref{lem:shape}(3).
 \end{proof}
 
 \begin{corollary}[Predecessor]
 \label{cor:predecessor}
-Every $n \in \N$ with $n \neq 0$ is $S(p)$ for exactly one $p \in \N$, the
-\emph{predecessor} of $n$.
+For every $n \in \N$ with $n \neq 0$ there is exactly one $p \in \N$ with $n = p
+\cup \set{p}$, the \emph{predecessor} of $n$.
 \end{corollary}
 
 \begin{proof}
-Existence, by induction on the statement \enquote{$n = 0$ or $n = S(p)$ for some
-$p \in \N$}: it holds for $0$, and for $S(n)$ with $p \coloneqq n$. Uniqueness:
-\cref{thm:peano}(4).
+Existence, by induction on the statement \enquote{$n = 0$ or $n = p \cup \set{p}$
+for some $p \in \N$}: it holds for $0$, and for $n \cup \set{n}$ with $p \coloneqq
+n$. Uniqueness: \cref{thm:peano}(4).
 \end{proof}
 
 \section{Recursion}
 
-Induction \emph{proves} statements about all $n$. Recursion \emph{defines} things
-for all $n$: give the value at $0$, and a rule that turns the value at $n$ into
-the value at $S(n)$. That this defines a map at all is a theorem.
+Induction \emph{proves} statements about all $n$. Recursion \emph{defines} maps on
+$\N$: give the value at $0$, and a rule that turns the value at $n$ into the value
+at the successor of $n$. That this defines a map at all is a theorem.
 
 \begin{theorem}[Recursion theorem]
 \label{thm:recursion}
 Let $A$ be a set, $a \in A$, and $g \colon A \to A$ a map. Then there is exactly
 one map $h \colon \N \to A$ with
 \[
-  h(0) = a \qquad\text{and}\qquad h(S(n)) = g(h(n)) \quad \text{for all } n \in
-  \N.
+  0 \via{h} a \qquad\text{and}\qquad n \via{h} y \via{g} z \;\Rightarrow\; n \cup
+  \set{n} \via{h} z \quad \text{for all } n \in \N,\; y, z \in A.
 \]
+In terms of composition, the second condition says $h \circ S = g \circ h$.
 \end{theorem}
 
 \begin{proof}
-\emph{Idea:} $h$ should be the smallest relation that contains $(0, a)$ and is
-closed under the step $(n, x) \mapsto (S(n), g(x))$. Then we show this relation is
-a map.
+\emph{Idea:} $h$ should be the smallest relation that relates $0$ to $a$ and is
+closed under the step from $n$ to its successor. Then we show this relation is a
+map.
 
-Call $R \subseteq \N \times A$ \emph{closed} if $(0, a) \in R$ and $(n, x) \in R
-\Rightarrow (S(n), g(x)) \in R$. Then $\N \times A$ is closed. Let $h$ be the
-intersection of all closed relations, i.e.\ of the nonempty set of closed elements
-of $\Pow(\N \times A)$ (\cref{def:set-operations}). Then $h$ is closed as well,
-and $h \subseteq R$ for every closed $R$.
+Call a relation $R \subseteq \N \times A$ \emph{closed} if $0 \mathrel{R} a$ and $n
+\mathrel{R} y \land y \via{g} z \Rightarrow (n \cup \set{n}) \mathrel{R} z$. Then
+$\N \times A$ is closed. Let $h$ be the intersection of all closed relations,
+i.e.\ of the nonempty set of closed elements of $\Pow (\N \times A)$
+(\cref{def:set-operations}). Then $h$ is closed as well, and $h \subseteq R$ for
+every closed $R$.
 
-\emph{$h$ is a map.} We show by induction on $n$: there is exactly one $x$ with
-$(n, x) \in h$.
+\emph{$h$ is a map.} We show by induction on $n$: there is exactly one $y$ with $n
+\mathrel{h} y$.
 \begin{itemize}
-  \item $n = 0$. We have $(0, a) \in h$. Suppose $(0, b) \in h$ with $b \neq a$.
-    Then $h' \coloneqq h \setminus \set{(0, b)}$ is still closed: it contains $(0,
-    a)$, and every pair $(S(n), g(x))$ produced by the step differs from $(0, b)$
-    because $S(n) \neq 0$ (\cref{thm:peano}(3)). That contradicts $h \subseteq
-    h'$, since $(0, b) \notin h'$.
-  \item Step. Assume $x$ is the only element with $(n, x) \in h$. Since $h$ is
-    closed, $(S(n), g(x)) \in h$. Suppose $(S(n), y) \in h$ with $y \neq g(x)$.
-    Then $h' \coloneqq h \setminus \set{(S(n), y)}$ is still closed. It contains
-    $(0, a)$. If $(k, z) \in h'$ and $(S(k), g(z)) = (S(n), y)$, then $S(k) =
-    S(n)$, so $k = n$ (\cref{thm:peano}(4)), so $z = x$ by the induction
-    hypothesis, so $y = g(x)$, which is false. Again $h \subseteq h'$ fails, a
-    contradiction.
+  \item $n = 0$. We have $0 \mathrel{h} a$. Suppose $0 \mathrel{h} b$ with $b \neq
+    a$. Then $h' \coloneqq h \setminus \set{(0, b)}$ is still closed: it relates $0$
+    to $a$, and every pair added by the step has as first component a successor,
+    which is not $0$ (\cref{thm:peano}(3)). That contradicts $h \subseteq h'$,
+    since $(0, b) \notin h'$.
+  \item Step. Assume $y$ is the only element with $n \mathrel{h} y$, and let $z$ be
+    the value of $g$ at $y$. Since $h$ is closed, $(n \cup \set{n}) \mathrel{h} z$.
+    Suppose $(n \cup \set{n}) \mathrel{h} w$ with $w \neq z$. Then $h' \coloneqq h
+    \setminus \set{(n \cup \set{n}, w)}$ is still closed. It relates $0$ to $a$.
+    If $k \mathrel{h'} u \via{g} v$ and $(k \cup \set{k}, v) = (n \cup \set{n},
+    w)$, then $k = n$ (\cref{thm:peano}(4)), so $u = y$ by the induction
+    hypothesis, so $v = z$, which contradicts $v = w \neq z$. Again $h \subseteq h'$
+    fails.
 \end{itemize}
-Since $h$ is closed, $h(0) = a$ and $h(S(n)) = g(h(n))$.
+So $h$ is a map, and since it is closed, it has both properties.
 
-\emph{Uniqueness.} If $h'$ also satisfies both equations, then $h(n) = h'(n)$ by
-induction: $h(0) = a = h'(0)$, and $h(n) = h'(n)$ gives $h(S(n)) = g(h(n)) =
-g(h'(n)) = h'(S(n))$. Use \cref{thm:map-equality}.
+\emph{Uniqueness.} If $h'$ also has both properties, we show by induction that $h$
+and $h'$ have the same value at every $n$: both send $0$ to $a$, and if both send
+$n$ to $y$, and $y \via{g} z$, both send $n \cup \set{n}$ to $z$. Use
+\cref{thm:map-equality}.
 \end{proof}
 
-Often the step also needs to know $n$, as in $n! = n \cdot (n-1)!$. The stronger
-form follows from the simple one.
+Often the step also needs to know $n$, as for the factorial. The stronger form
+follows from the simple one.
 
 \begin{corollary}[Recursion with index]
 \label{cor:recursion-index}
 Let $a \in A$ and $g \colon \N \times A \to A$. Then there is exactly one $h \colon
-\N \to A$ with $h(0) = a$ and $h(S(n)) = g(n, h(n))$.
+\N \to A$ with
+\[
+  0 \via{h} a \qquad\text{and}\qquad n \via{h} y \land (n, y) \via{g} z
+  \;\Rightarrow\; n \cup \set{n} \via{h} z.
+\]
 \end{corollary}
 
 \begin{proof}
-Apply \cref{thm:recursion} to the set $\N \times A$, the start value $(0, a)$ and
-the step $G(n, x) \coloneqq (S(n), g(n, x))$. This gives $H \colon \N \to \N \times
-A$. By induction, the first component of $H(n)$ is $n$; write $H(n) = (n, h(n))$.
-Then $H(S(n)) = G(n, h(n)) = (S(n), g(n, h(n)))$, which says exactly $h(S(n)) =
-g(n, h(n))$. Uniqueness again by induction.
+Let $G \colon \N \times A \to \N \times A$ be the map that sends $(n, y)$ to $(n
+\cup \set{n}, z)$, where $z$ is the value of $g$ at $(n, y)$ (\cref{thm:map-rule}).
+\Cref{thm:recursion}, applied to $\N \times A$, the start value $(0, a)$ and $G$,
+gives a map $H \colon \N \to \N \times A$. By induction, for every $n$ there is a
+$y$ with $n \via{H} (n, y)$: this holds for $0$, and if $n \via{H} (n, y) \via{G} (n
+\cup \set{n}, z)$, then $n \cup \set{n} \via{H} (n \cup \set{n}, z)$. So
+\[
+  h \coloneqq \setof{(n, y) \in \N \times A}{n \via{H} (n, y)}
+\]
+is a map with the two properties. Uniqueness again by induction.
 \end{proof}
 
 \section{Addition}
 
 \begin{definition}[Addition]
 \label{def:addition}
-Fix $m \in \N$. By \cref{thm:recursion} (with $A = \N$, $a = m$, $g = S$) there is
-exactly one $h_m \colon \N \to \N$ with $h_m(0) = m$ and $h_m(S(n)) = S(h_m(n))$.
-Let $m + n \coloneqq h_m(n)$. By \cref{thm:map-rule} this defines an operation $+
-\colon \N \times \N \to \N$, characterised by
+Let $m \in \N$. By \cref{thm:recursion} (with $A = \N$, $a = m$ and $g = S$) there
+is exactly one map $h \colon \N \to \N$ with $0 \via{h} m$ and $h \circ S = S
+\circ h$. \emph{Addition} is the operation on $\N$ (\cref{def:operation}) given by
 \[
-  \text{(A1)}\quad m + 0 = m, \qquad\qquad \text{(A2)}\quad m + S(n) = S(m + n).
+  (m, n) \via{+} k \;\defiff\; n \via{h} k \quad \text{for this } h,
 \]
+which exists by \cref{thm:map-rule}. We write $m + n$ for its value. It is
+characterised by
+\[
+  \text{(A1)}\quad m + 0 = m, \qquad\qquad \text{(A2)}\quad m + (n \cup \set{n}) =
+  (m + n) \cup \set{m + n}.
+\]
+\register{naturals}{$m + n$}{sum of $m$ and $n$}
 \end{definition}
 
-In particular $m + 1 = m + S(0) = S(m + 0) = S(m)$. \emph{From now on we write $n +
-1$ for $S(n)$.} (A2) then reads $m + (n + 1) = (m + n) + 1$. For example,
+Since $1 = 0 \cup \set{0}$, (A1) and (A2) give $n + 1 = (n + 0) \cup \set{n + 0} =
+n \cup \set{n}$. So the successor of $n$ is $n + 1$, and by
+\cref{rule:abbreviation} \emph{from now on only $n + 1$ is written}. In particular
+$n \via{S} n + 1$, and (A2) reads $m + (n + 1) = (m + n) + 1$. For example, since
+$2 = 1 + 1$,
 \[
-  2 + 2 = 2 + S(1) = S(2 + 1) = S(S(2)) = S(3) = 4.
+  2 + 2 = 2 + (1 + 1) = (2 + 1) + 1 = 3 + 1 = 4.
 \]
 
 \begin{theorem}[Laws of addition]
@@ -242,7 +271,7 @@ In particular $m + 1 = m + S(0) = S(m + 0) = S(m)$. \emph{From now on we write $
 For all $k, m, n \in \N$:
 \begin{enumerate}
   \item $0 + n = n$;
-  \item $S(m) + n = S(m + n)$;
+  \item $(m + 1) + n = (m + n) + 1$;
   \item $m + n = n + m$ (commutativity);
   \item $(k + m) + n = k + (m + n)$ (associativity);
   \item $k + n = m + n \Rightarrow k = m$ (cancellation);
@@ -253,22 +282,24 @@ For all $k, m, n \in \N$:
 \begin{proof}
 (1)--(5) by induction on $n$, using (A1) and (A2) at each step.
 
-(1) $0 + 0 = 0$. If $0 + n = n$, then $0 + S(n) = S(0 + n) = S(n)$.
+(1) $0 + 0 = 0$. If $0 + n = n$, then $0 + (n + 1) = (0 + n) + 1 = n + 1$.
 
-(2) $S(m) + 0 = S(m) = S(m + 0)$. If it holds for $n$, then $S(m) + S(n) = S(S(m)
-+ n) = S(S(m + n)) = S(m + S(n))$.
+(2) $(m + 1) + 0 = m + 1 = (m + 0) + 1$. If it holds for $n$, then $(m + 1) + (n +
+1) = ((m + 1) + n) + 1 = ((m + n) + 1) + 1 = (m + (n + 1)) + 1$.
 
-(3) $m + 0 = m = 0 + m$ by (1). If $m + n = n + m$, then $m + S(n) = S(m + n) = S(n
-+ m) = S(n) + m$ by (2).
+(3) $m + 0 = m = 0 + m$ by (1). If $m + n = n + m$, then $m + (n + 1) = (m + n) + 1
+= (n + m) + 1 = (n + 1) + m$ by (2).
 
-(4) $(k + m) + 0 = k + m = k + (m + 0)$. If it holds for $n$, then $(k + m) + S(n)
-= S((k + m) + n) = S(k + (m + n)) = k + S(m + n) = k + (m + S(n))$.
+(4) $(k + m) + 0 = k + m = k + (m + 0)$. If it holds for $n$, then $(k + m) + (n +
+1) = ((k + m) + n) + 1 = (k + (m + n)) + 1 = k + ((m + n) + 1) = k + (m + (n +
+1))$.
 
-(5) For $n = 0$ use (A1). Step: $k + S(n) = m + S(n)$ means $S(k + n) = S(m + n)$,
-so $k + n = m + n$ by \cref{thm:peano}(4), so $k = m$ by the induction hypothesis.
+(5) For $n = 0$ use (A1). Step: $k + (n + 1) = m + (n + 1)$ means $(k + n) + 1 = (m
++ n) + 1$, so $k + n = m + n$ by \cref{thm:peano}(4), so $k = m$ by the induction
+hypothesis.
 
-(6) If $n \neq 0$, then $n = S(p)$ (\cref{cor:predecessor}), and $m + n = S(m + p)
-\neq 0$ (\cref{thm:peano}(3)). So $n = 0$, and then $m = m + 0 = 0$.
+(6) If $n \neq 0$, then $n = p + 1$ (\cref{cor:predecessor}), and $m + n = (m + p)
++ 1 \neq 0$ (\cref{thm:peano}(3)). So $n = 0$, and then $m = m + 0 = 0$.
 \end{proof}
 
 By associativity, brackets in sums like $k + m + n$ can be left out.
@@ -277,14 +308,18 @@ By associativity, brackets in sums like $k + m + n$ can be left out.
 
 \begin{definition}[Multiplication]
 \label{def:multiplication}
-Fix $m$. By \cref{thm:recursion} (with $a = 0$ and $g(x) = x + m$) define $m \cdot
-n$ by
+Let $m \in \N$, and let $g \colon \N \to \N$ be the map with $x \via{g} x + m$. By
+\cref{thm:recursion} there is exactly one $h \colon \N \to \N$ with $0 \via{h} 0$
+and $h \circ S = g \circ h$. \emph{Multiplication} is the operation on $\N$ with
+$(m, n) \via{\cdot} k \defiff n \via{h} k$. Its value is written $m \cdot n$. It
+is characterised by
 \[
-  \text{(M1)}\quad m \cdot 0 = 0, \qquad\qquad \text{(M2)}\quad m \cdot S(n) = m
+  \text{(M1)}\quad m \cdot 0 = 0, \qquad\qquad \text{(M2)}\quad m \cdot (n + 1) = m
   \cdot n + m.
 \]
-We write $mn$ for $m \cdot n$, and products are evaluated before sums: $mn + m$
-means $(mn) + m$.
+Products are evaluated before sums: $m \cdot n + m$ means $(m \cdot n) + m$.
+\register{naturals}{$m \cdot n$}{product of $m$ and $n$; $\cdot$ is evaluated
+before $+$}
 \end{definition}
 
 \begin{theorem}[Laws of multiplication]
@@ -292,42 +327,49 @@ means $(mn) + m$.
 For all $k, m, n \in \N$:
 \begin{enumerate}
   \item $0 \cdot n = 0$;
-  \item $S(m) \cdot n = mn + n$;
-  \item $mn = nm$ (commutativity);
-  \item $k(m + n) = km + kn$ and $(m + n)k = mk + nk$ (distributivity);
-  \item $(km)n = k(mn)$ (associativity);
+  \item $(m + 1) \cdot n = m \cdot n + n$;
+  \item $m \cdot n = n \cdot m$ (commutativity);
+  \item $k \cdot (m + n) = k \cdot m + k \cdot n$ and $(m + n) \cdot k = m \cdot k
+    + n \cdot k$ (distributivity);
+  \item $(k \cdot m) \cdot n = k \cdot (m \cdot n)$ (associativity);
   \item $1 \cdot n = n = n \cdot 1$ ($1$ is neutral);
-  \item $mn = 0 \Rightarrow m = 0 \lor n = 0$.
+  \item $m \cdot n = 0 \Rightarrow m = 0 \lor n = 0$.
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
 (1)--(5) by induction on $n$, using (M1), (M2) and \cref{thm:addition-laws}.
 
-(1) $0 \cdot 0 = 0$. If $0 \cdot n = 0$, then $0 \cdot S(n) = 0 \cdot n + 0 = 0$.
+(1) $0 \cdot 0 = 0$. If $0 \cdot n = 0$, then $0 \cdot (n + 1) = 0 \cdot n + 0 =
+0$.
 
-(2) $S(m) \cdot 0 = 0 = m \cdot 0 + 0$. If it holds for $n$:
+(2) $(m + 1) \cdot 0 = 0 = m \cdot 0 + 0$. If it holds for $n$:
 \begin{align*}
-  S(m) \cdot S(n) &= S(m) \cdot n + S(m) = (mn + n) + S(m) = mn + (n + S(m)) \\
-  &= mn + S(n + m) = mn + S(m + n) = mn + (m + S(n)) \\
-  &= (mn + m) + S(n) = m \cdot S(n) + S(n).
+  (m + 1) \cdot (n + 1) &= (m + 1) \cdot n + (m + 1) = (m \cdot n + n) + (m + 1) \\
+  &= m \cdot n + ((n + m) + 1) = m \cdot n + (m + (n + 1)) \\
+  &= (m \cdot n + m) + (n + 1) = m \cdot (n + 1) + (n + 1).
 \end{align*}
 
-(3) $m \cdot 0 = 0 = 0 \cdot m$ by (1). If $mn = nm$, then $m \cdot S(n) = mn + m =
-nm + m = S(n) \cdot m$ by (2).
+(3) $m \cdot 0 = 0 = 0 \cdot m$ by (1). If $m \cdot n = n \cdot m$, then $m \cdot
+(n + 1) = m \cdot n + m = n \cdot m + m = (n + 1) \cdot m$ by (2).
 
-(4) $k(m + 0) = km = km + 0 = km + k \cdot 0$. If it holds for $n$, then $k(m +
-S(n)) = k \cdot S(m + n) = k(m + n) + k = (km + kn) + k = km + (kn + k) = km + k
-\cdot S(n)$. The second form follows by (3).
+(4) $k \cdot (m + 0) = k \cdot m = k \cdot m + k \cdot 0$. If it holds for $n$,
+then
+\[
+  k \cdot (m + (n + 1)) = k \cdot ((m + n) + 1) = k \cdot (m + n) + k = (k \cdot m
+  + k \cdot n) + k = k \cdot m + k \cdot (n + 1).
+\]
+The second form follows by (3).
 
-(5) $(km) \cdot 0 = 0 = k \cdot 0 = k(m \cdot 0)$. If it holds for $n$, then $(km)
-\cdot S(n) = (km)n + km = k(mn) + km = k(mn + m) = k(m \cdot S(n))$, using (4).
+(5) $(k \cdot m) \cdot 0 = 0 = k \cdot (m \cdot 0)$. If it holds for $n$, then
+$(k \cdot m) \cdot (n + 1) = (k \cdot m) \cdot n + k \cdot m = k \cdot (m \cdot n)
++ k \cdot m = k \cdot (m \cdot n + m) = k \cdot (m \cdot (n + 1))$, using (4).
 
-(6) $n \cdot 1 = n \cdot S(0) = n \cdot 0 + n = 0 + n = n$, and $1 \cdot n = n$ by
-(3).
+(6) $n \cdot 1 = n \cdot (0 + 1) = n \cdot 0 + n = n$, and $1 \cdot n = n$ by (3).
 
-(7) If $m \neq 0$ and $n \neq 0$, write $m = S(p)$ and $n = S(q)$
-(\cref{cor:predecessor}). Then $mn = mq + m = mq + S(p) = S(mq + p) \neq 0$.
+(7) If $m \neq 0$ and $n \neq 0$, write $m = p + 1$ and $n = q + 1$
+(\cref{cor:predecessor}). Then $m \cdot n = m \cdot q + (p + 1) = (m \cdot q + p) +
+1 \neq 0$.
 \end{proof}
 
 \section{Order}
@@ -338,34 +380,36 @@ For $m, n \in \N$:
 \[
   m < n \defiff m \in n, \qquad m \le n \defiff m < n \lor m = n.
 \]
+\register{naturals}{$m < n$, $m \le n$}{order of natural numbers: $m \in n$, and
+$m \in n \lor m = n$}
 \end{definition}
 
-So $n = \setof{m \in \N}{m < n}$: a natural number is the set of its
-predecessors, as promised. (Elements of $n$ are natural numbers by
+So $n = \setof{m \in \N}{m < n}$: a natural number is the set of the numbers
+before it, as promised. (Elements of $n$ are natural numbers by
 \cref{lem:shape}(1).)
 
 \begin{lemma}
 \label{lem:order-naturals}
 For all $m, n \in \N$:
 \begin{enumerate}
-  \item $m < S(n) \Leftrightarrow m \le n$;
+  \item $m < n + 1 \Leftrightarrow m \le n$;
   \item $\lnot (n < 0)$;
   \item $0 \le n$;
-  \item $m < n \Rightarrow S(m) \le n$.
+  \item $m < n \Rightarrow m + 1 \le n$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-(1) $m \in n \cup \set{n} \Leftrightarrow m \in n \lor m = n$.
+(1) $n + 1 = n \cup \set{n}$, so $m \in n + 1 \Leftrightarrow m \in n \lor m = n$.
 
 (2) $0 = \varnothing$ has no elements.
 
-(3) By induction: $0 \le 0$, and $0 \le n$ gives $0 < S(n)$ by (1).
+(3) By induction: $0 \le 0$, and $0 \le n$ gives $0 < n + 1$ by (1).
 
 (4) By induction on $n$. For $n = 0$ there is nothing to show, by (2). Assume it
-holds for $n$ and let $m < S(n)$, so $m \le n$ by (1). If $m = n$, then $S(m) =
-S(n)$. If $m < n$, then $S(m) \le n$ by the induction hypothesis, so $S(m) < S(n)$
-by (1).
+holds for $n$ and let $m < n + 1$, so $m \le n$ by (1). If $m = n$, then $m + 1 = n
++ 1$. If $m < n$, then $m + 1 \le n$ by the induction hypothesis, so $m + 1 < n +
+1$ by (1).
 \end{proof}
 
 \begin{theorem}[$\le$ is a total order]
@@ -384,9 +428,9 @@ Irreflexive: $n \notin n$ (\cref{lem:shape}(3)). Transitive: if $k \in m$ and $m
 
 \emph{At least one} holds, by induction on $n$ for fixed $m$. For $n = 0$: $0 \le
 m$ by \cref{lem:order-naturals}(3), so $0 = m$ or $0 < m$. Step: assume one of the
-three holds for $n$. If $m < n$ or $m = n$, then $m \le n$, so $m < S(n)$ by
-\cref{lem:order-naturals}(1). If $n < m$, then $S(n) \le m$ by
-\cref{lem:order-naturals}(4). Either way one of the three holds for $S(n)$.
+three holds for $n$. If $m < n$ or $m = n$, then $m \le n$, so $m < n + 1$ by
+\cref{lem:order-naturals}(1). If $n < m$, then $n + 1 \le m$ by
+\cref{lem:order-naturals}(4). Either way one of the three holds for $n + 1$.
 
 \emph{At most one} holds: $m < n$ together with $m = n$ or with $n < m$ would give
 $m < m$ by transitivity, against irreflexivity.
@@ -400,45 +444,46 @@ total.
 For all $k, m, n \in \N$:
 \begin{enumerate}
   \item $m \le n \Leftrightarrow \exists d \in \N\; n = m + d$, and this $d$ is
-    unique. It is written $n - m$ (the \emph{difference});
-  \item $m < n \Leftrightarrow \exists d \in \N\; n = m + S(d)$;
+    unique;
+  \item $m < n \Leftrightarrow \exists d \in \N\; n = m + (d + 1)$;
   \item $m < n \Rightarrow m + k < n + k$;
-  \item $m < n \land k \neq 0 \Rightarrow mk < nk$.
+  \item $m < n \land k \neq 0 \Rightarrow m \cdot k < n \cdot k$.
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
 (1) ($\Leftarrow$) By induction on $d$: $m \le m + 0$. If $m \le m + d$, then $m +
-d < S(m + d) = m + S(d)$ (\cref{lem:order-naturals}(1)), so $m < m + S(d)$ by
-transitivity. ($\Rightarrow$) By induction on $n$. If $m \le 0$, then $m = 0$
+d < (m + d) + 1 = m + (d + 1)$ (\cref{lem:order-naturals}(1)), so $m < m + (d + 1)$
+by transitivity. ($\Rightarrow$) By induction on $n$. If $m \le 0$, then $m = 0$
 (\cref{lem:order-naturals}(2)), and $d = 0$ works. Assume the claim for $n$, and
-let $m \le S(n)$. If $m = S(n)$, take $d = 0$. Otherwise $m < S(n)$, so $m \le n$,
-so $n = m + d$ for some $d$, and $S(n) = S(m + d) = m + S(d)$. Uniqueness: $m + d =
-m + d'$ gives $d = d'$ by \cref{thm:addition-laws}(3) and (5).
+let $m \le n + 1$. If $m = n + 1$, take $d = 0$. Otherwise $m < n + 1$, so $m \le
+n$, so $n = m + d$ for some $d$, and $n + 1 = (m + d) + 1 = m + (d + 1)$.
+Uniqueness: $m + d = m + d'$ gives $d = d'$ by \cref{thm:addition-laws}(3) and (5).
 
-(2) ($\Rightarrow$) $S(m) \le n$ (\cref{lem:order-naturals}(4)), so by (1) $n =
-S(m) + d = m + S(d)$, using \cref{thm:addition-laws}(2). ($\Leftarrow$) $m \le m +
-d < S(m + d) = n$ by (1) and \cref{lem:order-naturals}(1).
+(2) ($\Rightarrow$) $m + 1 \le n$ (\cref{lem:order-naturals}(4)), so by (1) $n = (m
++ 1) + d = m + (d + 1)$, using \cref{thm:addition-laws}. ($\Leftarrow$) $m \le m +
+d < (m + d) + 1 = n$ by (1) and \cref{lem:order-naturals}(1).
 
-(3) By (2), $n = m + S(d)$, so $n + k = (m + k) + S(d)$ by
+(3) By (2), $n = m + (d + 1)$, so $n + k = (m + k) + (d + 1)$ by
 \cref{thm:addition-laws}(3) and (4). Use (2) again.
 
-(4) By (2), $n = m + S(d)$, so $nk = mk + S(d)k$. Since $k \neq 0$ and $S(d) \neq
-0$, $S(d)k \neq 0$ (\cref{thm:multiplication-laws}(7)), so $S(d)k = S(e)$ for some
-$e$ (\cref{cor:predecessor}). Use (2).
+(4) By (2), $n = m + (d + 1)$, so $n \cdot k = m \cdot k + (d + 1) \cdot k$. Since
+$k \neq 0$ and $d + 1 \neq 0$, $(d + 1) \cdot k \neq 0$
+(\cref{thm:multiplication-laws}(7)), so $(d + 1) \cdot k = e + 1$ for some $e$
+(\cref{cor:predecessor}). Use (2).
 \end{proof}
 
 \begin{corollary}[Cancellation]
 \label{cor:cancellation-naturals}
-$m + k < n + k \Rightarrow m < n$. And if $k \neq 0$: $mk = nk \Rightarrow m = n$,
-and $mk < nk \Rightarrow m < n$.
+$m + k < n + k \Rightarrow m < n$. And if $k \neq 0$: $m \cdot k = n \cdot k
+\Rightarrow m = n$, and $m \cdot k < n \cdot k \Rightarrow m < n$.
 \end{corollary}
 
 \begin{proof}
 Each time, compare $m$ and $n$ by trichotomy (\cref{thm:total-order-naturals}).
 The cases other than the claimed one contradict the hypothesis by
-\cref{thm:order-arithmetic}(3) and (4). For example, if $mk = nk$ but $m < n$, then
-$mk < nk$, contradicting irreflexivity.
+\cref{thm:order-arithmetic}(3) and (4). For example, if $m \cdot k = n \cdot k$ but
+$m < n$, then $m \cdot k < n \cdot k$, contradicting irreflexivity.
 \end{proof}
 
 \section{Well-ordering}
@@ -452,24 +497,24 @@ Every nonempty subset of $\N$ has a least element. So $(\N, \le)$ is well-ordere
 \begin{proof}
 Let $X \subseteq \N$ have no least element. We show $X = \varnothing$. Let
 \[
-  Y \coloneqq \setof{n \in \N}{\forall m < n\; m \notin X}
+  Y \coloneqq \setof{n \in \N}{\forall m \in \N\; (m < n \Rightarrow m \notin X)}
 \]
 be the set of $n$ such that no number below $n$ is in $X$. We show $Y$ is
 inductive. $0 \in Y$ vacuously (\cref{lem:order-naturals}(2)). Let $n \in Y$. If
 $n$ were in $X$, it would be the least element of $X$: for $x \in X$, $x < n$ is
 impossible because $n \in Y$, so $n \le x$ by trichotomy. So $n \notin X$. Then no
-$m \le n$ is in $X$, i.e.\ no $m < S(n)$ (\cref{lem:order-naturals}(1)). So $S(n)
+$m \le n$ is in $X$, so no $m < n + 1$ (\cref{lem:order-naturals}(1)). So $n + 1
 \in Y$.
 
-By induction $Y = \N$. Every $n \in \N$ satisfies $n < S(n)$ and $S(n) \in Y$, so $n
-\notin X$.
+By induction $Y = \N$. Every $n \in \N$ satisfies $n < n + 1$ and $n + 1 \in Y$, so
+$n \notin X$.
 \end{proof}
 
 \begin{corollary}[Strong induction]
 \label{cor:strong-induction}
 Let $P$ be a predicate such that for every $n \in \N$,
 \[
-  \bigl( \forall m < n\; P(m) \bigr) \Rightarrow P(n).
+  \bigl( \forall m \in \N\; (m < n \Rightarrow P(m)) \bigr) \Rightarrow P(n).
 \]
 Then $P(n)$ holds for every $n \in \N$.
 \end{corollary}
@@ -493,13 +538,17 @@ when $m \le n$ (\cref{thm:order-arithmetic}(1)). There is no $x$ with $1 + x = 0
 
 \begin{exercises}
   \item Prove $2 \cdot 3 = 6$ from the definitions, citing each step.
-  \item Prove that there is no $m$ with $n < m < n + 1$.
-  \item Use \cref{thm:recursion} to define powers $m^0 \coloneqq 1$, $m^{S(n)}
-    \coloneqq m^n \cdot m$. Prove $m^{a + b} = m^a m^b$ and $(m^a)^b = m^{ab}$.
-  \item Use \cref{cor:recursion-index} to define the factorial $0! \coloneqq 1$,
-    $S(n)! \coloneqq n! \cdot S(n)$. Compute $4!$.
-  \item Use \cref{cor:recursion-index} to define, for a sequence $(x_i)_{i \in \N}$
-    in $\N$, the partial sums $s_0 \coloneqq 0$, $s_{S(n)} \coloneqq s_n + x_n$, so
-    that $s_n = x_0 + \dots + x_{n-1}$. Prove $2 s_{n+1} = n(n + 1)$ when $x_i = i$.
+  \item Prove that there is no $m$ with $n < m$ and $m < n + 1$.
+  \item Use \cref{thm:recursion} to define, for each $m$, the map $p \colon \N \to
+    \N$ with $0 \via{p} 1$ and $n \via{p} y \Rightarrow n + 1 \via{p} y \cdot m$.
+    Its value at $n$ is the $n$-th power of $m$. Show that the value at $a + b$ is
+    the product of the values at $a$ and at $b$.
+  \item Use \cref{cor:recursion-index} to define the \emph{factorial}, the map $F
+    \colon \N \to \N$ with $0 \via{F} 1$ and $n \via{F} y \Rightarrow n + 1 \via{F}
+    y \cdot (n + 1)$. Find the value of $F$ at $4$.
+  \item For a sequence $x \colon \N \to \N$, use \cref{cor:recursion-index} to
+    define its \emph{partial sums}, the sequence $s$ with $0 \via{s} 0$ and $n
+    \via{s} y \land n \via{x} z \Rightarrow n + 1 \via{s} y + z$. Let $x = \id_\N$.
+    Prove: if $n + 1 \via{s} y$, then $2 \cdot y = n \cdot (n + 1)$.
   \item Show that $\N$ has no greatest element.
 \end{exercises}
